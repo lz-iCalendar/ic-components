@@ -87,7 +87,7 @@ export default class Modal extends React.Component<any, any> {
             <div className="ic-modal__header-content">{header}</div>
             <Icon type="close" className="ic-modal__close" onClick={this.handleClose} />
           </div>
-          <div className="ic-modal__content" {...otherProps}>
+          <div className="ic-modal__body" {...otherProps}>
             {children}
           </div>
         </div>
