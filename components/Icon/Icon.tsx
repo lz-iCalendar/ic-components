@@ -2,9 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import AntdIcon from '@ant-design/icons-react';
-import { CloseOutline, SearchOutline, WechatOutline } from 'ic-icons';
+import * as icons from 'ic-icons';
 
-AntdIcon.add(CloseOutline, SearchOutline, WechatOutline);
+Object.keys(icons).forEach(key => {
+  AntdIcon.add(icons[key]);
+});
 
 export default class Icon extends React.Component<any, any> {
   static propTypes = {
@@ -33,10 +35,10 @@ export default class Icon extends React.Component<any, any> {
     let style = {};
     if (size) {
       style = {
-        size,
+        fontSize: size,
       };
     }
 
-    return <AntdIcon type={iconType} className={classes} {...style} {...restProps} />;
+    return <AntdIcon type={iconType} className={classes} style={style} {...restProps} />;
   }
 }
