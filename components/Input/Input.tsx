@@ -7,6 +7,11 @@ interface InputProps {
   suffix: any; // 后缀图标
 }
 
+interface InputInterface {
+  value?: string;
+  event?: React.KeyboardEvent<HTMLInputElement>;
+}
+
 export default class Input extends React.Component<InputProps & any, any> {
   static propTypes = {
     /**
@@ -32,7 +37,13 @@ export default class Input extends React.Component<InputProps & any, any> {
     disabled: false,
   };
 
-  state = {};
+  private input: InputInterface;
+
+  constructor(props) {
+    super(props);
+    this.input = {};
+    this.input.value = props.value || '';
+  }
 
   handleKeyDown = e => {
     const { onPressEnter, onKeyDown } = this.props;
@@ -44,12 +55,22 @@ export default class Input extends React.Component<InputProps & any, any> {
     }
   };
 
+  handleChange = e => {
+    this.input.event = e;
+    this.input.value = e.target.value;
+    this.props.onChange && this.props.onChange(e);
+  };
+
   renderInput = (props, hasSuffix) => {
-    const { className, ...restProps } = props;
-    const classes = classNames('ic-input', className, {
-      ['ic-input--has-suffix']: hasSuffix,
-    });
-    return <input className={classes} {...restProps} onKeyDown={this.handleKeyDown} />;
+    const { className, onChange, ...restProps } = props;
+    const classes = classNames(
+      'ic-input',
+      {
+        ['ic-input--has-suffix']: hasSuffix,
+      },
+      className
+    );
+    return <input className={classes} onChange={this.handleChange} {...restProps} onKeyDown={this.handleKeyDown} />;
   };
 
   render() {

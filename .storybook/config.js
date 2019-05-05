@@ -23,7 +23,7 @@ addParameters({
      * display panel that shows addon configurations
      * @type {Boolean}
      */
-    showPanel: false,
+    showPanel: true,
     /**
      * where to show the addon panel
      * @type {('bottom'|'right')}
