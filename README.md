@@ -24,3 +24,8 @@ npm run publish
 
 1. Search 在父元素设有行高的情况下， input 与 包裹层 分离
 2. Search 的包裹层 margin-left 作用于 input
+
+## 待开发组件
+- [ ] switch 组件
+- [ ] popover 组件
+
