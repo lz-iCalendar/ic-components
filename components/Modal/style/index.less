@@ -1,7 +1,8 @@
 @import '../../style/index.less';
 .ic-modal {
+  transition: 0.3s;
   &--hide {
-    display: none;
+    visibility: hidden;
   }
   &__mask {
     position: fixed;
@@ -10,17 +11,64 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    &-enter {
+      opacity: 0;
+    }
+    &-enter-active {
+      opacity: 1;
+      transition: 0.3s;
+    }
+    &-enter-done {
+      opacity: 1;
+      transition: 0.3s;
+    }
+    &-exit {
+      opacity: 1;
+    }
+    &-exit-active {
+      opacity: 0;
+      transition: 0.3s;
+    }
+    &-exit-done {
+      display: none;
+    }
   }
   &__main {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
     background: #fff;
     min-width: 350px;
     min-height: 200px;
     border-radius: 8px;
     box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.2);
+    &-enter {
+      transform: translate(-50%, -60%);
+      opacity: 0;
+    }
+    &-enter-active {
+      transform: translate(-50%, -50%);
+      opacity: 1;
+      transition: 0.3s;
+    }
+    &-enter-done {
+      transform: translate(-50%, -50%);
+      opacity: 1;
+    }
+
+    &-exit {
+      transform: translate(-50%, -50%);
+      opacity: 1;
+    }
+    &-exit-active {
+      transform: translate(-50%, -60%);
+      opacity: 0;
+      transition: 0.3s;
+    }
+    &-exit-done {
+      display: none;
+    }
   }
   &__header {
     height: 64px;

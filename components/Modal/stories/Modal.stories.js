@@ -2,9 +2,11 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { actions } from '@storybook/addon-actions';
 import Modal from '../';
+import docs from './docs.md';
 
 import '../style/index.less';
 import './stories.less';
+import Button from '../../Button';
 
 class ModalTest extends React.Component {
   state = {
@@ -23,14 +25,22 @@ class ModalTest extends React.Component {
     const { visible } = this.state;
     return (
       <div>
-        <button onClick={this.handleOpen}>打开 Modal</button>
-        <Modal visible={visible} onClose={this.handleClose} header={<div style={{ textAlign: 'center' }}>登录</div>}>
-          <div>111</div>
-          <div>222</div>
+        <Button onClick={this.handleOpen}>打开 Modal</Button>
+        <Modal
+          visible={visible}
+          onClose={this.handleClose}
+          header={<div style={{ textAlign: 'center' }}>Header</div>}
+          destroyOnClose
+        >
+          <div>content</div>
         </Modal>
       </div>
     );
   }
 }
 
-storiesOf('Modal 模态窗', module).add('模态窗', () => <ModalTest />);
+storiesOf('Modal 模态窗', module).add('模态窗', () => <ModalTest />, {
+  notes: {
+    markdown: docs,
+  },
+});

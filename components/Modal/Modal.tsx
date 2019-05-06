@@ -4,6 +4,8 @@ import omit from 'omit.js';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
+import Animate from 'rc-animate';
+import { CSSTransition } from 'react-transition-group';
 
 export default class Modal extends React.Component<any, any> {
   static propTypes = {
@@ -42,17 +44,30 @@ export default class Modal extends React.Component<any, any> {
      * 默认：-
      */
     zIndex: PropTypes.number,
+
+    /**
+     * 关闭时是否销毁子元素
+     * 默认：false
+     */
+    destroyOnClose: PropTypes.bool,
   };
 
   static defaultProps = {
     visible: false,
+    destroyOnClose: false,
   };
-
-  state = {};
 
   handleClose = () => {
     const { onClose } = this.props;
     onClose && onClose();
+  };
+
+  renderChildren = () => {
+    const { visible, destroyOnClose, children } = this.props;
+    if (destroyOnClose) {
+      return visible && children;
+    }
+    return children;
   };
 
   render() {
@@ -81,16 +96,20 @@ export default class Modal extends React.Component<any, any> {
 
     const element = (
       <div className={classes} {...style}>
-        <div className="ic-modal__mask" onClick={this.handleClose} />
-        <div className="ic-modal__main" style={{ ...mainStyle }}>
-          <div className="ic-modal__header">
-            <div className="ic-modal__header-content">{header}</div>
-            <Icon type="close" className="ic-modal__close" onClick={this.handleClose} />
+        <CSSTransition in={visible} timeout={300} classNames="ic-modal__mask">
+          <div className="ic-modal__mask" onClick={this.handleClose} />
+        </CSSTransition>
+        <CSSTransition in={visible} timeout={300} classNames="ic-modal__main">
+          <div className="ic-modal__main" style={{ ...mainStyle }}>
+            <div className="ic-modal__header">
+              <div className="ic-modal__header-content">{header}</div>
+              <Icon type="close" className="ic-modal__close" onClick={this.handleClose} />
+            </div>
+            <div className="ic-modal__body" {...otherProps}>
+              {this.renderChildren()}
+            </div>
           </div>
-          <div className="ic-modal__body" {...otherProps}>
-            {children}
-          </div>
-        </div>
+        </CSSTransition>
       </div>
     );
     return ReactDOM.createPortal(element, document.body);
