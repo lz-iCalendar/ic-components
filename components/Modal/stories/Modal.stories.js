@@ -3,12 +3,12 @@ import { storiesOf } from '@storybook/react';
 import { actions } from '@storybook/addon-actions';
 import Modal from '../';
 import docs from './docs.md';
-
 import '../style/index.less';
 import './stories.less';
 import Button from '../../Button';
+import IcDecorator from '../../../IcDecorator';
 
-class ModalTest extends React.Component {
+class ModalDemo extends React.Component {
   state = {
     visible: false,
   };
@@ -39,8 +39,16 @@ class ModalTest extends React.Component {
   }
 }
 
-storiesOf('Modal 模态窗', module).add('模态窗', () => <ModalTest />, {
-  notes: {
-    markdown: docs,
-  },
-});
+storiesOf('Modal 模态窗', module).add(
+  '模态窗',
+  () => (
+    <IcDecorator info="模态窗">
+      <ModalDemo />
+    </IcDecorator>
+  ),
+  {
+    notes: {
+      markdown: docs,
+    },
+  }
+);

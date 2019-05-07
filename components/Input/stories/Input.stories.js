@@ -1,13 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-
 import docs from './docs.md';
-
 import Input from '../';
 import '../style/index.less';
 import './style.less';
+import IcDecorator from '../../../IcDecorator';
 
-class InputTest extends React.Component {
+class InputDemo extends React.Component {
   state = {
     value: 'hello input',
   };
@@ -24,8 +23,16 @@ class InputTest extends React.Component {
 
 const stories = storiesOf('Input 输入框', module);
 
-stories.add('输入框', () => <InputTest />, {
-  notes: {
-    markdown: docs,
-  },
-});
+stories.add(
+  '输入框',
+  () => (
+    <IcDecorator info="输入框">
+      <InputDemo />
+    </IcDecorator>
+  ),
+  {
+    notes: {
+      markdown: docs,
+    },
+  }
+);

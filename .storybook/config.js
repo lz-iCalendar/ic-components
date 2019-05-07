@@ -1,5 +1,4 @@
 import { configure, addParameters, addDecorator } from '@storybook/react';
-import IcDecorator from './IcDecorator';
 
 const req = require.context('../components', true, /\.stories\.js$/);
 
@@ -74,8 +73,5 @@ addParameters({
     theme: undefined,
   },
 });
-
-// 全局的 Decorator
-addDecorator(IcDecorator);
 
 configure(loadStories, module);

@@ -1,9 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import EventBar from '../';
-
 import '../style/index.less';
 import './EventBar.less';
+import IcDecorator from '../../../IcDecorator';
 
 class EventBarTest extends React.Component {
   render() {
@@ -15,4 +15,8 @@ class EventBarTest extends React.Component {
   }
 }
 
-storiesOf('EventBar 事件条', module).add('事件条', () => <EventBarTest />);
+storiesOf('EventBar 事件条', module).add('事件条', () => (
+  <IcDecorator info="事件条">
+    <EventBarTest />
+  </IcDecorator>
+));

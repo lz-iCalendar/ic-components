@@ -8,6 +8,7 @@ import Icon from '../';
 import docs from './docs.md';
 import '../style/index.less';
 import './style.less';
+import IcDecorator from '../../../IcDecorator';
 
 const iconKeys = Object.keys(icons);
 iconKeys.forEach(key => {
@@ -23,7 +24,7 @@ const SingeIcon = ({ type, size }) => {
   );
 };
 
-class IconTest extends React.Component {
+class IconDemo extends React.Component {
   iconsType = [];
 
   componentDidMount = () => {
@@ -52,8 +53,16 @@ class IconTest extends React.Component {
   }
 }
 
-storiesOf('Icon 字体图标', module).add('字体图标', () => <IconTest />, {
-  notes: {
-    markdown: docs,
-  },
-});
+storiesOf('Icon 字体图标', module).add(
+  '字体图标',
+  () => (
+    <IcDecorator info="点击字体图标可复制">
+      <IconDemo />
+    </IcDecorator>
+  ),
+  {
+    notes: {
+      markdown: docs,
+    },
+  }
+);

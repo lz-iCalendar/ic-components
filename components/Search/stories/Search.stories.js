@@ -3,11 +3,12 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Search from '../';
 import docs from './docs.md';
+import IcDecorator from '../../../IcDecorator';
 
 import '../style/index.less';
 import './style.less';
 
-class SearchTest extends React.Component {
+class SearchDemo extends React.Component {
   state = {
     value: 'hello input',
   };
@@ -29,6 +30,14 @@ class SearchTest extends React.Component {
   }
 }
 
-storiesOf('Search 搜索框', module).add('搜索框', () => <SearchTest />, {
-  notes: { markdown: docs },
-});
+storiesOf('Search 搜索框', module).add(
+  '搜索框',
+  () => (
+    <IcDecorator info="搜索框">
+      <SearchDemo />
+    </IcDecorator>
+  ),
+  {
+    notes: { markdown: docs },
+  }
+);
