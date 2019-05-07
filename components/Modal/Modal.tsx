@@ -85,7 +85,7 @@ export default class Modal extends React.Component<any, any> {
       mainStyle.height = height;
     }
 
-    const otherProps = omit(restProps, ['onClose']);
+    const otherProps = omit(restProps, ['onClose', 'destroyOnClose']);
 
     let style = {};
     if (zIndex) {
