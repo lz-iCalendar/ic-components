@@ -1,5 +1,6 @@
 @import '../../style/index.less';
 .ic-button {
+  display: inline-block;
   border: 1px solid @primary-color;
   height: 32px;
   padding: 0 16px;
@@ -21,5 +22,10 @@
     border: none;
     padding: 0;
     height: auto;
+  }
+  &__block {
+    display: block;
+    width: 100%;
+    padding: 0;
   }
 }

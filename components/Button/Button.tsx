@@ -10,18 +10,26 @@ export default class Button extends React.Component<any, any> {
      * 默认：'primary'
      */
     type: PropTypes.oneOf(['primary', 'text']),
+
+    /**
+     * 按钮宽度是否为父宽度
+     * 默认：false
+     */
+    block: PropTypes.bool,
   };
 
   static defaultProps = {
     type: 'primary',
+    block: false,
   };
 
   render() {
-    const { type, className, children, ...restProps } = this.props;
+    const { type, className, children, block, ...restProps } = this.props;
     const classes = classNames(
       'ic-button',
       {
         'ic-button__text': type === 'text',
+        'ic-button__block': block,
       },
       className
     );
