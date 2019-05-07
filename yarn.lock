@@ -9990,17 +9990,7 @@ rc-menu@^7.3.0, rc-menu@~7.4.12:
     rc-util "^4.1.0"
     resize-observer-polyfill "^1.5.0"
 
-rc-notification@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.npmjs.org/rc-notification/-/rc-notification-3.3.1.tgz#0baa3e70f8d40ab015ce8fa78c260c490fc7beb4"
-  dependencies:
-    babel-runtime "6.x"
-    classnames "2.x"
-    prop-types "^15.5.8"
-    rc-animate "2.x"
-    rc-util "^4.0.4"
-
-rc-notification@~3.3.0:
+rc-notification@^3.3.1, rc-notification@~3.3.0:
   version "3.3.1"
   resolved "http://registry.npm.taobao.org/rc-notification/download/rc-notification-3.3.1.tgz#0baa3e70f8d40ab015ce8fa78c260c490fc7beb4"
   dependencies:
@@ -10302,7 +10292,7 @@ react-draggable@^3.1.1:
 
 react-element-to-jsx-string@^14.0.2:
   version "14.0.2"
-  resolved "http://registry.npm.taobao.org/react-element-to-jsx-string/download/react-element-to-jsx-string-14.0.2.tgz#586d248bb2416855aa6ac3881e18726832c146d2"
+  resolved "https://registry.npmjs.org/react-element-to-jsx-string/-/react-element-to-jsx-string-14.0.2.tgz#586d248bb2416855aa6ac3881e18726832c146d2"
   dependencies:
     is-plain-object "2.0.4"
     stringify-object "3.2.2"
