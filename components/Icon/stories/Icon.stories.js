@@ -53,16 +53,18 @@ class IconDemo extends React.Component {
   }
 }
 
-storiesOf('Icon 字体图标', module).add(
-  '字体图标',
-  () => (
-    <IcDecorator info="点击字体图标可复制">
-      <IconDemo />
-    </IcDecorator>
-  ),
-  {
-    notes: {
-      markdown: docs,
-    },
-  }
-);
+storiesOf('Icon 字体图标', module)
+  .add(
+    '字体图标',
+    () => (
+      <IcDecorator info="点击字体图标可复制">
+        <IconDemo />
+      </IcDecorator>
+    ),
+    {
+      notes: {
+        markdown: docs,
+      },
+    }
+  )
+  .add('test', () => <Icon type="down" />);
