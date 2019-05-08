@@ -36,7 +36,7 @@ export default class Search extends React.Component<any, any> {
 
   render() {
     const searchSuffix = <Icon type="search" className="ic-input-search__icon" onClick={this.handleSearchIconClick} />;
-    const restProps = omit(this.props, ['onPressEnter', 'className']);
+    const restProps = omit(this.props, ['onPressEnter', 'className', 'onSearch']);
     const classes = classNames('ic-input-search', this.props.className);
     return (
       <Input

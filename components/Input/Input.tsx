@@ -56,6 +56,7 @@ export default class Input extends React.Component<InputProps & any, any> {
   };
 
   handleChange = e => {
+    e.persist();
     this.input.event = e;
     this.input.value = e.target.value;
     this.props.onChange && this.props.onChange(e);
