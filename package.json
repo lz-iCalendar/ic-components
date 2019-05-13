@@ -14,6 +14,7 @@
     "moment": "^2.24.0",
     "omit.js": "^1.0.1",
     "prop-types": "^15.7.2",
+    "rc-trigger": "^2.6.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-transition-group": "^4.0.0"
