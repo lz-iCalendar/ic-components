@@ -8,13 +8,11 @@ import IcDecorator from '../../../IcDecorator';
 import '../style/index.less';
 import './stories.less';
 
-import Trigger from 'rc-trigger';
-
 const { Option } = Select;
 
 class SelectDemo1 extends React.Component {
   state = {
-    value: '',
+    value: 1,
   };
 
   handleChange = value => {
@@ -40,16 +38,10 @@ class SelectDemo1 extends React.Component {
     const { value } = this.state;
     return (
       <div>
-        <Select
-          style={{ width: 120 }}
-          value={value}
-          onChange={this.handleChange}
-        >
-          {this.options.map(option => (
-            <Option key={option.value} value={option.value}>
-              {option.label}
-            </Option>
-          ))}
+        <Select style={{ width: 120 }} value={value} onChange={this.handleChange}>
+          <Option value={1}>1</Option>
+          <Option value={2}>2</Option>
+          <Option value={3}>3</Option>
         </Select>
       </div>
     );
