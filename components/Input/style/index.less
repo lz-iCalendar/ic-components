@@ -2,11 +2,15 @@
 .ic-input {
   display: inline-block;
   width: 200px;
-  height: 30px;
+  height: 32px;
   border: 1px solid @border-color;
   outline: none;
   &:focus {
     outline: none;
+    border-color: @primary-color;
+    .ic-input-wrap {
+      border-color: @primary-color;
+    }
   }
   transition: 0.3s;
   border-radius: 2px;
@@ -15,14 +19,17 @@
     position: relative;
     display: inline-block;
     width: 200px;
-    height: 30px;
+    height: 32px;
     border: 1px solid @border-color;
     outline: none;
+    transition: 0.3s;
+    border-radius: 2px;
     &:focus {
       outline: none;
     }
-    transition: 0.3s;
-    border-radius: 2px;
+    &--focus {
+      border-color: @primary-color;
+    }
   }
   &--has-suffix {
     border: none;

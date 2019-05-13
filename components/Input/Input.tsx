@@ -43,6 +43,9 @@ export default class Input extends React.Component<InputProps & any, any> {
     super(props);
     this.input = {};
     this.input.value = props.value || '';
+    this.state = {
+      isFocus: false,
+    };
   }
 
   handleKeyDown = e => {
@@ -62,6 +65,18 @@ export default class Input extends React.Component<InputProps & any, any> {
     this.props.onChange && this.props.onChange(e);
   };
 
+  handleInputFocus = e => {
+    const { onFocus } = this.props;
+    this.setState({ isFocus: true });
+    onFocus && onFocus(e);
+  };
+
+  handleInputBlur = e => {
+    const { onBlur } = this.props;
+    this.setState({ isFocus: false });
+    onBlur && onBlur(e);
+  };
+
   renderInput = (props, hasSuffix) => {
     const { className, onChange, ...restProps } = props;
     const classes = classNames(
@@ -71,7 +86,16 @@ export default class Input extends React.Component<InputProps & any, any> {
       },
       className
     );
-    return <input className={classes} onChange={this.handleChange} {...restProps} onKeyDown={this.handleKeyDown} />;
+    return (
+      <input
+        className={classes}
+        onChange={this.handleChange}
+        {...restProps}
+        onKeyDown={this.handleKeyDown}
+        onFocus={this.handleInputFocus}
+        onBlur={this.handleInputBlur}
+      />
+    );
   };
 
   render() {
@@ -79,7 +103,14 @@ export default class Input extends React.Component<InputProps & any, any> {
     const otherProps = omit(this.props, ['onPressEnter', 'suffix', 'style']);
 
     if (suffix) {
-      const classes = classNames('ic-input-wrap', className);
+      const { isFocus } = this.state;
+      const classes = classNames(
+        'ic-input-wrap',
+        {
+          'ic-input-wrap--focus': isFocus,
+        },
+        className
+      );
       return (
         <div className={classes}>
           {this.renderInput(otherProps, true)}
