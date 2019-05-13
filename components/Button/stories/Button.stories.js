@@ -7,45 +7,31 @@ import '../style/index.less';
 import './stories.less';
 import IcDecorator from '../../../IcDecorator';
 
-storiesOf('Button 按钮', module)
-  .add(
-    'primary',
-    () => (
-      <IcDecorator info="普通按钮">
-        <Button type="primary">primary</Button>
-      </IcDecorator>
-    ),
-    {
-      notes: {
-        markdown: docs,
-      },
-    }
-  )
-  .add(
-    'text',
-    () => (
-      <IcDecorator info="文字按钮">
-        <Button type="text">text</Button>
-      </IcDecorator>
-    ),
-    {
-      notes: {
-        markdown: docs,
-      },
-    }
-  )
-  .add(
-    'block',
-    () => (
-      <IcDecorator info="宽度为父元素宽度的按钮">
-        <Button type="primary" block>
-          block
-        </Button>
-      </IcDecorator>
-    ),
-    {
-      notes: {
-        markdown: docs,
-      },
-    }
-  );
+class ButtonDemo extends React.Component {
+  render() {
+    return (
+      <React.Fragment>
+        <IcDecorator info="default 按钮">
+          <Button type="default">default</Button>
+        </IcDecorator>
+        <IcDecorator info="primary 按钮">
+          <Button type="primary">primary</Button>
+        </IcDecorator>
+        <IcDecorator info="text 按钮">
+          <Button type="text">text</Button>
+        </IcDecorator>
+        <IcDecorator info="按钮的宽度等于父元素宽度" style={{ width: 200 }}>
+          <Button type="primary" block>
+            block
+          </Button>
+        </IcDecorator>
+      </React.Fragment>
+    );
+  }
+}
+
+storiesOf('Button 按钮', module).add('按钮组件', () => <ButtonDemo />, {
+  notes: {
+    markdown: docs,
+  },
+});
