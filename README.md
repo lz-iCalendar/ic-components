@@ -14,18 +14,24 @@ npm run dev
 npm run compile
 ```
 
-## 三、发布
+## 组件开发进度
 
-```shell
-npm run publish
-```
-
-## 待处理
-
-1. Search 在父元素设有行高的情况下， input 与 包裹层 分离
-2. Search 的包裹层 margin-left 作用于 input
-
-## 待开发组件
-- [ ] switch 组件
-- [ ] popover 组件
-
+- [x] Button 按钮
+- [x] Calendar 日历组件
+- [x] Checkbox 多选框
+- [x] EventBar 事件条
+- [x] Icon 字体图标
+- [x] Input 输入框
+- [x] Modal 模态窗
+- [x] Search 搜索框
+- [x] Select 选择器
+- [x] Switch 滑动开关
+- [x] TextArea 文本域
+- [x] Popover 气泡卡片
+- [ ] InputNumber 数字输入（可带单位）
+- [ ] InputPassword 密码输入
+- [ ] ColorPicker 颜色选择器
+- [ ] DatePicker 日期选择器
+- [ ] TimePicker 时间选择器
+- [ ] Upload 上传文件
+- [ ] Avatar 头像
