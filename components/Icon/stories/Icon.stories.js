@@ -3,17 +3,14 @@ import { storiesOf } from '@storybook/react';
 import ClipboardJS from 'clipboard';
 import { message } from 'antd';
 import * as icons from 'ic-icons';
-import AntdIcon from '@ant-design/icons-react';
 import Icon from '../';
 import docs from './docs.md';
 import '../style/index.less';
 import './style.less';
 import IcDecorator from '../../../IcDecorator';
 
+// 所有 icon 的 key
 const iconKeys = Object.keys(icons);
-iconKeys.forEach(key => {
-  AntdIcon.add(icons[key]);
-});
 
 const SingeIcon = ({ type, size }) => {
   return (
@@ -66,5 +63,4 @@ storiesOf('Icon 字体图标', module)
         markdown: docs,
       },
     }
-  )
-  .add('test', () => <Icon type="down" />);
+  );

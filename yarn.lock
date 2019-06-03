@@ -9913,6 +9913,17 @@ rc-hammerjs@~0.6.0:
     hammerjs "^2.0.8"
     prop-types "^15.5.9"
 
+rc-input-number@^4.4.5:
+  version "4.4.5"
+  resolved "https://registry.npm.taobao.org/rc-input-number/download/rc-input-number-4.4.5.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frc-input-number%2Fdownload%2Frc-input-number-4.4.5.tgz#81473d2885a6b312e486c4f2ba3f441c1ab88520"
+  integrity sha1-gUc9KIWmsxLkhsTyuj9EHBq4hSA=
+  dependencies:
+    babel-runtime "6.x"
+    classnames "^2.2.0"
+    prop-types "^15.5.7"
+    rc-util "^4.5.1"
+    rmc-feedback "^2.0.0"
+
 rc-input-number@~4.4.0:
   version "4.4.2"
   resolved "https://registry.npm.taobao.org/rc-input-number/download/rc-input-number-4.4.2.tgz#3abeaadd2cbef59eb350f09f7c0f8c743b584f13"

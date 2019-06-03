@@ -1,11 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import AntdIcon from '@ant-design/icons-react';
+import ReactIcon from './ReactIcon';
 import * as icons from 'ic-icons';
 
 Object.keys(icons).forEach(key => {
-  AntdIcon.add(icons[key]);
+  ReactIcon.add(icons[key]);
 });
 
 export default class Icon extends React.Component<any, any> {
@@ -39,6 +39,6 @@ export default class Icon extends React.Component<any, any> {
       };
     }
 
-    return <AntdIcon type={iconType} className={classes} style={style} {...restProps} />;
+    return <ReactIcon type={iconType} className={classes} style={style} {...restProps} />;
   }
 }
