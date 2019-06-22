@@ -29,14 +29,10 @@ export default class Avatar extends React.Component<any, any> {
   };
 
   render() {
-    const { size, src, alt } = this.props;
+    const { size, src, alt, ...otherProps } = this.props;
 
     const style = { width: size, height: size, ...this.props.style };
 
-    return (
-      <div className="ic-avatar" style={style}>
-        <img src={src} alt={alt} className="ic-avatar__img" style={style} />
-      </div>
-    );
+    return <img src={src} alt={alt} className="ic-avatar" style={style} {...otherProps} />;
   }
 }
