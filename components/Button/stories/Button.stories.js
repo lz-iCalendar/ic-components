@@ -25,6 +25,11 @@ class ButtonDemo extends React.Component {
             block
           </Button>
         </IcDecorator>
+        <IcDecorator info="disabled" style={{ width: 200 }}>
+          <Button type="primary" block disabled>
+            block
+          </Button>
+        </IcDecorator>
       </React.Fragment>
     );
   }

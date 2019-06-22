@@ -16,27 +16,35 @@ export default class Button extends React.Component<any, any> {
      * 默认：false
      */
     block: PropTypes.bool,
+
+    /**
+     * 按钮是否被禁用
+     * 默认：false
+     */
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
     type: 'default',
     block: false,
+    disabled: false,
   };
 
   render() {
-    const { type, className, children, block, ...restProps } = this.props;
+    const { type, className, children, block, disabled, ...restProps } = this.props;
     const classes = classNames(
       'ic-button',
       {
         'ic-button--text': type === 'text',
         'ic-button--block': block,
         'ic-button--primary': type === 'primary',
+        'ic-button--disabled': disabled,
       },
       className
     );
 
     return (
-      <button className={classes} {...restProps}>
+      <button className={classes} {...restProps} disabled={disabled}>
         {children}
       </button>
     );
