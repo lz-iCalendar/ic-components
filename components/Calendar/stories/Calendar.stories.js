@@ -3,7 +3,6 @@ import { storiesOf } from '@storybook/react';
 import Calendar from '../Calendar';
 import { mockEvents } from './mockData';
 import 'antd/dist/antd.css';
-
 import '../style/index.less';
 
 const stories = storiesOf('Calendar 日历', module);
@@ -16,7 +15,7 @@ const DesktopWrap = ({ children }) => {
 
 class Wrap extends React.Component {
   state = {
-    events: [],
+    events: mockEvents,
     eventKeyword: undefined,
   };
   render() {
@@ -24,9 +23,7 @@ class Wrap extends React.Component {
     console.log({ events });
     return (
       <div>
-        <button onClick={() => this.setState({ events: mockEvents })}>改变 events</button>
-
-        <input onChange={(e) => this.setState({ eventKeyword: e.target.value })} />
+        <input onChange={e => this.setState({ eventKeyword: e.target.value })} />
 
         <Calendar eventKeyword={this.state.eventKeyword} events={events} height={600} defaultActiveTab="singleDay" />
       </div>

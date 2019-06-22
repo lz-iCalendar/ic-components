@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import ReactIcon from './ReactIcon';
-import * as icons from 'ic-icons';
+import * as icons from 'abstract-svg';
 
 Object.keys(icons).forEach(key => {
   ReactIcon.add(icons[key]);

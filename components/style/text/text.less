@@ -1,0 +1,15 @@
+// 超出 1 行文本省略
+.ellipsis-1() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 超出 n 行文本省略；默认 n 为 2
+.ellipsis-n(@n: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: @n;
+  -webkit-box-orient: vertical;
+}

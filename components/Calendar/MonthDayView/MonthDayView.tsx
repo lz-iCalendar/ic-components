@@ -2,6 +2,9 @@ import React from 'react';
 import classnames from 'classnames';
 import { monthDayHasher, isSameMonthDay, isFirstDateOfWeek, getDaysToLastDayOfWeek } from '../../utils/dateUtil';
 import { getEventDuration, isTotalDayEvent } from '../../utils/eventUtil';
+import Popover from '../../Popover';
+import EventDetails from '../EventDetails';
+import '../EventDetails/style/index.less';
 
 const dayElementPadding = {
   top: 1,
@@ -10,8 +13,7 @@ const dayElementPadding = {
   right: 6,
 };
 
-const constructPadding = ({ top, bottom, left, right }) =>
-  `${top}px ${right}px ${bottom}px ${left}px`;
+const constructPadding = ({ top, bottom, left, right }) => `${top}px ${right}px ${bottom}px ${left}px`;
 
 export default class MonthDayView extends React.PureComponent<any, any> {
   static defaultProps = {
@@ -25,7 +27,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
     getDaysToLastDayOfSection: getDaysToLastDayOfWeek,
     eventsFilter: () => true,
     paddingConfig: dayElementPadding,
-  }
+  };
 
   getEventElementWidth(event) {
     const { dayElementWidth, getDaysToLastDayOfSection, paddingConfig } = this.props;
@@ -35,9 +37,9 @@ export default class MonthDayView extends React.PureComponent<any, any> {
 
     const { left, right } = paddingConfig;
     const daysToLastDayOfSection = getDaysToLastDayOfSection(event.startTime);
-    const maxDurationByDay = daysToLastDayOfSection + 1
+    const maxDurationByDay = daysToLastDayOfSection + 1;
     const eventDurationByDay = getEventDuration(event, 'day');
-    const realDurationByDay = maxDurationByDay > eventDurationByDay ? eventDurationByDay : maxDurationByDay
+    const realDurationByDay = maxDurationByDay > eventDurationByDay ? eventDurationByDay : maxDurationByDay;
     return dayElementWidth * realDurationByDay - left - right;
   }
 
@@ -49,7 +51,6 @@ export default class MonthDayView extends React.PureComponent<any, any> {
 
   handleEventClick = event => {
     console.log(event);
-    alert(event.original.event_title);
   };
 
   render() {
@@ -78,44 +79,55 @@ export default class MonthDayView extends React.PureComponent<any, any> {
 
     return (
       <div className="ic-month-day-view" style={{ padding: constructPadding(paddingConfig), ...style }}>
-        {dateVisible && <div
-          className={classnames('ic-month-day-view__month-day', {
-            [`ic-month-day-view__month-day-active`]: isActive,
-            [`ic-month-day-view__other-month-day`]: isDateOfOtherMonth && grayDayOfOtherMonths,
-            [`ic-month-day-view__weekend`]: isWeekend,
-          })}
-        >
-          {monthDay}
-        </div>}
+        {dateVisible && (
+          <div
+            className={classnames('ic-month-day-view__month-day', {
+              ['ic-month-day-view__month-day-active']: isActive,
+              ['ic-month-day-view__other-month-day']: isDateOfOtherMonth && grayDayOfOtherMonths,
+              ['ic-month-day-view__weekend']: isWeekend,
+            })}
+          >
+            {monthDay}
+          </div>
+        )}
         <div>
-          {eventsOfToday.slice(0, eventsLimit).filter(eventsFilter).map(event => {
-            const {
-              original: { event_title, occur_id, category_color, event_hostheadurl },
-            } = event;
-            const eventElementWidth = this.getEventElementWidth(event);
-            const eventElementStyle = eventElementWidth ? { width: eventElementWidth } : {};
-            return (
-              <div
-                key={occur_id}
-                className={classnames('ic-month-day-view__event', {
-                  [`ic-month-day-view__event-hidden`]: !this.isVisible(event),
-                })}
-                style={eventElementStyle}
-              >
-                {hostAvatarVisible && <img src={event_hostheadurl} />}
-                <div
-                  className="ic-month-day-view__event-bar"
-                  style={{ background: category_color }}
-                  onClick={() => {
-                    this.handleEventClick(event);
-                  }}
+          {eventsOfToday
+            .slice(0, eventsLimit)
+            .filter(eventsFilter)
+            .map(event => {
+              const {
+                original: { event_title, occur_id, category_color, event_hostheadurl },
+              } = event;
+              const eventElementWidth = this.getEventElementWidth(event);
+              const eventElementStyle = eventElementWidth ? { width: eventElementWidth } : {};
+              return (
+                <Popover
+                  trigger={[ 'click']}
+                  getPopupContainer={() => document.querySelector('.ic-month-day-view')}
+                  content={<EventDetails eventData={event.original} />}
                 >
-                  <div className="ic-month-day-view__event-title">{event_title}</div>
-                  {dotVisible && isTotalDayEvent(event) && <div className="ic-month-day-view__dot" />}
-                </div>
-              </div>
-            );
-          })}
+                  <div
+                    key={occur_id}
+                    className={classnames('ic-month-day-view__event', {
+                      ['ic-month-day-view__event-hidden']: !this.isVisible(event),
+                    })}
+                    style={eventElementStyle}
+                  >
+                    {hostAvatarVisible && <img src={event_hostheadurl} />}
+                    <div
+                      className="ic-month-day-view__event-bar"
+                      style={{ background: category_color }}
+                      onClick={() => {
+                        this.handleEventClick(event);
+                      }}
+                    >
+                      <div className="ic-month-day-view__event-title">{event_title}</div>
+                      {dotVisible && isTotalDayEvent(event) && <div className="ic-month-day-view__dot" />}
+                    </div>
+                  </div>
+                </Popover>
+              );
+            })}
           {eventsOfToday.length > eventsLimit && <div className="ic-month-day-view__ellipse">...</div>}
         </div>
       </div>

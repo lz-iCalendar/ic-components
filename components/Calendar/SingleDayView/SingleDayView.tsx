@@ -3,6 +3,9 @@ import memoizeOne from 'memoize-one';
 import { getHHmmDurationByMinute, getStepDurationByMinute } from '../../utils/dateUtil';
 import { normalizeEvents } from '../../utils/eventUtil';
 import PropTypes from 'prop-types';
+import Popover from '../../Popover';
+import EventDetails from '../EventDetails';
+import '../EventDetails/style/index.less';
 
 export default class SingleDayView extends React.PureComponent<any, any> {
   static propTypes = {
@@ -23,21 +26,21 @@ export default class SingleDayView extends React.PureComponent<any, any> {
   };
 
   componentDidMount() {
-    this.reLayout()
+    this.reLayout();
   }
 
   componentDidUpdate() {
-    this.reLayout()
+    this.reLayout();
   }
 
-  reLayoutEvents (startHHmm, endHHmm, containerHeight) {
+  reLayoutEvents(startHHmm, endHHmm, containerHeight) {
     const { current } = this.rootRef;
     if (!current) {
       return;
     }
 
-    const timeLineStartMinutes = getHHmmDurationByMinute(startHHmm)
-    const timeLineEndMinutes = getHHmmDurationByMinute(endHHmm)
+    const timeLineStartMinutes = getHHmmDurationByMinute(startHHmm);
+    const timeLineEndMinutes = getHHmmDurationByMinute(endHHmm);
     const totalMinutes = timeLineEndMinutes - timeLineStartMinutes;
     const heightToMinutes = containerHeight / totalMinutes;
     const eventElements = current.children;
@@ -58,7 +61,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
 
   memoizedReLayoutEvents = memoizeOne((_events, startHHmm, endHHmm, containerHeight) => {
     this.reLayoutEvents(startHHmm, endHHmm, containerHeight);
-  })
+  });
 
   reLayout() {
     const { events, startHHmm, endHHmm, containerHeight } = this.props;
@@ -84,21 +87,27 @@ export default class SingleDayView extends React.PureComponent<any, any> {
               original: { event_time, event_endtime, event_title, event_hostheadurl, category_color },
             } = event;
             return (
-              <div
-                data-event_time={event_time}
-                data-event_endtime={event_endtime}
-                key={occurId}
-                className="ic-single-day-view__event"
-                onClick={() => {
-                  this.handleEventClick(event);
-                }}
+              <Popover
+                trigger={['click']}
+                getPopupContainer={() => document.querySelector('.ic-month-day-view')}
+                content={<EventDetails eventData={event.original} />}
               >
-                <img className="ic-single-day-view__host-avatar" src={event_hostheadurl} />
-                <div className="ic-single-day-view__content" style={{ background: category_color }}>
-                  <div className="ic-single-day-view__event-time">{`${event_time} - ${event_endtime}`}</div>
-                  <div className="ic-single-day-view__event-title">{event_title}</div>
+                <div
+                  data-event_time={event_time}
+                  data-event_endtime={event_endtime}
+                  key={occurId}
+                  className="ic-single-day-view__event"
+                  onClick={() => {
+                    this.handleEventClick(event);
+                  }}
+                >
+                  <img className="ic-single-day-view__host-avatar" src={event_hostheadurl} />
+                  <div className="ic-single-day-view__content" style={{ background: category_color }}>
+                    <div className="ic-single-day-view__event-time">{`${event_time} - ${event_endtime}`}</div>
+                    <div className="ic-single-day-view__event-title">{event_title}</div>
+                  </div>
                 </div>
-              </div>
+              </Popover>
             );
           })}
       </div>

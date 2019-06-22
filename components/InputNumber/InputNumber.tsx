@@ -1,13 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import omit from 'omit.js';
-import RcInputNumber from 'rc-input-number'
+import RcInputNumber from 'rc-input-number';
 
 export default class InputNumber extends React.Component<any, any> {
-  static propTypes = {
-
-  };
+  static propTypes = {};
 
   static defaultProps = {
     type: 'text',
@@ -18,11 +13,12 @@ export default class InputNumber extends React.Component<any, any> {
     super(props);
   }
 
+  // upHandler: React.ReactNode =
+
   render() {
 
+    // const upHandler =
 
-
-    return <RcInputNumber {...this.props} className='12321321312'></RcInputNumber>
-
+    return <RcInputNumber prefixCls='ic-input-number' {...this.props} />;
   }
 }

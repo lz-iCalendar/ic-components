@@ -1,0 +1,76 @@
+@import '../../../style/text/text.less';
+@import '../../../style/layout/center.less';
+.ic-event-details {
+  width: 300px;
+  font-size: 18px;
+  color: #666;
+  border-radius: 8px;
+  background: #fff;
+  &__header {
+    width: 100%;
+    height: 52px;
+    line-height: 52px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px 8px 0 0;
+    &-bar {
+      width: 10px;
+      height: 40px;
+      position: absolute;
+      left: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 5px;
+    }
+    background: #f5f5f5;
+  }
+  &__content {
+    padding: 16px;
+    font-size: 16px;
+    border-radius: 0 0 8px 8px;
+
+    &-item {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      &-left {
+        width: 180px;
+        overflow: hidden;
+      }
+      &-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        span {
+          font-size: 14px;
+        }
+      }
+    }
+    &-position {
+      margin-top: 8px;
+      .ellipsis-n(2);
+    }
+    &-desc {
+      margin-top: 16px;
+      p {
+        font-size: 16px;
+        color: #999999;
+      }
+    }
+  }
+  &__title {
+    display: inline-block;
+    height: 52px;
+    line-height: 52px;
+    font-size: 18px;
+    font-weight: normal;
+    width: 220px;
+    margin-left: 25px;
+    .ellipsis-1;
+  }
+  &__close {
+    right: 20px;
+    .center-absolute-v;
+    cursor: pointer;
+  }
+}

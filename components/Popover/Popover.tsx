@@ -76,7 +76,7 @@ export default class Popover extends React.Component<PopoverProps & any, any> {
      * 触发行为
      * 默认：'hover'
      */
-    trigger: PropTypes.oneOf(['hover', 'focus', 'click']),
+    trigger: PropTypes.oneOfType([PropTypes.oneOf(['hover', 'focus', 'click']), PropTypes.array]),
 
     /**
      * 菜单渲染的父节点
@@ -114,10 +114,12 @@ export default class Popover extends React.Component<PopoverProps & any, any> {
     const { content, className, children, getPopupContainer, placement, trigger, ...restProps } = this.props;
     const classes = classNames('ic-popover', className);
 
+    const action = typeof trigger === 'string' ? [trigger] : trigger;
+
     return (
       <Trigger
         popupPlacement={placement}
-        action={[trigger]}
+        action={action}
         builtinPlacements={popupPlacementMap}
         popup={
           <div className={classes} {...restProps}>
