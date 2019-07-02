@@ -18,7 +18,7 @@ addParameters({
      * display panel that shows a list of stories
      * @type {Boolean}
      */
-    showNav: true,
+    showNav: false,
     /**
      * display panel that shows addon configurations
      * @type {Boolean}
