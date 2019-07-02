@@ -2,7 +2,9 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
-import { Avatar } from 'antd';
+import { Avatar, Icon, Input, Button } from 'antd';
+import './EventComments.less';
+const noop = () => {};
 
 class EventComments extends React.Component<any, any> {
   static propTypes = {
@@ -11,17 +13,43 @@ class EventComments extends React.Component<any, any> {
      * 默认：-
      */
     comments: PropTypes.array.isRequired,
+    /**
+     * 点击评论时的回调
+     * 默认：-
+     */
+    onComment: PropTypes.func,
   };
 
-  static defaultProps = {};
+  static defaultProps = {
+    onComment: noop,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+    };
+  }
+
+  handleComment = () => {
+    this.props.onComment(this.state.value);
+  };
+
+  handleChange = e => {
+    this.setState({ value: e.target.value });
+  };
 
   render() {
     const { comments } = this.props;
+    const { value } = this.state;
     return (
       <div className="ic-event-comments">
         <div className="ic-event-comments__action">
           <h2>评论</h2>
-          <span>添加评论</span>
+          <span>
+            <Icon type="plus-circle" className="ic-event-details__images-action-btn" />
+            添加评论
+          </span>
         </div>
         <div className="ic-event-comments__content">
           {comments.map(commentsItem => (
@@ -33,6 +61,17 @@ class EventComments extends React.Component<any, any> {
               <div className="ic-event-comments__comment">{commentsItem.comment}</div>
             </div>
           ))}
+        </div>
+        <div className="ic-event-comments__input-wrapper">
+          <Input.TextArea
+            placeholder="请输入评论"
+            className="ic-event-comments__input"
+            value={value}
+            onChange={this.handleChange}
+          />
+          <Button type="primary" onClick={this.handleComment} className="ic-event-comments__btn">
+            评论
+          </Button>
         </div>
       </div>
     );
