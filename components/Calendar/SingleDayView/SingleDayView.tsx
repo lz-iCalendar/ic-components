@@ -75,7 +75,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
   };
 
   render() {
-    const { events, eventsFilter, style } = this.props;
+    const { events, eventsFilter, style, onEventDetailsClick } = this.props;
 
     return (
       <div ref={this.rootRef} className="ic-single-day-view" style={style}>
@@ -90,7 +90,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
               <Popover
                 trigger={['click']}
                 getPopupContainer={() => document.querySelector('.ic-month-day-view')}
-                content={<EventDetails eventData={event.original} />}
+                content={<EventDetails eventData={event.original} onEventDetailsClick={onEventDetailsClick} />}
               >
                 <div
                   data-event_time={event_time}

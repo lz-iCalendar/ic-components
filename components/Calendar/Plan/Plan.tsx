@@ -34,16 +34,19 @@ export default class Plan extends React.PureComponent<any, any> {
      * 默认值：['08:00', '18:00']
      */
     timeLineRange: PropTypes.arrayOf(PropTypes.string),
+
+    onEventDetailsClick: PropTypes.func,
   };
 
   state = {
     timeLineRefreshKey: false,
-  }
+    onEventDetailsClick: () => {},
+  };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { events, selectedDate } = this.props;
     if (events !== nextProps.events || selectedDate !== nextProps.selectedDate) {
-      this.setState(({ timeLineRefreshKey}) => ({ timeLineRefreshKey: !timeLineRefreshKey }));
+      this.setState(({ timeLineRefreshKey }) => ({ timeLineRefreshKey: !timeLineRefreshKey }));
     }
   }
 
@@ -94,11 +97,12 @@ export default class Plan extends React.PureComponent<any, any> {
               isFirstDayOfSection={this.isFirstDayOfSection}
               getDaysToLastDayOfSection={this.getDaysToLastDayOfSection}
               style={{ height: 'auto', width }}
+              onEventDetailsClick={this.props.onEventDetailsClick}
             />
           </div>
         ))}
       </div>
-    )
+    );
   });
 
   getMainViewRenderer = memoizeOne((date, events) => containerWidth => {
@@ -113,6 +117,7 @@ export default class Plan extends React.PureComponent<any, any> {
             eventsFilter={notAllDayEventsFilter}
             date={date}
             style={{ width }}
+            onEventDetailsClick={this.props.onEventDetailsClick}
           />
         ))}
       </ChildrenWithProps>
@@ -121,14 +126,16 @@ export default class Plan extends React.PureComponent<any, any> {
 
   getEvents = memoizeOne(events => {
     let retEvents = [];
-    events.map(event => event.original).forEach(event => {
-      const index = retEvents.findIndex(item => item.type === event.category_name);
-      if (index !== -1) {
-        retEvents[index].events.push(event);
-      } else {
-        retEvents.push({ type: event.category_name, events: [event] });
-      }
-    });
+    events
+      .map(event => event.original)
+      .forEach(event => {
+        const index = retEvents.findIndex(item => item.type === event.category_name);
+        if (index !== -1) {
+          retEvents[index].events.push(event);
+        } else {
+          retEvents.push({ type: event.category_name, events: [event] });
+        }
+      });
     return retEvents;
   });
 

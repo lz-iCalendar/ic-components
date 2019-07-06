@@ -5,6 +5,7 @@ import { getEventDuration, isTotalDayEvent } from '../../utils/eventUtil';
 import Popover from '../../Popover';
 import EventDetails from '../EventDetails';
 import '../EventDetails/style/index.less';
+import PropTypes from 'prop-types';
 
 const dayElementPadding = {
   top: 1,
@@ -16,6 +17,14 @@ const dayElementPadding = {
 const constructPadding = ({ top, bottom, left, right }) => `${top}px ${right}px ${bottom}px ${left}px`;
 
 export default class MonthDayView extends React.PureComponent<any, any> {
+  static propTypes = {
+    /**
+     * 事件详情弹窗点击的回调
+     * 默认：noop
+     */
+    onEventDetailsClick: PropTypes.func,
+  };
+
   static defaultProps = {
     grayDayOfOtherMonths: true,
     dateVisible: true,
@@ -66,6 +75,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
       eventsFilter,
       style,
       paddingConfig,
+      onEventDetailsClick,
     } = this.props;
 
     const eventKey = monthDayHasher(date);
@@ -76,6 +86,8 @@ export default class MonthDayView extends React.PureComponent<any, any> {
     const weekDay = date.getDay();
     const isWeekend = weekDay === 0 || weekDay === 6;
     const eventsLimit = propEventsLimit || eventsOfToday.length;
+
+    console.log({ eee: onEventDetailsClick });
 
     return (
       <div className="ic-month-day-view" style={{ padding: constructPadding(paddingConfig), ...style }}>
@@ -102,9 +114,9 @@ export default class MonthDayView extends React.PureComponent<any, any> {
               const eventElementStyle = eventElementWidth ? { width: eventElementWidth } : {};
               return (
                 <Popover
-                  trigger={[ 'click']}
+                  trigger={['click']}
                   getPopupContainer={() => document.querySelector('.ic-month-day-view')}
-                  content={<EventDetails eventData={event.original} />}
+                  content={<EventDetails eventData={event.original} onEventDetailsClick={onEventDetailsClick} />}
                 >
                   <div
                     key={occur_id}

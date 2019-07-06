@@ -107,6 +107,13 @@ export default class Calendar extends React.PureComponent<any, any> {
      * 默认值：-
      */
     onDateRangeChange: PropTypes.func,
+
+    /**
+     * 事件详情模态窗点击时的回调函数
+     * 默认：noop
+     */
+    onEventDetailsClick: PropTypes.func,
+
     // --- //
 
     // --- 单日、多日、单周、计划视图
@@ -176,6 +183,7 @@ export default class Calendar extends React.PureComponent<any, any> {
     defaultMultiWeeks: 4,
     maxMultiWeeks: 10,
     defaultAgendaDateRange: '1:M',
+    onEventDetailsClick: () => {},
   };
 
   private multiWeeksOptions: number[];
@@ -325,19 +333,18 @@ export default class Calendar extends React.PureComponent<any, any> {
     const { activeTab } = this.state;
     const { eventKeyword, events } = this.props;
     const [rangeStart, rangeEnd] = this.getDateRange(activeTab);
-    const eventsInDateRange = normalizeEvents(events)
-      .filter(event => {
-        const { startTime, endTime } = event;
-        return isTotalDayEvent(event) || (startTime >= rangeStart && endTime <= rangeEnd);
-      })
+    const eventsInDateRange = normalizeEvents(events).filter(event => {
+      const { startTime, endTime } = event;
+      return isTotalDayEvent(event) || (startTime >= rangeStart && endTime <= rangeEnd);
+    });
 
     if (!eventKeyword) {
       return eventsInDateRange;
     }
 
-    return eventsInDateRange.filter((event) => {
+    return eventsInDateRange.filter(event => {
       const { original: originalEvent } = event;
-      for(let field in originalEvent) {
+      for (let field in originalEvent) {
         if (originalEvent.hasOwnProperty(field)) {
           const fieldValue = originalEvent[field];
           const result = typeof fieldValue === 'string' && fieldValue.includes(eventKeyword);
@@ -346,8 +353,8 @@ export default class Calendar extends React.PureComponent<any, any> {
           }
         }
       }
-      return false
-    })
+      return false;
+    });
   }
 
   handleDateChange = value => {
@@ -416,9 +423,11 @@ export default class Calendar extends React.PureComponent<any, any> {
       activeTab = this.tabSwitcher.previousKey();
     }
     this.setState({ activeTab }, () => {
-      setTimeout(() => { this.panning = false; }, 800);
+      setTimeout(() => {
+        this.panning = false;
+      }, 800);
     });
-  }
+  };
 
   renderMenu = () => {
     return (
@@ -445,11 +454,7 @@ export default class Calendar extends React.PureComponent<any, any> {
   };
 
   render() {
-    const {
-      singleWeekStartDay,
-      height,
-      defaultDayTimeLineRange,
-    } = this.props;
+    const { singleWeekStartDay, height, defaultDayTimeLineRange, onEventDetailsClick } = this.props;
     const {
       date,
       datePickerDefaultValue,
@@ -501,7 +506,13 @@ export default class Calendar extends React.PureComponent<any, any> {
 
         {activeTab === 'singleDay' && (
           <ViewContainer height={contentViewHeight} onPan={this.handlePan}>
-            <DailyCalendar timeLineRange={defaultDayTimeLineRange} startDate={date} endDate={date} events={events} />
+            <DailyCalendar
+              timeLineRange={defaultDayTimeLineRange}
+              startDate={date}
+              endDate={date}
+              events={events}
+              onEventDetailsClick={onEventDetailsClick}
+            />
           </ViewContainer>
         )}
         {activeTab === 'multiDay' && (
@@ -512,6 +523,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               startDate={startDateOfMultiDay}
               endDate={endDateOfMultiDay}
               events={events}
+              onEventDetailsClick={onEventDetailsClick}
             />
           </ViewContainer>
         )}
@@ -523,6 +535,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               startDate={startDateOfSingleWeek}
               endDate={endDateOfSingleWeek}
               events={events}
+              onEventDetailsClick={onEventDetailsClick}
             />
           </ViewContainer>
         )}
@@ -538,7 +551,7 @@ export default class Calendar extends React.PureComponent<any, any> {
         )}
         {activeTab === 'year' && (
           <ViewContainer onPan={this.handlePan}>
-            <YearCalendar date={date} events={events} />
+            <YearCalendar date={date} events={events} onEventDetailsClick={onEventDetailsClick} />
           </ViewContainer>
         )}
         {activeTab === 'agenda' && (
@@ -553,7 +566,13 @@ export default class Calendar extends React.PureComponent<any, any> {
         )}
         {activeTab === 'plan' && (
           <ViewContainer height={contentViewHeight} onPan={this.handlePan}>
-            <Plan height={contentViewHeight} timeLineRange={defaultDayTimeLineRange} selectedDate={date} events={events} />
+            <Plan
+              height={contentViewHeight}
+              timeLineRange={defaultDayTimeLineRange}
+              selectedDate={date}
+              events={events}
+              onEventDetailsClick={onEventDetailsClick}
+            />
           </ViewContainer>
         )}
       </div>

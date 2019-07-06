@@ -7,16 +7,14 @@ import '../style/index.less';
 
 const stories = storiesOf('Calendar 日历', module);
 
-const DesktopWrap = ({ children }) => {
-  return (
-    <div style={{ height: '100vh', padding: '20px 40px', background: '#f5f5f5', overflowY: 'auto' }}>{children}</div>
-  );
-};
-
 class Wrap extends React.Component {
   state = {
     events: mockEvents,
     eventKeyword: undefined,
+  };
+
+  handleEventDetailsClick = eventData => {
+    console.log({ eventData });
   };
   render() {
     const { events } = this.state;
@@ -25,7 +23,13 @@ class Wrap extends React.Component {
       <div>
         <input onChange={e => this.setState({ eventKeyword: e.target.value })} />
 
-        <Calendar eventKeyword={this.state.eventKeyword} events={events} height={600} defaultActiveTab="singleDay" />
+        <Calendar
+          eventKeyword={this.state.eventKeyword}
+          events={events}
+          height={600}
+          defaultActiveTab="singleDay"
+          onEventDetailsClick={this.handleEventDetailsClick}
+        />
       </div>
     );
   }

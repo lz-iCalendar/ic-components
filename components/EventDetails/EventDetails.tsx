@@ -15,6 +15,7 @@ import {
   InputNumber,
   Modal,
   Tabs,
+  Popconfirm,
 } from 'antd';
 import EventComments from './EventComments';
 import Swiper from 'swiper';
@@ -68,19 +69,19 @@ class EventDetails extends React.Component<any, any> {
     //   comments: [{ userInfo: { name: 'Karl', avatarUrl: 'http://xxx.xx/xx.png' }, comment: '这里是事件评论' }], // 评论
     // },
     /**
-     * 模式：'edit' 编辑模式 | 'view' 查看模式
-     * 默认：'view'
+     * 是否可以修改事件（为 true 时，该组件 footer 有操作按钮）
+     * 默认：true
      */
-    mode: PropTypes.oneOf(['edit', 'view']),
+    hasModify: PropTypes.bool,
 
     /**
-     * 点击保存时的回调：(data) => {}，data 表示表单数据
+     * 点击保存时的回调：(data, callback) => {}，data 表示表单数据；callback 在表单数据保存到后端之后，需要进行调用，当传入 callback 的数据为 true 时，表示保存成功，视图会变为查看状态，否则，表示保存失败，视图状态不变
      * 默认：noop
      */
     onSave: PropTypes.func,
 
     /**
-     * 点击删除时的回调：() => {}
+     * 点击删除时的回调：(data) => {}，data 表示事件数据
      * 默认：noop
      */
     onRemove: PropTypes.func,
@@ -90,29 +91,37 @@ class EventDetails extends React.Component<any, any> {
      * 默认：noop
      */
     onAddImage: PropTypes.func,
+
+    /**
+     * 点击评论按钮的回调函数
+     * 默认：noop
+     */
+    onComment: PropTypes.func,
   };
 
   static defaultProps = {
-    mode: 'view',
     onSave: noop,
     onRemove: noop,
     onAddImage: noop,
+    hasModify: true,
+    onComment: noop,
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if ('data' in nextProps) {
+      const data = cloneDeep(nextProps.data);
+      const defaultAttendeesValue = data.attendees.map(item => item.userId);
+      const defaultCalendarsValue = data.calendars.map(item => item.calendarId);
+      return { ...prevState, title: data.title, data, defaultAttendeesValue, defaultCalendarsValue };
+    }
+    return null;
+  }
 
   constructor(props) {
     super(props);
-
-    const data = cloneDeep(props.data);
-    const defaultAttendeesValue = data.attendees.map(item => item.userId);
-    const defaultCalendarsValue = data.calendars.map(item => item.calendarId);
-
     this.state = {
-      data,
-      defaultAttendeesValue,
-      defaultCalendarsValue,
-      status: 'edit', // 当前状态：'edit' 编辑状态 | 'view' 查看状态
-      title: data.title,
-      repeatVisible: true, // 重复 modal 是否显示
+      status: 'view', // 当前状态：'edit' 编辑状态 | 'view' 查看状态
+      repeatVisible: false, // 重复 modal 是否显示
     };
   }
 
@@ -126,16 +135,15 @@ class EventDetails extends React.Component<any, any> {
   };
 
   renderEventHeader = () => {
-    const { mode } = this.props;
-    const { title } = this.state;
-    if (mode === 'edit') {
+    const { title, status } = this.state;
+    if (status === 'edit') {
       return <input type="text" value={title} onChange={this.handleTitleChange} placeholder="无标题" />;
     }
     return <h1>{title}</h1>;
   };
 
   handleRemove = () => {
-    this.props.onRemove();
+    this.props.onRemove(this.props.data);
   };
 
   handleCancel = () => {
@@ -152,12 +160,16 @@ class EventDetails extends React.Component<any, any> {
       const { title } = this.state;
 
       const formData = { ...values, title };
-      this.props.onSave(formData);
+      this.props.onSave(formData, this.handleSaveSuccess);
     });
   };
 
-  handleEditClick = () => {
-    this.setState({ status: 'edit' });
+  handleSaveSuccess = isSuccess => {
+    isSuccess && this.setState({ status: 'edit' });
+  };
+
+  handleStatusChange = status => {
+    this.setState({ status });
   };
 
   renderEventFooter = () => {
@@ -167,9 +179,10 @@ class EventDetails extends React.Component<any, any> {
     const hasEdit = !hasCancel;
     return (
       <React.Fragment>
-        <Button type="danger" onClick={this.handleRemove}>
-          删除
-        </Button>
+        <Popconfirm title="您确定要删除该事件吗？" onConfirm={this.handleRemove}>
+          <Button type="danger">删除</Button>
+        </Popconfirm>
+
         {hasCancel && <Button onClick={this.handleCancel}>取消</Button>}
         {hasSave && (
           <Button type="primary" onClick={this.handleSave}>
@@ -177,7 +190,7 @@ class EventDetails extends React.Component<any, any> {
           </Button>
         )}
         {hasEdit && (
-          <Button type="primary" onClick={this.handleEditClick}>
+          <Button type="primary" onClick={() => this.handleStatusChange('edit')}>
             编辑
           </Button>
         )}
@@ -260,9 +273,13 @@ class EventDetails extends React.Component<any, any> {
     });
   };
 
+  handleComment = comment => {
+    this.props.onComment(comment);
+  };
+
   render() {
-    const { data, defaultAttendeesValue, defaultCalendarsValue } = this.state;
-    const { form, mode } = this.props;
+    const { data, defaultAttendeesValue, defaultCalendarsValue, status } = this.state;
+    const { form, hasModify } = this.props;
     const {
       isAllDay,
       startTime,
@@ -286,56 +303,88 @@ class EventDetails extends React.Component<any, any> {
           <Form className="ic-event-details__form" labelCol={{ span: 6 }} wrapperCol={{ span: 14 }}>
             <div className="ic-event-details__section-a">
               <Form.Item label="全天">
-                {getFieldDecorator('isAllDay', {
-                  initialValue: isAllDay,
-                  valuePropName: 'checked',
-                })(<Switch />)}
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('isAllDay', {
+                    initialValue: isAllDay,
+                    valuePropName: 'checked',
+                  })(<Switch />)
+                ) : (
+                  <span>{isAllDay ? '是' : '否'}</span>
+                )}
               </Form.Item>
               <Form.Item label="开始">
-                {getFieldDecorator('startTime', {
-                  initialValue: startTime,
-                })(<DatePicker showTime />)}
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('startTime', {
+                    initialValue: startTime,
+                  })(<DatePicker showTime />)
+                ) : (
+                  <span>{startTime.format('YYYY-MM-DD HH:mm')}</span>
+                )}
               </Form.Item>
               <Form.Item label="结束">
-                {getFieldDecorator('endTime', {
-                  initialValue: endTime,
-                })(<DatePicker showTime />)}
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('endTime', {
+                    initialValue: endTime,
+                  })(<DatePicker showTime />)
+                ) : (
+                  <span>{endTime.format('YYYY-MM-DD HH:mm')}</span>
+                )}
               </Form.Item>
               <Form.Item label="时区">
-                {getFieldDecorator('timeZone', {
-                  initialValue: timeZone,
-                })(
-                  <Select>
-                    {timeZoneList.map(timeZoneListItem => (
-                      <Option key={timeZoneListItem.value} value={timeZoneListItem.value}>
-                        {timeZoneListItem.label}
-                      </Option>
-                    ))}
-                  </Select>
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('timeZone', {
+                    initialValue: timeZone,
+                  })(
+                    <Select>
+                      {timeZoneList.map(timeZoneListItem => (
+                        <Option key={timeZoneListItem.value} value={timeZoneListItem.value}>
+                          {timeZoneListItem.label}
+                        </Option>
+                      ))}
+                    </Select>
+                  )
+                ) : (
+                  <span>{timeZone}</span>
                 )}
               </Form.Item>
               <Form.Item label="地点">
-                {getFieldDecorator('position', {
-                  initialValue: position,
-                })(<Input />)}
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('position', {
+                    initialValue: position,
+                  })(<Input />)
+                ) : (
+                  <span>{position}</span>
+                )}
               </Form.Item>
               <Form.Item label="参加者">
-                {getFieldDecorator('attendees', {
-                  initialValue: defaultAttendeesValue,
-                })(
-                  <Select mode="multiple">
-                    {attendees.map(attendeesItem => (
-                      <Option key={attendeesItem.userId} value={attendeesItem.userId}>
-                        {attendeesItem.email}
-                      </Option>
-                    ))}
-                  </Select>
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('attendees', {
+                    initialValue: defaultAttendeesValue,
+                  })(
+                    <Select mode="multiple">
+                      {attendees.map(attendeesItem => (
+                        <Option key={attendeesItem.userId} value={attendeesItem.userId}>
+                          {attendeesItem.email}
+                        </Option>
+                      ))}
+                    </Select>
+                  )
+                ) : (
+                  <React.Fragment>
+                    {attendees.map(item => {
+                      return <span key={item.userId}>{item.email}</span>;
+                    })}
+                  </React.Fragment>
                 )}
               </Form.Item>
               <Form.Item label="详情">
-                {getFieldDecorator('desc', {
-                  initialValue: desc,
-                })(<TextArea />)}
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('desc', {
+                    initialValue: desc,
+                  })(<TextArea />)
+                ) : (
+                  <span>{desc}</span>
+                )}
               </Form.Item>
               <Form.Item label="统计" className="ic-event-details-no-label">
                 <div>
@@ -348,20 +397,32 @@ class EventDetails extends React.Component<any, any> {
               </Form.Item>
 
               <Form.Item label="日历">
-                {getFieldDecorator('calendars', {
-                  initialValue: defaultCalendarsValue,
-                })(
-                  <Select mode="multiple">
-                    {calendars.map(calendarsItem => (
-                      <Option key={calendarsItem.calendarId} value={calendarsItem.calendarId}>
-                        {calendarsItem.name}
-                      </Option>
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('calendars', {
+                    initialValue: defaultCalendarsValue,
+                  })(
+                    <Select mode="multiple">
+                      {calendars.map(calendarsItem => (
+                        <Option key={calendarsItem.calendarId} value={calendarsItem.calendarId}>
+                          {calendarsItem.name}
+                        </Option>
+                      ))}
+                    </Select>
+                  )
+                ) : (
+                  <React.Fragment>
+                    {calendars.map(item => (
+                      <span key={item.calendarId}>{item.name}</span>
                     ))}
-                  </Select>
+                  </React.Fragment>
                 )}
               </Form.Item>
               <Form.Item label="重复">
-                <Button onClick={this.handleOpenRepeatModal}>请设置</Button>
+                {hasModify && status === 'edit' ? (
+                  <Button onClick={this.handleOpenRepeatModal}>请设置</Button>
+                ) : (
+                  <Button onClick={this.handleOpenRepeatModal}>查看</Button>
+                )}
               </Form.Item>
               <Form.Item label="提醒">
                 <Button>请选择</Button>
@@ -379,48 +440,71 @@ class EventDetails extends React.Component<any, any> {
                     ))}
                   </div>
                 </div>
-                <div className="ic-event-details__images-action">
-                  <Icon
-                    type="minus-circle"
-                    className="ic-event-details__images-action-btn"
-                    onClick={this.handleRemoveImage}
-                  />
-                  <Icon type="plus-circle" className="ic-event-details__images-action-btn" />
-                  <input type="file" className="ic-event-details__file-input" onChange={this.handleFileInputChange} />
-                </div>
+                {hasModify && status === 'edit' && (
+                  <div className="ic-event-details__images-action">
+                    <Icon
+                      type="minus-circle"
+                      className="ic-event-details__images-action-btn"
+                      onClick={this.handleRemoveImage}
+                    />
+                    <Icon type="plus-circle" className="ic-event-details__images-action-btn" />
+                    <input type="file" className="ic-event-details__file-input" onChange={this.handleFileInputChange} />
+                  </div>
+                )}
               </Form.Item>
               <Form.Item label="选项" className="ic-event-details-item-bold" />
               <Form.Item label="重要" className="ic-event-details-label-right">
-                {getFieldDecorator('isImportant', {
-                  initialValue: option.isImportant,
-                  valuePropName: 'checked',
-                })(<Checkbox />)}
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('isImportant', {
+                    initialValue: option.isImportant,
+                    valuePropName: 'checked',
+                  })(<Checkbox />)
+                ) : (
+                  <span>{option.isImportant ? '是' : '否'}</span>
+                )}
               </Form.Item>
               <Form.Item label="评论" className="ic-event-details-label-right">
-                {getFieldDecorator('hasComment', {
-                  initialValue: option.hasComment,
-                })(<Checkbox />)}
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('hasComment', {
+                    initialValue: option.hasComment,
+                  })(<Checkbox />)
+                ) : (
+                  <span>{option.hasComment ? '是' : '否'}</span>
+                )}
               </Form.Item>
               <Form.Item label="报名" className="ic-event-details-label-right">
-                {getFieldDecorator('hasApply', {
-                  initialValue: option.hasApply,
-                  valuePropName: 'checked',
-                })(<Switch />)}
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('hasApply', {
+                    initialValue: option.hasApply,
+                    valuePropName: 'checked',
+                  })(<Switch />)
+                ) : (
+                  <span>{option.hasApply ? '是' : '否'}</span>
+                )}
               </Form.Item>
               <Form.Item label="限额" className="ic-event-details-label-right">
-                {getFieldDecorator('max', {
-                  initialValue: option.max,
-                })(<InputNumber />)}
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('max', {
+                    initialValue: option.max,
+                  })(<InputNumber />)
+                ) : (
+                  <span>{option.max}</span>
+                )}
               </Form.Item>
               <Form.Item label="金额" className="ic-event-details-label-right">
-                {getFieldDecorator('money', {
-                  initialValue: option.money,
-                })(<InputNumber />)}
+                {hasModify && status === 'edit' ? (
+                  getFieldDecorator('money', {
+                    initialValue: option.money,
+                  })(<InputNumber />)
+                ) : (
+                  <span>{option.money}</span>
+                )}
               </Form.Item>
             </div>
           </Form>
-          <EventComments comments={comments} />
-          {mode === 'edit' && <footer className="ic-event-details__footer">{this.renderEventFooter()}</footer>}
+          <EventComments comments={comments} onComment={this.handleComment} />
+
+          {hasModify && <footer className="ic-event-details__footer">{this.renderEventFooter()}</footer>}
 
           {/* 重复 Modal */}
           {this.renderRepeatModal()}

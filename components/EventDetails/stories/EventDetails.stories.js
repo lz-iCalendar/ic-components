@@ -59,10 +59,19 @@ class EventDetailsDemo extends React.Component {
     console.log('Save clicked!');
   };
 
+  handleComment = comment => {
+    console.log({ comment });
+  };
+
   render() {
     return (
       <div>
-        <EventDetails data={eventData} mode="edit" onRemove={this.handleRemove} onSave={this.handleSave}>
+        <EventDetails
+          data={eventData}
+          onRemove={this.handleRemove}
+          onSave={this.handleSave}
+          onComment={this.handleComment}
+        >
           default
         </EventDetails>
       </div>

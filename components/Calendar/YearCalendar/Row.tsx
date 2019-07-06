@@ -4,7 +4,7 @@ import MonthDayView from '../MonthDayView';
 export default class Row extends React.PureComponent<any, any> {
   state = {
     rowHeight: undefined,
-  }
+  };
 
   componentDidMount() {
     this.setState({ rowHeight: this.rowRef.current.offsetHeight });
@@ -46,6 +46,7 @@ export default class Row extends React.PureComponent<any, any> {
                   left: 0,
                   right: 6,
                 }}
+                onEventDetailsClick={this.props.onEventDetailsClick}
               />
             )}
           </div>

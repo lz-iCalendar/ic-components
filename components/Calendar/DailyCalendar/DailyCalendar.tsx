@@ -8,6 +8,7 @@ import ChildrenWithProps from '../../ChildrenWithProps';
 import DayTimeLine from '../DayTimeLine';
 import SingleDayView from '../SingleDayView';
 import MonthDayView from '../MonthDayView';
+import PropTypes from 'prop-types';
 
 function allDayEventsFilter(event) {
   return isTotalDayEvent(event);
@@ -19,18 +20,22 @@ function notAllDayEventsFilter(event) {
 }
 
 export default class DailyCalendar extends React.PureComponent<any, any> {
+  static propTypes = {
+    onEventDetailsClick: PropTypes.func,
+  };
+
   static defaultProps = {
     activeDate: new Date(),
   };
 
   state = {
     timeLineRefreshKey: false,
-  }
+  };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { events, startDate, endDate } = this.props;
     if (events !== nextProps.events || startDate !== nextProps.startDate || endDate !== nextProps.endDate) {
-      this.setState(({ timeLineRefreshKey}) => ({ timeLineRefreshKey: !timeLineRefreshKey }));
+      this.setState(({ timeLineRefreshKey }) => ({ timeLineRefreshKey: !timeLineRefreshKey }));
     }
   }
 
@@ -105,6 +110,7 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
               isFirstDayOfSection={this.isFirstDayOfSection}
               getDaysToLastDayOfSection={this.getDaysToLastDayOfSection}
               style={{ height: 'auto', width: singleDayWidth }}
+              onEventDetailsClick={this.props.onEventDetailsClick}
             />
           </div>
         ))}
@@ -125,12 +131,12 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
             eventsFilter={notAllDayEventsFilter}
             date={date}
             style={{ width: singleDayWidth }}
+            onEventDetailsClick={this.props.onEventDetailsClick}
           />
         ))}
       </ChildrenWithProps>
     );
   });
-
 
   render() {
     const { events, startDate, endDate, activeDate, timeLineRange } = this.props;
