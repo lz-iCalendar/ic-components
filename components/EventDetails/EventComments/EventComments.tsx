@@ -13,6 +13,7 @@ class EventComments extends React.Component<any, any> {
      * 默认：-
      */
     comments: PropTypes.array.isRequired,
+
     /**
      * 点击评论时的回调
      * 默认：-
@@ -32,7 +33,11 @@ class EventComments extends React.Component<any, any> {
   }
 
   handleComment = () => {
-    this.props.onComment(this.state.value);
+    this.props.onComment(this.state.value, this.handleAflterComment);
+  };
+
+  handleAflterComment = isSuccess => {
+    isSuccess && this.setState({ value: '' });
   };
 
   handleChange = e => {
@@ -46,10 +51,10 @@ class EventComments extends React.Component<any, any> {
       <div className="ic-event-comments">
         <div className="ic-event-comments__action">
           <h2>评论</h2>
-          <span>
+          <a href="#ic-event-comments__text-area">
             <Icon type="plus-circle" className="ic-event-details__images-action-btn" />
             添加评论
-          </span>
+          </a>
         </div>
         <div className="ic-event-comments__content">
           {comments.map(commentsItem => (
@@ -62,7 +67,7 @@ class EventComments extends React.Component<any, any> {
             </div>
           ))}
         </div>
-        <div className="ic-event-comments__input-wrapper">
+        <div className="ic-event-comments__input-wrapper" id="ic-event-comments__text-area">
           <Input.TextArea
             placeholder="请输入评论"
             className="ic-event-comments__input"

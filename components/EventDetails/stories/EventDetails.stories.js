@@ -26,7 +26,36 @@ const eventData = {
     { label: '待定', type: 'undetermined', count: 2 }, //  待定的
   ],
   calendars: [{ calendarId: 1, name: '日历1' }, { calendarId: 2, name: '日历2' }, { calendarId: 3, name: '日历3' }], // 事件所属日历
-  repeat: null, // 重复（待定）
+  repeatData: {
+    timeZone: '+8',
+    // day
+    day: 1,
+    dayContinue: {
+      type: 'always', // 持续的类型：'always' 永远 | 'count' 共 | 'until' 直到
+      value: 5, // type === 'always' 时，value 可无；type === 'count' 时，value 表示持续的次数； type === 'until' 时，value 表示持续到的时间
+    },
+    // week
+    week: 1,
+    weekDays: [0, 1],
+    weekContinue: {
+      type: 'always', // 持续的类型：'always' 永远 | 'count' 共 | 'until' 直到
+      value: 5, // type === 'always' 时，value 可无；type === 'count' 时，value 表示持续的次数； type === 'until' 时，value 表示持续到的时间
+    },
+    // month
+    month: 1,
+    monthPosition: 1, // 在
+    monthContinue: {
+      type: 'always', // 持续的类型：'always' 永远 | 'count' 共 | 'until' 直到
+      value: 5, // type === 'always' 时，value 可无；type === 'count' 时，value 表示持续的次数； type === 'until' 时，value 表示持续到的时间
+    },
+    // year
+    year: 1,
+    yearPosition: 1, // 在
+    yearContinue: {
+      type: 'always', // 持续的类型：'always' 永远 | 'count' 共 | 'until' 直到
+      value: 5, // type === 'always' 时，value 可无；type === 'count' 时，value 表示持续的次数； type === 'until' 时，value 表示持续到的时间
+    },
+  },
   reminder: null, // 提醒（待定）
   images: [_1Jpg, _2Jpg],
   option: {
@@ -51,6 +80,9 @@ const eventData = {
 };
 
 class EventDetailsDemo extends React.Component {
+  state = {
+    eventData: { ...eventData },
+  };
   handleRemove = () => {
     console.log('Remove clicked!');
   };
@@ -59,8 +91,20 @@ class EventDetailsDemo extends React.Component {
     console.log('Save clicked!');
   };
 
-  handleComment = comment => {
-    console.log({ comment });
+  handleComment = (comment, callback) => {
+    eventData.comments.push({
+      commentId: moment().unix(),
+      userInfo: {
+        name: 'Karl',
+        avatarUrl:
+          'http://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1f178a82b9014a90d146a5b5ae773912b31beeba.jpg',
+      },
+      comment,
+    });
+    this.setState({
+      eventData: { ...eventData },
+    });
+    callback(true);
   };
 
   render() {
@@ -71,9 +115,7 @@ class EventDetailsDemo extends React.Component {
           onRemove={this.handleRemove}
           onSave={this.handleSave}
           onComment={this.handleComment}
-        >
-          default
-        </EventDetails>
+        />
       </div>
     );
   }

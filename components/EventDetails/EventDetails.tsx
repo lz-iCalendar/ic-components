@@ -93,7 +93,7 @@ class EventDetails extends React.Component<any, any> {
     onAddImage: PropTypes.func,
 
     /**
-     * 点击评论按钮的回调函数
+     * 点击评论按钮的回调函数：(comment, callback) => {}；comment 表示评论内容；callback 在评论数据保存到后端之后，需要进行调用，当传入 callback 的数据为 true 时，表示保存成功，TextArea 内的内容会变为空，否则，表示保存失败，TextArea 内的内容不会发生改变
      * 默认：noop
      */
     onComment: PropTypes.func,
@@ -108,11 +108,13 @@ class EventDetails extends React.Component<any, any> {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    console.log({ prevState });
     if ('data' in nextProps) {
       const data = cloneDeep(nextProps.data);
       const defaultAttendeesValue = data.attendees.map(item => item.userId);
       const defaultCalendarsValue = data.calendars.map(item => item.calendarId);
-      return { ...prevState, title: data.title, data, defaultAttendeesValue, defaultCalendarsValue };
+      const title = 'title' in prevState ? prevState.title : data.title;
+      return { ...prevState, title, data, defaultAttendeesValue, defaultCalendarsValue };
     }
     return null;
   }
@@ -131,6 +133,7 @@ class EventDetails extends React.Component<any, any> {
   };
 
   handleTitleChange = e => {
+    console.log({ title: e.target.value });
     this.setState({ title: e.target.value });
   };
 
@@ -207,7 +210,8 @@ class EventDetails extends React.Component<any, any> {
   };
 
   renderRepeatModal = () => {
-    const { repeatVisible } = this.state;
+    const { repeatVisible, status } = this.state;
+    const { repeatData } = this.props.data;
     return (
       <Modal
         visible={repeatVisible}
@@ -216,7 +220,7 @@ class EventDetails extends React.Component<any, any> {
         footer={null}
         className="ic-event-details__repeat-modal"
       >
-        <EventRepeat />
+        <EventRepeat status={status} defaultValues={repeatData} />
       </Modal>
     );
   };
@@ -273,13 +277,9 @@ class EventDetails extends React.Component<any, any> {
     });
   };
 
-  handleComment = comment => {
-    this.props.onComment(comment);
-  };
-
   render() {
     const { data, defaultAttendeesValue, defaultCalendarsValue, status } = this.state;
-    const { form, hasModify } = this.props;
+    const { form, hasModify, onComment } = this.props;
     const {
       isAllDay,
       startTime,
@@ -502,7 +502,9 @@ class EventDetails extends React.Component<any, any> {
               </Form.Item>
             </div>
           </Form>
-          <EventComments comments={comments} onComment={this.handleComment} />
+
+          {/* 评论 */}
+          <EventComments comments={comments} onComment={onComment} />
 
           {hasModify && <footer className="ic-event-details__footer">{this.renderEventFooter()}</footer>}
 

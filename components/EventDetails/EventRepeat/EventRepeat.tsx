@@ -2,12 +2,65 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
-import { Tabs, Form, InputNumber, Button } from 'antd';
+import { Tabs, Form, InputNumber, Button, Select, DatePicker } from 'antd';
 import './EventRepeat.less';
+import moment from 'moment';
 
 const { TabPane } = Tabs;
 
 const noop = () => {};
+
+const { Option } = Select;
+
+const continueList = [
+  {
+    label: '永远',
+    value: 'always',
+  },
+  {
+    label: '共',
+    value: 'count',
+  },
+  {
+    label: '直到',
+    value: 'until',
+  },
+];
+
+const weekDayList = [
+  {
+    label: '周一',
+    value: 1,
+  },
+  {
+    label: '周二',
+    value: 2,
+  },
+  {
+    label: '周三',
+    value: 3,
+  },
+  {
+    label: '周四',
+    value: 4,
+  },
+  {
+    label: '周五',
+    value: 5,
+  },
+  {
+    label: '周六',
+    value: 6,
+  },
+  {
+    label: '周日',
+    value: 0,
+  },
+];
+
+const getMomentValue = value => {
+  return value instanceof moment ? value : moment();
+};
 
 /**
  * 事件重复
@@ -23,19 +76,31 @@ class EventRepeat extends React.PureComponent<any, any> {
     //   timeZone: '+8',
     //   // day
     //   day: 1,
-    //   dayContinue: 5,
+    //   dayContinue: {
+    //     type: 'always', // 持续的类型：'always' 永远 | 'count' 共 | 'until' 直到
+    //     value: 5, // type === 'always' 时，value 可无；type === 'count' 时，value 表示持续的次数； type === 'until' 时，value 表示持续到的时间
+    //   },
     //   // week
     //   week: 1,
     //   weekDays: [0, 1],
-    //   weekContinue: 5,
+    //   weekContinue: {
+    //     type: 'always', // 持续的类型：'always' 永远 | 'count' 共 | 'until' 直到
+    //     value: 5, // type === 'always' 时，value 可无；type === 'count' 时，value 表示持续的次数； type === 'until' 时，value 表示持续到的时间
+    //   },
     //   // month
     //   month: 1,
-    //   monthPosition: '上海',
-    //   monthContinue: 5,
+    //   monthPosition: 1, // 在
+    //   monthContinue: {
+    //     type: 'always', // 持续的类型：'always' 永远 | 'count' 共 | 'until' 直到
+    //     value: 5, // type === 'always' 时，value 可无；type === 'count' 时，value 表示持续的次数； type === 'until' 时，value 表示持续到的时间
+    //   },
     //   // year
     //   year: 1,
-    //   yearPosition: '上海',
-    //   yearContinue: 5
+    //   yearPosition: 1, // 在
+    //   yearContinue: {
+    //     type: 'always', // 持续的类型：'always' 永远 | 'count' 共 | 'until' 直到
+    //     value: 5, // type === 'always' 时，value 可无；type === 'count' 时，value 表示持续的次数； type === 'until' 时，value 表示持续到的时间
+    //   }
     // }
 
     /**
@@ -43,6 +108,8 @@ class EventRepeat extends React.PureComponent<any, any> {
      * 默认：noop
      */
     onSave: PropTypes.func,
+
+    status: PropTypes.string,
   };
 
   static defaultProps = {
@@ -60,74 +127,167 @@ class EventRepeat extends React.PureComponent<any, any> {
     });
   };
 
+  renderDayOther = () => {
+    const { defaultValues, form } = this.props;
+    const { getFieldValue, getFieldDecorator } = form;
+    const type = getFieldValue('dayContinueType');
+
+    if (type === 'always') {
+      return null;
+    } else if (type === 'count') {
+      return (
+        <Form.Item label="dayValue" key="dayContinueValue-1" className="ic-event-repeat__no-label">
+          {getFieldDecorator('dayContinueValue', {
+            initialValue: defaultValues.dayContinue.value,
+          })(<InputNumber />)}
+          次
+        </Form.Item>
+      );
+    } else if (type === 'until') {
+      return (
+        <Form.Item label="dayValue" key="dayContinueValue-2" className="ic-event-repeat__no-label">
+          {getFieldDecorator('dayContinueValue', {
+            initialValue: getMomentValue(defaultValues.dayContinue.value),
+          })(<DatePicker />)}
+        </Form.Item>
+      );
+    }
+  };
+
   render() {
-    const { form, defaultValues } = this.props;
+    const { form, defaultValues, status } = this.props;
     const { getFieldDecorator } = form;
     return (
       <div className="ic-event-repeat">
         <Form labelCol={{ span: 6 }} wrapperCol={{ span: 14 }}>
           <Tabs defaultActiveKey="1" animated={false}>
+            {/* 每日 */}
             <TabPane tab="每日" key="1">
               <Form.Item label="每">
-                {getFieldDecorator('day', {
-                  initialValue: defaultValues.day,
-                })(<InputNumber />)}
+                {status === 'edit' ? (
+                  getFieldDecorator('day', {
+                    initialValue: defaultValues.day,
+                  })(<InputNumber />)
+                ) : (
+                  <span>{defaultValues.day}</span>
+                )}
+                日
               </Form.Item>
               <Form.Item label="持续">
-                {getFieldDecorator('dayContinue', {
-                  initialValue: defaultValues.dayContinue,
-                })(<InputNumber />)}
+                {status === 'edit' ? (
+                  getFieldDecorator('dayContinueType', {
+                    initialValue: defaultValues.dayContinue.type,
+                  })(
+                    <Select>
+                      {continueList.map(item => (
+                        <Option key={item.value} value={item.value}>
+                          {item.label}
+                        </Option>
+                      ))}
+                    </Select>
+                  )
+                ) : (
+                  <span>{defaultValues.day ? defaultValues.day : '/'}</span>
+                )}
               </Form.Item>
+              {this.renderDayOther()}
             </TabPane>
+            {/* 每周 */}
             <TabPane tab="每周" key="2">
               <Form.Item label="每">
-                {getFieldDecorator('week', {
-                  initialValue: defaultValues.week,
-                })(<InputNumber />)}
+                {status === 'edit' ? (
+                  getFieldDecorator('week', {
+                    initialValue: defaultValues.week,
+                  })(<InputNumber />)
+                ) : (
+                  <span>{defaultValues.day}</span>
+                )}
               </Form.Item>
               <Form.Item label="在">
-                {getFieldDecorator('weekDays', {
-                  initialValue: defaultValues.weekDays,
-                })(<InputNumber />)}
+                {status === 'edit' ? (
+                  getFieldDecorator('weekDays', {
+                    initialValue: defaultValues.weekDays,
+                  })(
+                    <Select mode="multiple">
+                      {weekDayList.map(item => (
+                        <Option key={item.value} value={item.value}>
+                          {item.label}
+                        </Option>
+                      ))}
+                    </Select>
+                  )
+                ) : (
+                  <span>{defaultValues.day}</span>
+                )}
               </Form.Item>
               <Form.Item label="持续">
-                {getFieldDecorator('weekContinue', {
-                  initialValue: defaultValues.weekContinue,
-                })(<InputNumber />)}
+                {status === 'edit' ? (
+                  getFieldDecorator('weekContinue', {
+                    initialValue: defaultValues.weekContinue.type,
+                  })(<InputNumber />)
+                ) : (
+                  <span>{defaultValues.day}</span>
+                )}
               </Form.Item>
             </TabPane>
+            {/* 每月 */}
             <TabPane tab="每月" key="3">
               <Form.Item label="每">
-                {getFieldDecorator('month', {
-                  initialValue: defaultValues.month,
-                })(<InputNumber />)}
+                {status === 'edit' ? (
+                  getFieldDecorator('month', {
+                    initialValue: defaultValues.month,
+                  })(<InputNumber />)
+                ) : (
+                  <span>{defaultValues.day}</span>
+                )}
               </Form.Item>
               <Form.Item label="在">
-                {getFieldDecorator('monthPosition', {
-                  initialValue: defaultValues.monthPosition,
-                })(<InputNumber />)}
+                {status === 'edit' ? (
+                  getFieldDecorator('monthPosition', {
+                    initialValue: defaultValues.monthPosition,
+                  })(<InputNumber />)
+                ) : (
+                  <span>{defaultValues.day}</span>
+                )}
               </Form.Item>
               <Form.Item label="持续">
-                {getFieldDecorator('monthContinue', {
-                  initialValue: defaultValues.monthContinue,
-                })(<InputNumber />)}
+                {status === 'edit' ? (
+                  getFieldDecorator('monthContinue', {
+                    initialValue: defaultValues.monthContinue.type,
+                  })(<InputNumber />)
+                ) : (
+                  <span>{defaultValues.day}</span>
+                )}
               </Form.Item>
             </TabPane>
+            {/* 每年 */}
             <TabPane tab="每年" key="4">
               <Form.Item label="每">
-                {getFieldDecorator('year', {
-                  initialValue: defaultValues.year,
-                })(<InputNumber />)}
+                {status === 'edit' ? (
+                  getFieldDecorator('year', {
+                    initialValue: defaultValues.year,
+                  })(<InputNumber />)
+                ) : (
+                  <span>{defaultValues.day}</span>
+                )}
               </Form.Item>
               <Form.Item label="在">
-                {getFieldDecorator('yearPosition', {
-                  initialValue: defaultValues.yearPosition,
-                })(<InputNumber />)}
+                {status === 'edit' ? (
+                  getFieldDecorator('yearPosition', {
+                    initialValue: defaultValues.yearPosition,
+                  })(<InputNumber />)
+                ) : (
+                  <span>{defaultValues.day}</span>
+                )}
               </Form.Item>
               <Form.Item label="持续">
-                {getFieldDecorator('yearPosition', {
-                  initialValue: defaultValues.yearContinue,
-                })(<InputNumber />)}
+                {status === 'edit' ? (
+                  getFieldDecorator('yearPosition', {
+                    initialValue: defaultValues.yearContinue.type,
+                  })(<InputNumber />)
+                ) : (
+                  <span>{defaultValues.day}</span>
+                )}
               </Form.Item>
             </TabPane>
           </Tabs>

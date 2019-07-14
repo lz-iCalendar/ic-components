@@ -16,13 +16,12 @@ class Wrap extends React.Component {
   handleEventDetailsClick = eventData => {
     console.log({ eventData });
   };
+
   render() {
     const { events } = this.state;
-    console.log({ events });
     return (
       <div>
         <input onChange={e => this.setState({ eventKeyword: e.target.value })} />
-
         <Calendar
           eventKeyword={this.state.eventKeyword}
           events={events}
