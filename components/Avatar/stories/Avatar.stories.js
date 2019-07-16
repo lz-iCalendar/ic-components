@@ -27,6 +27,8 @@ class AvatarDemo extends React.Component {
   }
 }
 
+//  
+
 storiesOf('Avatar 头像', module).add(
   'Avatar',
   () => (

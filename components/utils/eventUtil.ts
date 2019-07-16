@@ -37,9 +37,8 @@ export const normalizeEvents = memoizeOne(events =>
 export const allocateDailyEvents = memoizeOne(events => {
   const validEvents = normalizeEvents(events);
   const eventsMap = new Map();
-
-  const allocateEvent = event => {
-    const { startTime, endTime } = event;
+  const allocate = event => {
+    const { startTime } = event;
     const eventKey = monthDayHasher(startTime);
     const eventsOfDate = eventsMap.get(eventKey);
     if (!eventsOfDate) {
@@ -47,21 +46,48 @@ export const allocateDailyEvents = memoizeOne(events => {
     } else if (eventsOfDate.every(({ occurId }) => event.occurId !== occurId)) {
       eventsOfDate.push(event);
     }
+  }
 
-    // 开始日期不等于结束日期时
-    let calcStartTime = startTime;
+  const allocateEvent = event => {
+    allocate(event)
+
+    const { startTime, endTime } = event;
+    let calcStartTime = new Date(startTime);
     while (calcStartTime.getDate() !== endTime.getDate()) {
       calcStartTime = new Date(calcStartTime);
       calcStartTime.setDate(calcStartTime.getDate() + 1);
       calcStartTime.setHours(0, 0, 0, 0);
-      allocateEvent({ ...event, startTime: calcStartTime, alreadyBegun: true });
+      allocate({ ...event, startTime: calcStartTime, alreadyBegun: true });
     }
   };
-
   validEvents.forEach(allocateEvent);
 
   return eventsMap;
 });
+//   const allocateEvent = event => {
+//     const { startTime, endTime } = event;
+//     const eventKey = monthDayHasher(startTime);
+//     const eventsOfDate = eventsMap.get(eventKey);
+//     if (!eventsOfDate) {
+//       eventsMap.set(eventKey, [event]);
+//     } else if (eventsOfDate.every(({ occurId }) => event.occurId !== occurId)) {
+//       eventsOfDate.push(event);
+//     }
+
+//     // 开始日期不等于结束日期时
+//     let calcStartTime = startTime;
+//     while (calcStartTime.getDate() !== endTime.getDate()) {
+//       calcStartTime = new Date(calcStartTime);
+//       calcStartTime.setDate(calcStartTime.getDate() + 1);
+//       calcStartTime.setHours(0, 0, 0, 0);
+//       allocateEvent({ ...event, startTime: calcStartTime, alreadyBegun: true });
+//     }
+//   };
+
+//   validEvents.forEach(allocateEvent);
+
+//   return eventsMap;
+// });
 
 export const getEventDuration = (event, type) => {
   if (!isValidEvent(event)) {
@@ -134,3 +160,4 @@ export const getEventsTimeRange = memoizeOne((events: object[], defaultTimeRange
 
   return [start, end];
 });
+ 
