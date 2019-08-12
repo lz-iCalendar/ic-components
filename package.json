@@ -1,6 +1,6 @@
 {
   "name": "ic-components",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "main": "./lib/index.js",
   "dependencies": {
     "@ant-design/icons-react": "^1.1.5",
