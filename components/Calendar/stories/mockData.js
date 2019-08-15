@@ -1,11 +1,11 @@
 import moment from 'moment';
 
 const toDayStart = moment()
-  .startOf('day')
-  .format('YYYY-MM-DD HH:mm:ss');
+  .startOf('day');
+ // .format('YYYY-MM-DD HH:mm:ss');
 const toDayEnd = moment()
-  .endOf('day')
-  .format('YYYY-MM-DD HH:mm:ss');
+  .endOf('day');
+ // .format('YYYY-MM-DD HH:mm:ss');
 
 const tomorrowStart = moment()
   .add(1, 'day')
@@ -23,8 +23,8 @@ export const mockEvents = [
     event_title: '事件1',
     event_short: '海市黄埔区茂名南路58号上海花园酒店',
     event_desc: '事件1：一楼大堂右侧',
-    occur_begin: '2019-04-03T00:00:00.000Z', // 事件发生时间
-    occur_end: '2019-04-25T23:59:59.999Z', // 事件
+    occur_begin: '2019-08-15T00:00:00.000Z', // 事件发生时间
+    occur_end: '2019-08-15T23:59:59.999Z', // 事件
     event_hostheadurl: 'http://placekitten.com/30/30',
     event_image: 'http://placekitten.com/200/140',
     event_time: '00:00',
