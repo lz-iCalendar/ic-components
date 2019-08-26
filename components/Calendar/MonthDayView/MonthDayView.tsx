@@ -2,10 +2,10 @@ import React from 'react';
 import classnames from 'classnames';
 import { monthDayHasher, isSameMonthDay, isFirstDateOfWeek, getDaysToLastDayOfWeek } from '../../utils/dateUtil';
 import { getEventDuration, isTotalDayEvent } from '../../utils/eventUtil';
-import Popover from '../../Popover';
 import EventDetails from '../EventDetails';
 import '../EventDetails/style/index.less';
 import PropTypes from 'prop-types';
+import { Popover } from 'antd';
 
 const dayElementPadding = {
   top: 1,
@@ -114,7 +114,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
               const eventElementStyle = eventElementWidth ? { width: eventElementWidth } : {};
               return (
                 <Popover
-                  trigger={['click']}
+                  // trigger={['click']}
                   getPopupContainer={() => document.querySelector('.ic-month-day-view')}
                   content={<EventDetails eventData={event.original} onEventDetailsClick={onEventDetailsClick} />}
                 >

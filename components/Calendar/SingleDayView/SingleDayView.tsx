@@ -3,9 +3,9 @@ import memoizeOne from 'memoize-one';
 import { getHHmmDurationByMinute, getStepDurationByMinute } from '../../utils/dateUtil';
 import { normalizeEvents } from '../../utils/eventUtil';
 import PropTypes from 'prop-types';
-import Popover from '../../Popover';
 import EventDetails from '../EventDetails';
 import '../EventDetails/style/index.less';
+import { Popover } from 'antd';
 
 export default class SingleDayView extends React.PureComponent<any, any> {
   static propTypes = {
@@ -88,9 +88,10 @@ export default class SingleDayView extends React.PureComponent<any, any> {
             } = event;
             return (
               <Popover
-                trigger={['click']}
+                // trigger='click'
                 getPopupContainer={() => document.querySelector('.ic-month-day-view')}
                 content={<EventDetails eventData={event.original} onEventDetailsClick={onEventDetailsClick} />}
+                className='ic-single-day-view__popover'
               >
                 <div
                   data-event_time={event_time}

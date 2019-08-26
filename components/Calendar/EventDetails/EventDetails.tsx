@@ -48,7 +48,7 @@ export default class EventDetails extends React.PureComponent<any, any> {
         <div className="ic-event-details-modal__header">
           <span style={{ background: color }} className="ic-event-details-modal__header-bar" />
           <h1 className="ic-event-details-modal__title">{title}</h1>
-          <Icon type="close" className="ic-event-details-modal__close" size={14} />
+          {/* <Icon type="close" className="ic-event-details-modal__close" size={14} /> */}
         </div>
         <div className="ic-event-details-modal__content">
           <div className="ic-event-details-modal__content-item">
