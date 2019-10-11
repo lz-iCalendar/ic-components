@@ -541,12 +541,12 @@ export default class Calendar extends React.PureComponent<any, any> {
         )}
         {activeTab === 'multiWeek' && (
           <ViewContainer onPan={this.handlePan}>
-            <MonthlyCalendar grayDayOfOtherMonths={false} weeks={multiWeekDatesGroup} date={date} events={events} />
+            <MonthlyCalendar grayDayOfOtherMonths={false} onEventDetailsClick={onEventDetailsClick} weeks={multiWeekDatesGroup} date={date} events={events} />
           </ViewContainer>
         )}
         {activeTab === 'month' && (
           <ViewContainer onPan={this.handlePan}>
-            <MonthlyCalendar date={date} events={events} />
+            <MonthlyCalendar date={date} events={events} onEventDetailsClick={onEventDetailsClick}/>
           </ViewContainer>
         )}
         {activeTab === 'year' && (
