@@ -39,6 +39,7 @@ export default class MonthlyCalendarBody extends React.PureComponent<any, any> {
       grayDayOfOtherMonths,
       date: propDate,
       dayViewParams,
+      onEventDetailsClick,
       dayViewComponent: DayViewComponent,
       weeks: customWeeks,
     } = this.props;
@@ -60,6 +61,7 @@ export default class MonthlyCalendarBody extends React.PureComponent<any, any> {
                 calendarElement={calendarElement}
                 dayElementWidth={dayElementWidth}
                 grayDayOfOtherMonths={grayDayOfOtherMonths}
+                onEventDetailsClick={onEventDetailsClick}
               />
             ))}
           </div>
