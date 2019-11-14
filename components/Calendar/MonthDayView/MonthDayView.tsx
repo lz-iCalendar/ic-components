@@ -5,7 +5,7 @@ import { getEventDuration, isTotalDayEvent } from '../../utils/eventUtil';
 import EventDetails from '../EventDetails';
 import '../EventDetails/style/index.less';
 import PropTypes from 'prop-types';
-import { Popover } from 'antd';
+import { Popover,Avatar } from 'antd';
 
 const dayElementPadding = {
   top: 1,
@@ -125,7 +125,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
                     })}
                     style={eventElementStyle}
                   >
-                    {hostAvatarVisible && <img src={event_hostheadurl} />}
+                    {/* {!hostAvatarVisible ? <img src={event_hostheadurl} />:<Avatar icon="user" size={22} />}  */}
                     <div
                       className="ic-month-day-view__event-bar"
                       style={{ background: category_color }}

@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../Icon';
 import moment from 'moment';
-import Avatar from '../../Avatar';
+// import Avatar from '../../Avatar';
+import {Avatar} from 'antd';
 import '../../style/reset.less';
 
 /**
@@ -61,8 +62,10 @@ export default class EventDetails extends React.PureComponent<any, any> {
               <p className="ic-event-details-modal__content-position">{position}</p>
             </div>
             <div className="ic-event-details-modal__content-item-right">
-              <Avatar src={avatarUrl} size={46} />
-              <span style={{ color }}>{111}</span>
+            {avatarUrl? <Avatar src={avatarUrl} size={32} />
+             : <Avatar icon="user" size={32} />} 
+
+              {/* <span style={{ color }}>{111}</span> */}
             </div>
           </div>
           <div className="ic-event-details-modal__content-desc">
