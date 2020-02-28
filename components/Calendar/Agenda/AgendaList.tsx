@@ -52,6 +52,7 @@ export default function AgendaList(props) {
                   event_endtime,
                   event_title,
                   event_short,
+                  event_location,
                   event_desc,
                   event_attach,
                   event_image,
@@ -65,7 +66,7 @@ export default function AgendaList(props) {
                   </div>
                   <div className="ic-agenda-list__event-title">{event_title}</div>
                   <div className="ic-agenda-list__event-content">
-                    <div className="ic-agenda-list__event-short">{event_short}</div>
+                    <div className="ic-agenda-list__event-short">{event_location}</div>
                     {detailVisible && <div className="ic-agenda-list__event-detail">{event_desc}</div>}
                   </div>
                   <div className="ic-agenda-list__event-ai-wrap">
