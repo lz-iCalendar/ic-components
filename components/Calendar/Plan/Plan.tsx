@@ -2,7 +2,11 @@ import React from 'react';
 import memoizeOne from 'memoize-one';
 import classnames from 'classnames';
 import { getWeekDayName, monthDayHasher } from '../../utils/dateUtil';
-import { allocateDailyEvents, isTotalDayEvent, getEventsTimeRange } from '../../utils/eventUtil';
+import {
+  allocateDailyEvents,
+  isTotalDayEvent,
+  getEventsTimeRange,
+} from '../../utils/eventUtil';
 import ChildrenWithProps from '../../ChildrenWithProps';
 import DayTimeLine from '../DayTimeLine';
 import SingleDayView from '../SingleDayView';
@@ -36,6 +40,9 @@ export default class Plan extends React.PureComponent<any, any> {
     timeLineRange: PropTypes.arrayOf(PropTypes.string),
 
     onEventDetailsClick: PropTypes.func,
+    onCurrentEventClick: PropTypes.func,
+    onFutureEventClick: PropTypes.func,
+    onAllEventClick: PropTypes.func,
   };
 
   state = {
@@ -45,8 +52,13 @@ export default class Plan extends React.PureComponent<any, any> {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { events, selectedDate } = this.props;
-    if (events !== nextProps.events || selectedDate !== nextProps.selectedDate) {
-      this.setState(({ timeLineRefreshKey }) => ({ timeLineRefreshKey: !timeLineRefreshKey }));
+    if (
+      events !== nextProps.events ||
+      selectedDate !== nextProps.selectedDate
+    ) {
+      this.setState(({ timeLineRefreshKey }) => ({
+        timeLineRefreshKey: !timeLineRefreshKey,
+      }));
     }
   }
 
@@ -81,11 +93,20 @@ export default class Plan extends React.PureComponent<any, any> {
   getEventRowRenderer = memoizeOne((date, events) => containerWidth => {
     const eventsWithEventsMap = this.getEventsMap(events);
     const width = containerWidth / eventsWithEventsMap.length;
-
+    const {
+      onEventDetailsClick,
+      onCurrentEventClick,
+      onFutureEventClick,
+      onAllEventClick,
+    } = this.props;
     return (
       <div className="ic-daily-calendar__top-right">
         {eventsWithEventsMap.map(event => (
-          <div key={event.type} className="ic-daily-calendar__all-day-event-container" style={{ width }}>
+          <div
+            key={event.type}
+            className="ic-daily-calendar__all-day-event-container"
+            style={{ width }}
+          >
             <MonthDayView
               params={event.eventsMap}
               eventsFilter={allDayEventsFilter}
@@ -97,7 +118,10 @@ export default class Plan extends React.PureComponent<any, any> {
               isFirstDayOfSection={this.isFirstDayOfSection}
               getDaysToLastDayOfSection={this.getDaysToLastDayOfSection}
               style={{ height: 'auto', width }}
-              onEventDetailsClick={this.props.onEventDetailsClick}
+              onEventDetailsClick={onEventDetailsClick}
+              onCurrentEventClick={onCurrentEventClick}
+              onFutureEventClick={onFutureEventClick}
+              onAllEventClick={onAllEventClick}
             />
           </div>
         ))}
@@ -108,6 +132,12 @@ export default class Plan extends React.PureComponent<any, any> {
   getMainViewRenderer = memoizeOne((date, events) => containerWidth => {
     const eventsWithEventsMap = this.getEventsMap(events);
     const width = containerWidth / eventsWithEventsMap.length;
+    const {
+      onEventDetailsClick,
+      onCurrentEventClick,
+      onFutureEventClick,
+      onAllEventClick,
+    } = this.props;
     return (
       <ChildrenWithProps className="ic-plan__single-classify-wrap">
         {eventsWithEventsMap.map(event => (
@@ -117,7 +147,10 @@ export default class Plan extends React.PureComponent<any, any> {
             eventsFilter={notAllDayEventsFilter}
             date={date}
             style={{ width }}
-            onEventDetailsClick={this.props.onEventDetailsClick}
+            onEventDetailsClick={onEventDetailsClick}
+            onCurrentEventClick={onCurrentEventClick}
+            onFutureEventClick={onFutureEventClick}
+            onAllEventClick={onAllEventClick}
           />
         ))}
       </ChildrenWithProps>
@@ -129,7 +162,9 @@ export default class Plan extends React.PureComponent<any, any> {
     events
       .map(event => event.original)
       .forEach(event => {
-        const index = retEvents.findIndex(item => item.type === event.category_name);
+        const index = retEvents.findIndex(
+          item => item.type === event.category_name
+        );
         if (index !== -1) {
           retEvents[index].events.push(event);
         } else {
@@ -147,15 +182,27 @@ export default class Plan extends React.PureComponent<any, any> {
   });
 
   render() {
-    const { events: propEvents, selectedDate, timeLineRange, height } = this.props;
+    const {
+      events: propEvents,
+      selectedDate,
+      timeLineRange,
+      height,
+    } = this.props;
     const { timeLineRefreshKey } = this.state;
     const events = this.getEvents(propEvents);
     const [startHHmm, endHHmm] = getEventsTimeRange(propEvents, timeLineRange);
 
     return (
       <div className="ic-daily-calendar">
-        <div className={classnames('ic-daily-calendar__day-title', 'ic-plan__title-row')}>
-          <div className="ic-daily-calendar__day-title-week">{getWeekDayName(selectedDate)}</div>
+        <div
+          className={classnames(
+            'ic-daily-calendar__day-title',
+            'ic-plan__title-row'
+          )}
+        >
+          <div className="ic-daily-calendar__day-title-week">
+            {getWeekDayName(selectedDate)}
+          </div>
           <div className="ic-daily-calendar__day-title-date">{`${selectedDate.getMonth() +
             1}月${selectedDate.getDate()}日`}</div>
         </div>

@@ -1,6 +1,10 @@
 import React from 'react';
 import classnames from 'classnames';
-import { getWeekDayIdsByOffset, getDatesOfYearCalendar, getLengthOfMonth } from '../../utils/dateUtil';
+import {
+  getWeekDayIdsByOffset,
+  getDatesOfYearCalendar,
+  getLengthOfMonth,
+} from '../../utils/dateUtil';
 import { allocateDailyEvents } from '../../utils/eventUtil';
 import Row from './Row';
 
@@ -14,7 +18,14 @@ const weekDayIdLabelMap = {
   5: '五',
   6: '六',
 };
-const headerWeeks = [...weekDayIds, ...weekDayIds, ...weekDayIds, ...weekDayIds, ...weekDayIds, ...weekDayIds];
+const headerWeeks = [
+  ...weekDayIds,
+  ...weekDayIds,
+  ...weekDayIds,
+  ...weekDayIds,
+  ...weekDayIds,
+  ...weekDayIds,
+];
 
 export default class YearCalendar extends React.PureComponent<any, any> {
   state = {
@@ -46,18 +57,38 @@ export default class YearCalendar extends React.PureComponent<any, any> {
   render() {
     const { singleDayWidth } = this.state;
     const { date, events } = this.props;
+    const {
+      onEventDetailsClick,
+      onCurrentEventClick,
+      onFutureEventClick,
+      onAllEventClick,
+    } = this.props;
     const year = date.getFullYear();
     const [dates, maxDaysOfMonth] = getDatesOfYearCalendar(year);
     const eventsMap = allocateDailyEvents(events);
 
     return (
       <div className="ic-year-calendar">
-        <div ref={this.headerRef} className={classnames('ic-year-calendar__row', 'ic-year-calendar__header')}>
-          <div ref={this.headerTitleRef} className="ic-year-calendar__row-title">
+        <div
+          ref={this.headerRef}
+          className={classnames(
+            'ic-year-calendar__row',
+            'ic-year-calendar__header'
+          )}
+        >
+          <div
+            ref={this.headerTitleRef}
+            className="ic-year-calendar__row-title"
+          >
             {date.getFullYear()}
           </div>
           {headerWeeks.slice(0, maxDaysOfMonth).map((weekDayId: number) => (
-            <div className={classnames('ic-year-calendar__row-content', 'ic-year-calendar__header-content')}>
+            <div
+              className={classnames(
+                'ic-year-calendar__row-content',
+                'ic-year-calendar__header-content'
+              )}
+            >
               {weekDayIdLabelMap[`${weekDayId}`]}
             </div>
           ))}
@@ -71,7 +102,10 @@ export default class YearCalendar extends React.PureComponent<any, any> {
             singleDayWidth={singleDayWidth}
             isFirstDayOfSection={this.isFirstDayOfSection}
             getDaysToLastDayOfSection={this.getDaysToLastDayOfSection}
-            onEventDetailsClick={this.props.onEventDetailsClick}
+            onEventDetailsClick={onEventDetailsClick}
+            onCurrentEventClick={onCurrentEventClick}
+            onFutureEventClick={onFutureEventClick}
+            onAllEventClick={onAllEventClick}
           />
         ))}
       </div>

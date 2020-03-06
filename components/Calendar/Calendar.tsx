@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import { Select, Dropdown } from 'antd';
-import { getDateSectionOfMultiDay, getDateSectionOfSingleWeek, getMultiWeeks, parseStep } from '../utils/dateUtil';
+import {
+  getDateSectionOfMultiDay,
+  getDateSectionOfSingleWeek,
+  getMultiWeeks,
+  parseStep,
+} from '../utils/dateUtil';
 import { normalizeEvents, isTotalDayEvent } from '../utils/eventUtil';
 import Tab from './Tab';
 import DatePicker from './DatePicker';
@@ -50,7 +55,8 @@ class TabSwitcher {
   }
 
   previousKey() {
-    this._currentIndex = (this._currentIndex - 1 + this._tabCounts) % this._tabCounts;
+    this._currentIndex =
+      (this._currentIndex - 1 + this._tabCounts) % this._tabCounts;
     return this._tabKeys[this._currentIndex];
   }
 }
@@ -114,6 +120,21 @@ export default class Calendar extends React.PureComponent<any, any> {
      */
     onEventDetailsClick: PropTypes.func,
 
+    /**
+     * 本次事件按钮被点击的回调
+     * 默认：noop
+     */
+    onCurrentEventClick: PropTypes.func,
+    /**
+     * 未来事件被点击的回调
+     * 默认：noop
+     */
+    onFutureEventClick: PropTypes.func,
+    /**
+     * 所有事件（整个系列）被点击的回调
+     * 默认：noop
+     */
+    onAllEventClick: PropTypes.func,
     // --- //
 
     // --- 单日、多日、单周、计划视图
@@ -168,7 +189,16 @@ export default class Calendar extends React.PureComponent<any, any> {
      * 议程默认日期范围
      * 默认值：'1:M'
      */
-    defaultAgendaDateRange: PropTypes.oneOf(['1:d', '1:w', '2:w', '1:M', '2:M', '3:M', '6:M', '1:y']),
+    defaultAgendaDateRange: PropTypes.oneOf([
+      '1:d',
+      '1:w',
+      '2:w',
+      '1:M',
+      '2:M',
+      '3:M',
+      '6:M',
+      '1:y',
+    ]),
     // --- //
 
     // --- 计划视图
@@ -183,7 +213,7 @@ export default class Calendar extends React.PureComponent<any, any> {
     defaultMultiWeeks: 4,
     maxMultiWeeks: 10,
     defaultAgendaDateRange: '1:M',
-    onEventDetailsClick: () => {},
+    // onEventDetailsClick: () => {},
   };
 
   private multiWeeksOptions: number[];
@@ -194,9 +224,18 @@ export default class Calendar extends React.PureComponent<any, any> {
   constructor(props) {
     super(props);
 
-    const { defaultActiveTab, defaultAgendaDateRange, defaultMultiDays, defaultMultiWeeks, maxMultiWeeks } = props;
+    const {
+      defaultActiveTab,
+      defaultAgendaDateRange,
+      defaultMultiDays,
+      defaultMultiWeeks,
+      maxMultiWeeks,
+    } = props;
 
-    this.multiWeeksOptions = Array.from({ length: maxMultiWeeks }, (_, index) => index + 1);
+    this.multiWeeksOptions = Array.from(
+      { length: maxMultiWeeks },
+      (_, index) => index + 1
+    );
     this.tabSwitcher = new TabSwitcher(defaultActiveTab);
 
     const now = moment();
@@ -264,68 +303,69 @@ export default class Calendar extends React.PureComponent<any, any> {
 
   getDateSwitchStep = activeTab => {
     switch (activeTab) {
-    case 'agenda':
-      return this.state.agendaDateRange;
-    default:
-      return dateSwitchSteps[activeTab] || '1:M';
+      case 'agenda':
+        return this.state.agendaDateRange;
+      default:
+        return dateSwitchSteps[activeTab] || '1:M';
     }
   };
 
   getDateRange = (activeTab: string) => {
     const { date } = this.state;
     switch (activeTab) {
-    case 'agenda': {
-      const { agendaDateRange } = this.state;
-      const [stepValue, stepUnit] = parseStep(agendaDateRange);
-      const start = moment(date)
-        .hour(0)
-        .minute(0)
-        .second(0)
-        .millisecond(0);
-      const end = moment(start)
-        .add(stepValue, stepUnit)
-        .subtract(1, 'ms');
-      return [start.toDate(), end.toDate()];
-    }
-    case 'singleDay':
-    case 'plan': {
-      const dayStartDate = new Date(date);
-      dayStartDate.setHours(0, 0, 0, 0);
-      const dayEndDate = new Date(date);
-      dayEndDate.setHours(23, 59, 59, 999);
-      return [dayStartDate, dayEndDate];
-    }
-    case 'multiDay': {
-      const { multiDays } = this.state;
-      return getDateSectionOfMultiDay(date, multiDays);
-    }
-    case 'singleWeek': {
-      const { singleWeekStartDay } = this.props;
-      const weekDayOffset = -singleWeekStartDay;
-      return getDateSectionOfSingleWeek(date, weekDayOffset);
-    }
-    case 'multiWeek': {
-      const { multiWeeks } = this.state;
-      const multiWeekDatesGroup = getMultiWeeks(date, multiWeeks);
-      const multiWeekStartDate = multiWeekDatesGroup[0][0];
-      const multiWeekEndDate = multiWeekDatesGroup[multiWeekDatesGroup.length - 1][6];
-      multiWeekEndDate.setHours(23, 59, 59, 999);
-      return [multiWeekStartDate, multiWeekEndDate];
-    }
-    case 'year': {
-      const year = moment(date);
-      const yearStartDate = year.startOf('year').toDate();
-      const yearEndDate = year.endOf('year').toDate();
-      return [yearStartDate, yearEndDate];
-    }
-    case 'month':
-    default: {
-      const monthDate = moment([date.getFullYear(), date.getMonth()]);
-      const monthStartDate = monthDate.startOf('month').toDate();
-      const monthEndDate = monthDate.endOf('month').toDate();
-      monthEndDate.setHours(23, 59, 59, 999);
-      return [monthStartDate, monthEndDate];
-    }
+      case 'agenda': {
+        const { agendaDateRange } = this.state;
+        const [stepValue, stepUnit] = parseStep(agendaDateRange);
+        const start = moment(date)
+          .hour(0)
+          .minute(0)
+          .second(0)
+          .millisecond(0);
+        const end = moment(start)
+          .add(stepValue, stepUnit)
+          .subtract(1, 'ms');
+        return [start.toDate(), end.toDate()];
+      }
+      case 'singleDay':
+      case 'plan': {
+        const dayStartDate = new Date(date);
+        dayStartDate.setHours(0, 0, 0, 0);
+        const dayEndDate = new Date(date);
+        dayEndDate.setHours(23, 59, 59, 999);
+        return [dayStartDate, dayEndDate];
+      }
+      case 'multiDay': {
+        const { multiDays } = this.state;
+        return getDateSectionOfMultiDay(date, multiDays);
+      }
+      case 'singleWeek': {
+        const { singleWeekStartDay } = this.props;
+        const weekDayOffset = -singleWeekStartDay;
+        return getDateSectionOfSingleWeek(date, weekDayOffset);
+      }
+      case 'multiWeek': {
+        const { multiWeeks } = this.state;
+        const multiWeekDatesGroup = getMultiWeeks(date, multiWeeks);
+        const multiWeekStartDate = multiWeekDatesGroup[0][0];
+        const multiWeekEndDate =
+          multiWeekDatesGroup[multiWeekDatesGroup.length - 1][6];
+        multiWeekEndDate.setHours(23, 59, 59, 999);
+        return [multiWeekStartDate, multiWeekEndDate];
+      }
+      case 'year': {
+        const year = moment(date);
+        const yearStartDate = year.startOf('year').toDate();
+        const yearEndDate = year.endOf('year').toDate();
+        return [yearStartDate, yearEndDate];
+      }
+      case 'month':
+      default: {
+        const monthDate = moment([date.getFullYear(), date.getMonth()]);
+        const monthStartDate = monthDate.startOf('month').toDate();
+        const monthEndDate = monthDate.endOf('month').toDate();
+        monthEndDate.setHours(23, 59, 59, 999);
+        return [monthStartDate, monthEndDate];
+      }
     }
   };
 
@@ -335,7 +375,10 @@ export default class Calendar extends React.PureComponent<any, any> {
     const [rangeStart, rangeEnd] = this.getDateRange(activeTab);
     const eventsInDateRange = normalizeEvents(events).filter(event => {
       const { startTime, endTime } = event;
-      return isTotalDayEvent(event) || (startTime >= rangeStart && endTime <= rangeEnd);
+      return (
+        isTotalDayEvent(event) ||
+        (startTime >= rangeStart && endTime <= rangeEnd)
+      );
     });
 
     if (!eventKeyword) {
@@ -347,7 +390,8 @@ export default class Calendar extends React.PureComponent<any, any> {
       for (let field in originalEvent) {
         if (originalEvent.hasOwnProperty(field)) {
           const fieldValue = originalEvent[field];
-          const result = typeof fieldValue === 'string' && fieldValue.includes(eventKeyword);
+          const result =
+            typeof fieldValue === 'string' && fieldValue.includes(eventKeyword);
           if (result) {
             return result;
           }
@@ -454,7 +498,15 @@ export default class Calendar extends React.PureComponent<any, any> {
   };
 
   render() {
-    const { singleWeekStartDay, height, defaultDayTimeLineRange, onEventDetailsClick } = this.props;
+    const {
+      singleWeekStartDay,
+      height,
+      defaultDayTimeLineRange,
+      onEventDetailsClick,
+      onCurrentEventClick,
+      onFutureEventClick,
+      onAllEventClick,
+    } = this.props;
     const {
       date,
       datePickerDefaultValue,
@@ -465,9 +517,15 @@ export default class Calendar extends React.PureComponent<any, any> {
       switchComponent,
       contentViewHeight,
     } = this.state;
-    const [startDateOfMultiDay, endDateOfMultiDay] = getDateSectionOfMultiDay(date, multiDays);
+    const [startDateOfMultiDay, endDateOfMultiDay] = getDateSectionOfMultiDay(
+      date,
+      multiDays
+    );
     const weekDayOffset = -singleWeekStartDay;
-    const [startDateOfSingleWeek, endDateOfSingleWeek] = getDateSectionOfSingleWeek(date, weekDayOffset);
+    const [
+      startDateOfSingleWeek,
+      endDateOfSingleWeek,
+    ] = getDateSectionOfSingleWeek(date, weekDayOffset);
     const multiWeekDatesGroup = getMultiWeeks(date, multiWeeks);
     const events = this.getEvents();
 
@@ -481,10 +539,17 @@ export default class Calendar extends React.PureComponent<any, any> {
               value={date}
               onChange={this.handleDateSwitch}
             />
-            <DatePicker defaultValue={datePickerDefaultValue} value={moment(date)} onChange={this.handleDateChange} />
+            <DatePicker
+              defaultValue={datePickerDefaultValue}
+              value={moment(date)}
+              onChange={this.handleDateChange}
+            />
             {activeTab === 'multiWeek' && (
               <div className="ic-calendar__multi-weeks-select">
-                <Select value={multiWeeks} onChange={this.handleMultiWeeksChange}>
+                <Select
+                  value={multiWeeks}
+                  onChange={this.handleMultiWeeksChange}
+                >
                   {this.multiWeeksOptions.map(n => (
                     <Option key={n} value={n}>
                       {n}
@@ -496,10 +561,16 @@ export default class Calendar extends React.PureComponent<any, any> {
             )}
           </div>
           {switchComponent === 'Tab' ? (
-            <Tab onChange={this.handleTabSwitch} tabs={tabs} activeKey={activeTab} />
+            <Tab
+              onChange={this.handleTabSwitch}
+              tabs={tabs}
+              activeKey={activeTab}
+            />
           ) : (
             <Dropdown overlay={this.renderMenu()}>
-              <div className="ic-calendar__dropdown">{getTabLabelByKey(tabs, activeTab)}</div>
+              <div className="ic-calendar__dropdown">
+                {getTabLabelByKey(tabs, activeTab)}
+              </div>
             </Dropdown>
           )}
         </div>
@@ -512,6 +583,9 @@ export default class Calendar extends React.PureComponent<any, any> {
               endDate={date}
               events={events}
               onEventDetailsClick={onEventDetailsClick}
+              onCurrentEventClick={onCurrentEventClick}
+              onFutureEventClick={onFutureEventClick}
+              onAllEventClick={onAllEventClick}
             />
           </ViewContainer>
         )}
@@ -524,6 +598,9 @@ export default class Calendar extends React.PureComponent<any, any> {
               endDate={endDateOfMultiDay}
               events={events}
               onEventDetailsClick={onEventDetailsClick}
+              onCurrentEventClick={onCurrentEventClick}
+              onFutureEventClick={onFutureEventClick}
+              onAllEventClick={onAllEventClick}
             />
           </ViewContainer>
         )}
@@ -536,22 +613,48 @@ export default class Calendar extends React.PureComponent<any, any> {
               endDate={endDateOfSingleWeek}
               events={events}
               onEventDetailsClick={onEventDetailsClick}
+              onCurrentEventClick={onCurrentEventClick}
+              onFutureEventClick={onFutureEventClick}
+              onAllEventClick={onAllEventClick}
             />
           </ViewContainer>
         )}
         {activeTab === 'multiWeek' && (
           <ViewContainer onPan={this.handlePan}>
-            <MonthlyCalendar grayDayOfOtherMonths={false} onEventDetailsClick={onEventDetailsClick} weeks={multiWeekDatesGroup} date={date} events={events} />
+            <MonthlyCalendar
+              grayDayOfOtherMonths={false}
+              onEventDetailsClick={onEventDetailsClick}
+              onCurrentEventClick={onCurrentEventClick}
+              onFutureEventClick={onFutureEventClick}
+              onAllEventClick={onAllEventClick}
+              weeks={multiWeekDatesGroup}
+              date={date}
+              events={events}
+            />
           </ViewContainer>
         )}
         {activeTab === 'month' && (
           <ViewContainer onPan={this.handlePan}>
-            <MonthlyCalendar date={date} events={events} onEventDetailsClick={onEventDetailsClick}/>
+            <MonthlyCalendar
+              date={date}
+              events={events}
+              onEventDetailsClick={onEventDetailsClick}
+              onCurrentEventClick={onCurrentEventClick}
+              onFutureEventClick={onFutureEventClick}
+              onAllEventClick={onAllEventClick}
+            />
           </ViewContainer>
         )}
         {activeTab === 'year' && (
           <ViewContainer onPan={this.handlePan}>
-            <YearCalendar date={date} events={events} onEventDetailsClick={onEventDetailsClick} />
+            <YearCalendar
+              date={date}
+              events={events}
+              onEventDetailsClick={onEventDetailsClick}
+              onCurrentEventClick={onCurrentEventClick}
+              onFutureEventClick={onFutureEventClick}
+              onAllEventClick={onAllEventClick}
+            />
           </ViewContainer>
         )}
         {activeTab === 'agenda' && (
@@ -572,6 +675,9 @@ export default class Calendar extends React.PureComponent<any, any> {
               selectedDate={date}
               events={events}
               onEventDetailsClick={onEventDetailsClick}
+              onCurrentEventClick={onCurrentEventClick}
+              onFutureEventClick={onFutureEventClick}
+              onAllEventClick={onAllEventClick}
             />
           </ViewContainer>
         )}

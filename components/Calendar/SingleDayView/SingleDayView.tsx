@@ -1,6 +1,9 @@
 import React from 'react';
 import memoizeOne from 'memoize-one';
-import { getHHmmDurationByMinute, getStepDurationByMinute } from '../../utils/dateUtil';
+import {
+  getHHmmDurationByMinute,
+  getStepDurationByMinute,
+} from '../../utils/dateUtil';
 import { normalizeEvents } from '../../utils/eventUtil';
 import PropTypes from 'prop-types';
 import EventDetails from '../EventDetails';
@@ -51,17 +54,21 @@ export default class SingleDayView extends React.PureComponent<any, any> {
       const startMinutes = getHHmmDurationByMinute(eventStart);
       const endMinutes = getHHmmDurationByMinute(eventEnd);
       const eventTotalMinutes = endMinutes - startMinutes;
-      const elementTop = (startMinutes - timeLineStartMinutes) * heightToMinutes;
-      const elementHeight = (eventTotalMinutes * containerHeight) / totalMinutes;
+      const elementTop =
+        (startMinutes - timeLineStartMinutes) * heightToMinutes;
+      const elementHeight =
+        (eventTotalMinutes * containerHeight) / totalMinutes;
 
       element.style.top = `${elementTop}px`;
       element.style.height = `${elementHeight}px`;
     });
   }
 
-  memoizedReLayoutEvents = memoizeOne((_events, startHHmm, endHHmm, containerHeight) => {
-    this.reLayoutEvents(startHHmm, endHHmm, containerHeight);
-  });
+  memoizedReLayoutEvents = memoizeOne(
+    (_events, startHHmm, endHHmm, containerHeight) => {
+      this.reLayoutEvents(startHHmm, endHHmm, containerHeight);
+    }
+  );
 
   reLayout() {
     const { events, startHHmm, endHHmm, containerHeight } = this.props;
@@ -75,7 +82,15 @@ export default class SingleDayView extends React.PureComponent<any, any> {
   };
 
   render() {
-    const { events, eventsFilter, style, onEventDetailsClick } = this.props;
+    const {
+      events,
+      eventsFilter,
+      style,
+      onEventDetailsClick,
+      onCurrentEventClick,
+      onFutureEventClick,
+      onAllEventClick,
+    } = this.props;
 
     return (
       <div ref={this.rootRef} className="ic-single-day-view" style={style}>
@@ -84,14 +99,30 @@ export default class SingleDayView extends React.PureComponent<any, any> {
           .map(event => {
             const {
               occurId,
-              original: { event_time, event_endtime, event_title, event_hostheadurl, category_color },
+              original: {
+                event_time,
+                event_endtime,
+                event_title,
+                event_hostheadurl,
+                category_color,
+              },
             } = event;
             return (
               <Popover
                 // trigger='click'
-                getPopupContainer={() => document.querySelector('.ic-month-day-view')}
-                content={<EventDetails eventData={event.original} onEventDetailsClick={onEventDetailsClick} />}
-                className='ic-single-day-view__popover'
+                getPopupContainer={() =>
+                  document.querySelector('.ic-month-day-view')
+                }
+                content={
+                  <EventDetails
+                    eventData={event.original}
+                    onEventDetailsClick={onEventDetailsClick}
+                    onCurrentEventClick={onCurrentEventClick}
+                    onFutureEventClick={onFutureEventClick}
+                    onAllEventClick={onAllEventClick}
+                  />
+                }
+                className="ic-single-day-view__popover"
               >
                 <div
                   data-event_time={event_time}
@@ -102,10 +133,18 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                     this.handleEventClick(event);
                   }}
                 >
-                  <img className="ic-single-day-view__host-avatar" src={event_hostheadurl} />
-                  <div className="ic-single-day-view__content" style={{ background: category_color }}>
+                  <img
+                    className="ic-single-day-view__host-avatar"
+                    src={event_hostheadurl}
+                  />
+                  <div
+                    className="ic-single-day-view__content"
+                    style={{ background: category_color }}
+                  >
                     <div className="ic-single-day-view__event-time">{`${event_time} - ${event_endtime}`}</div>
-                    <div className="ic-single-day-view__event-title">{event_title}</div>
+                    <div className="ic-single-day-view__event-title">
+                      {event_title}
+                    </div>
                   </div>
                 </div>
               </Popover>

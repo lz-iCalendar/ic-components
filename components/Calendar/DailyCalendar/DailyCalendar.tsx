@@ -22,6 +22,21 @@ function notAllDayEventsFilter(event) {
 export default class DailyCalendar extends React.PureComponent<any, any> {
   static propTypes = {
     onEventDetailsClick: PropTypes.func,
+    /**
+     * 本次事件按钮被点击的回调
+     * 默认：noop
+     */
+    onCurrentEventClick: PropTypes.func,
+    /**
+     * 未来事件被点击的回调
+     * 默认：noop
+     */
+    onFutureEventClick: PropTypes.func,
+    /**
+     * 所有事件（整个系列）被点击的回调
+     * 默认：noop
+     */
+    onAllEventClick: PropTypes.func,
   };
 
   static defaultProps = {
@@ -90,7 +105,7 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
   getEventRowRenderer = memoizeOne((dates, events) => containerWidth => {
     const eventsMap = allocateDailyEvents(events);
     const singleDayWidth = this.getSingleDayWidth(containerWidth, dates.length);
-
+    const {onEventDetailsClick,onCurrentEventClick,onFutureEventClick,onAllEventClick} = this.props;
     return (
       <div className="ic-daily-calendar__top-right">
         {dates.map(date => (
@@ -110,7 +125,10 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
               isFirstDayOfSection={this.isFirstDayOfSection}
               getDaysToLastDayOfSection={this.getDaysToLastDayOfSection}
               style={{ height: 'auto', width: singleDayWidth }}
-              onEventDetailsClick={this.props.onEventDetailsClick}
+              onEventDetailsClick={onEventDetailsClick}
+              onCurrentEventClick={onCurrentEventClick}
+              onFutureEventClick={onFutureEventClick}
+              onAllEventClick={onAllEventClick}
             />
           </div>
         ))}
@@ -122,6 +140,7 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
     const eventsMap = allocateDailyEvents(events);
     const singleDayWidth = this.getSingleDayWidth(containerWidth, dates.length);
 
+    const {onEventDetailsClick,onCurrentEventClick,onFutureEventClick,onAllEventClick} = this.props;
     return (
       <ChildrenWithProps className="ic-daily-calendar__day-views">
         {dates.map(date => (
@@ -131,7 +150,10 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
             eventsFilter={notAllDayEventsFilter}
             date={date}
             style={{ width: singleDayWidth }}
-            onEventDetailsClick={this.props.onEventDetailsClick}
+            onEventDetailsClick={onEventDetailsClick}
+            onCurrentEventClick={onCurrentEventClick}
+            onFutureEventClick={onFutureEventClick}
+            onAllEventClick={onAllEventClick}
           />
         ))}
       </ChildrenWithProps>

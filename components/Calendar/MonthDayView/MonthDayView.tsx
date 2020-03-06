@@ -1,11 +1,16 @@
 import React from 'react';
 import classnames from 'classnames';
-import { monthDayHasher, isSameMonthDay, isFirstDateOfWeek, getDaysToLastDayOfWeek } from '../../utils/dateUtil';
+import {
+  monthDayHasher,
+  isSameMonthDay,
+  isFirstDateOfWeek,
+  getDaysToLastDayOfWeek,
+} from '../../utils/dateUtil';
 import { getEventDuration, isTotalDayEvent } from '../../utils/eventUtil';
 import EventDetails from '../EventDetails';
 import '../EventDetails/style/index.less';
 import PropTypes from 'prop-types';
-import { Popover,Avatar } from 'antd';
+import { Popover, Avatar } from 'antd';
 
 const dayElementPadding = {
   top: 1,
@@ -14,7 +19,8 @@ const dayElementPadding = {
   right: 6,
 };
 
-const constructPadding = ({ top, bottom, left, right }) => `${top}px ${right}px ${bottom}px ${left}px`;
+const constructPadding = ({ top, bottom, left, right }) =>
+  `${top}px ${right}px ${bottom}px ${left}px`;
 
 export default class MonthDayView extends React.PureComponent<any, any> {
   static propTypes = {
@@ -23,6 +29,9 @@ export default class MonthDayView extends React.PureComponent<any, any> {
      * 默认：noop
      */
     onEventDetailsClick: PropTypes.func,
+    onCurrentEventClick: PropTypes.func,
+    onFutureEventClick: PropTypes.func,
+    onAllEventClick: PropTypes.func,
   };
 
   static defaultProps = {
@@ -39,7 +48,11 @@ export default class MonthDayView extends React.PureComponent<any, any> {
   };
 
   getEventElementWidth(event) {
-    const { dayElementWidth, getDaysToLastDayOfSection, paddingConfig } = this.props;
+    const {
+      dayElementWidth,
+      getDaysToLastDayOfSection,
+      paddingConfig,
+    } = this.props;
     if (!dayElementWidth) {
       return undefined;
     }
@@ -48,7 +61,10 @@ export default class MonthDayView extends React.PureComponent<any, any> {
     const daysToLastDayOfSection = getDaysToLastDayOfSection(event.startTime);
     const maxDurationByDay = daysToLastDayOfSection + 1;
     const eventDurationByDay = getEventDuration(event, 'day');
-    const realDurationByDay = maxDurationByDay > eventDurationByDay ? eventDurationByDay : maxDurationByDay;
+    const realDurationByDay =
+      maxDurationByDay > eventDurationByDay
+        ? eventDurationByDay
+        : maxDurationByDay;
     return dayElementWidth * realDurationByDay - left - right;
   }
 
@@ -76,13 +92,17 @@ export default class MonthDayView extends React.PureComponent<any, any> {
       style,
       paddingConfig,
       onEventDetailsClick,
+      onCurrentEventClick,
+      onFutureEventClick,
+      onAllEventClick,
     } = this.props;
 
     const eventKey = monthDayHasher(date);
     const eventsOfToday = eventsMap.get(eventKey) || [];
     const monthDay = date.getDate();
     const isActive = isSameMonthDay(date, calendarActiveDate);
-    const isDateOfOtherMonth = date.getMonth() !== calendarActiveDate.getMonth();
+    const isDateOfOtherMonth =
+      date.getMonth() !== calendarActiveDate.getMonth();
     const weekDay = date.getDay();
     const isWeekend = weekDay === 0 || weekDay === 6;
     const eventsLimit = propEventsLimit || eventsOfToday.length;
@@ -90,12 +110,16 @@ export default class MonthDayView extends React.PureComponent<any, any> {
     console.log({ eee: onEventDetailsClick });
 
     return (
-      <div className="ic-month-day-view" style={{ padding: constructPadding(paddingConfig), ...style }}>
+      <div
+        className="ic-month-day-view"
+        style={{ padding: constructPadding(paddingConfig), ...style }}
+      >
         {dateVisible && (
           <div
             className={classnames('ic-month-day-view__month-day', {
               ['ic-month-day-view__month-day-active']: isActive,
-              ['ic-month-day-view__other-month-day']: isDateOfOtherMonth && grayDayOfOtherMonths,
+              ['ic-month-day-view__other-month-day']:
+                isDateOfOtherMonth && grayDayOfOtherMonths,
               ['ic-month-day-view__weekend']: isWeekend,
             })}
           >
@@ -108,20 +132,39 @@ export default class MonthDayView extends React.PureComponent<any, any> {
             .filter(eventsFilter)
             .map(event => {
               const {
-                original: { event_title, occur_id, category_color, event_hostheadurl },
+                original: {
+                  event_title,
+                  occur_id,
+                  category_color,
+                  event_hostheadurl,
+                },
               } = event;
               const eventElementWidth = this.getEventElementWidth(event);
-              const eventElementStyle = eventElementWidth ? { width: eventElementWidth } : {};
+              const eventElementStyle = eventElementWidth
+                ? { width: eventElementWidth }
+                : {};
               return (
                 <Popover
                   // trigger={['click']}
-                  getPopupContainer={() => document.querySelector('.ic-month-day-view')}
-                  content={<EventDetails eventData={event.original} onEventDetailsClick={onEventDetailsClick} />}
+                  getPopupContainer={() =>
+                    document.querySelector('.ic-month-day-view')
+                  }
+                  content={
+                    <EventDetails
+                      eventData={event.original}
+                      onEventDetailsClick={onEventDetailsClick}
+                      onCurrentEventClick={onCurrentEventClick}
+                      onFutureEventClick={onFutureEventClick}
+                      onAllEventClick={onAllEventClick}
+                    />
+                  }
                 >
                   <div
                     key={occur_id}
                     className={classnames('ic-month-day-view__event', {
-                      ['ic-month-day-view__event-hidden']: !this.isVisible(event),
+                      ['ic-month-day-view__event-hidden']: !this.isVisible(
+                        event
+                      ),
                     })}
                     style={eventElementStyle}
                   >
@@ -133,14 +176,20 @@ export default class MonthDayView extends React.PureComponent<any, any> {
                         this.handleEventClick(event);
                       }}
                     >
-                      <div className="ic-month-day-view__event-title">{event_title}</div>
-                      {dotVisible && isTotalDayEvent(event) && <div className="ic-month-day-view__dot" />}
+                      <div className="ic-month-day-view__event-title">
+                        {event_title}
+                      </div>
+                      {dotVisible && isTotalDayEvent(event) && (
+                        <div className="ic-month-day-view__dot" />
+                      )}
                     </div>
                   </div>
                 </Popover>
               );
             })}
-          {eventsOfToday.length > eventsLimit && <div className="ic-month-day-view__ellipse">...</div>}
+          {eventsOfToday.length > eventsLimit && (
+            <div className="ic-month-day-view__ellipse">...</div>
+          )}
         </div>
       </div>
     );
