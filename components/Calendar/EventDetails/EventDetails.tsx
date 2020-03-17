@@ -62,6 +62,7 @@ export default class EventDetails extends React.PureComponent<any, any> {
       event_desc: desc,
       category_color: color,
       formdata,
+      occur_event_id,
     } = eventData;
     startTime = moment(startTime).format('HH:mm');
     endTime = moment(endTime).format('HH:mm');
@@ -116,28 +117,28 @@ export default class EventDetails extends React.PureComponent<any, any> {
             <Button
               onClick={e => {
                 e.stopPropagation();
-                onCurrentEventClick();
+                onCurrentEventClick(eventData);
               }}
             >
-              本次事件
+              编辑本次事件
             </Button>
             {formdata && formdata[636483916988].length > 0 && (
               <React.Fragment>
                 <Button
                   onClick={e => {
                     e.stopPropagation();
-                    onFutureEventClick();
+                    onFutureEventClick(eventData);
                   }}
                 >
-                  所有将来事件
+                  编辑将来事件
                 </Button>
                 <Button
                   onClick={e => {
                     e.stopPropagation();
-                    onAllEventClick();
+                    onAllEventClick(eventData);
                   }}
                 >
-                  全部系列
+                  编辑全部系列
                 </Button>
               </React.Fragment>
             )}

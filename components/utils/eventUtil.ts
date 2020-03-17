@@ -3,7 +3,8 @@ import { monthDayHasher, getHHmmDurationByMinute } from './dateUtil';
 
 export const compareEvents = (e1, e2) => e1.endTime - e2.startTime;
 
-export const isValidEvent = ({ startTime, endTime }) => startTime.valueOf() < endTime.valueOf();
+export const isValidEvent = ({ startTime, endTime }) =>
+  startTime.valueOf() < endTime.valueOf();
 
 export const normalizeEvent = (event, index) => {
   const safeEvent = event || {};
@@ -46,10 +47,10 @@ export const allocateDailyEvents = memoizeOne(events => {
     } else if (eventsOfDate.every(({ occurId }) => event.occurId !== occurId)) {
       eventsOfDate.push(event);
     }
-  }
+  };
 
   const allocateEvent = event => {
-    allocate(event)
+    allocate(event);
 
     const { startTime, endTime } = event;
     let calcStartTime = new Date(startTime);
@@ -87,7 +88,7 @@ export const allocateDailyEvents = memoizeOne(events => {
   // validEvents.forEach(allocateEvent);
 
   // return eventsMap;
-// });
+  // });
 });
 //   const allocateEvent = event => {
 //     const { startTime, endTime } = event;
@@ -122,18 +123,25 @@ export const getEventDuration = (event, type) => {
   const { startTime, endTime } = event;
 
   switch (type) {
-  case 'day':
-    return endTime.getDate() - startTime.getDate() + 1;
-  default:
-    return endTime - startTime;
+    case 'day':
+      return endTime.getDate() - startTime.getDate() + 1;
+    default:
+      return endTime - startTime;
   }
 };
 
-export const filterEventsByImportance = memoizeOne(function(events, importantOnly) {
+export const filterEventsByImportance = memoizeOne(function(
+  events,
+  importantOnly
+) {
   if (!importantOnly) {
     return events;
   }
-  return normalizeEvents(events).filter(({ original: { event_important } }) => !!event_important);
+
+  return normalizeEvents(events).filter(
+    item => item.original.formdata.event_important == 'Y'
+  );
+  // return normalizeEvents(events).filter(({ original: { event_important } }) => !!event_important);
 });
 
 export const groupEventsByDay = memoizeOne(function(events) {
@@ -155,8 +163,12 @@ export const groupEventsByDay = memoizeOne(function(events) {
   return groups;
 });
 
-export const getEventsGroupsInDateRange = memoizeOne((groups, startDateValue, endDateValue) =>
-  groups.filter(({ monthDayHash }) => monthDayHash >= startDateValue && monthDayHash <= endDateValue)
+export const getEventsGroupsInDateRange = memoizeOne(
+  (groups, startDateValue, endDateValue) =>
+    groups.filter(
+      ({ monthDayHash }) =>
+        monthDayHash >= startDateValue && monthDayHash <= endDateValue
+    )
 );
 
 /**
@@ -169,20 +181,25 @@ export const isTotalDayEvent = event => {
   return event_time === '00:00' && event_endtime === '23:59';
 };
 
-export const getEventsTimeRange = memoizeOne((events: object[], defaultTimeRange: [string, string]) => {
-  let [start, end] = defaultTimeRange;
+export const getEventsTimeRange = memoizeOne(
+  (events: object[], defaultTimeRange: [string, string]) => {
+    let [start, end] = defaultTimeRange;
 
-  normalizeEvents(events)
-    .filter(event => !isTotalDayEvent(event))
-    .forEach(({ original: { event_time, event_endtime } }) => {
-    if (getHHmmDurationByMinute(event_time) < getHHmmDurationByMinute(start)) {
-      start = event_time;
-    }
-    if (getHHmmDurationByMinute(event_endtime) > getHHmmDurationByMinute(end)) {
-      end = event_endtime;
-    }
-  });
+    normalizeEvents(events)
+      .filter(event => !isTotalDayEvent(event))
+      .forEach(({ original: { event_time, event_endtime } }) => {
+        if (
+          getHHmmDurationByMinute(event_time) < getHHmmDurationByMinute(start)
+        ) {
+          start = event_time;
+        }
+        if (
+          getHHmmDurationByMinute(event_endtime) > getHHmmDurationByMinute(end)
+        ) {
+          end = event_endtime;
+        }
+      });
 
-  return [start, end];
-});
- 
+    return [start, end];
+  }
+);
