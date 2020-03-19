@@ -664,6 +664,10 @@ export default class Calendar extends React.PureComponent<any, any> {
               dateRange={agendaDateRange}
               onDateRangeChange={this.handleAgendaDateRangeChange}
               events={events}
+              onEventDetailsClick={onEventDetailsClick}
+              onCurrentEventClick={onCurrentEventClick}
+              onFutureEventClick={onFutureEventClick}
+              onAllEventClick={onAllEventClick}
             />
           </ViewContainer>
         )}

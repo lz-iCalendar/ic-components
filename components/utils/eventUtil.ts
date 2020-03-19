@@ -139,7 +139,10 @@ export const filterEventsByImportance = memoizeOne(function(
   }
 
   return normalizeEvents(events).filter(
-    item => item.original.formdata.event_important == 'Y'
+    item =>
+      item.original &&
+      item.original.formdata &&
+      item.original.formdata.event_important == 'Y'
   );
   // return normalizeEvents(events).filter(({ original: { event_important } }) => !!event_important);
 });

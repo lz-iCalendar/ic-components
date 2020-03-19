@@ -38,13 +38,13 @@ const rangeOptions = [
 export default class Agenda extends React.PureComponent<any, any> {
   constructor(props) {
     super(props);
-    const { defaultDateRange, dateRange } = props
+    const { defaultDateRange, dateRange } = props;
 
     this.state = {
       detailVisible: false,
       importantOnly: false,
       weatherVisible: false,
-      dateRange:dateRange || defaultDateRange,
+      dateRange: dateRange || defaultDateRange,
     };
   }
 
@@ -72,8 +72,21 @@ export default class Agenda extends React.PureComponent<any, any> {
   };
 
   render() {
-    const { events, startDate, dateRange: propDateRange } = this.props;
-    const { dateRange: stateDateRange, detailVisible, importantOnly, weatherVisible } = this.state;
+    const {
+      events,
+      startDate,
+      dateRange: propDateRange,
+      onEventDetailsClick,
+      onCurrentEventClick,
+      onFutureEventClick,
+      onAllEventClick,
+    } = this.props;
+    const {
+      dateRange: stateDateRange,
+      detailVisible,
+      importantOnly,
+      weatherVisible,
+    } = this.state;
     const dateRange = propDateRange || stateDateRange;
 
     return (
@@ -103,6 +116,10 @@ export default class Agenda extends React.PureComponent<any, any> {
             detailVisible={detailVisible}
             importantOnly={importantOnly}
             weatherVisible={weatherVisible}
+            onEventDetailsClick={onEventDetailsClick}
+            onCurrentEventClick={onCurrentEventClick}
+            onFutureEventClick={onFutureEventClick}
+            onAllEventClick={onAllEventClick}
           />
         </div>
       </div>
