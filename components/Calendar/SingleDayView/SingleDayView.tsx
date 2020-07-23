@@ -109,6 +109,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
             } = event;
             return (
               <Popover
+                key={occurId}
                 // trigger='click'
                 getPopupContainer={() =>
                   document.querySelector('.ic-month-day-view')
