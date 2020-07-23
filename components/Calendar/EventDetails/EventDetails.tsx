@@ -58,12 +58,16 @@ export default class EventDetails extends React.PureComponent<any, any> {
       occur_begin: startTime,
       occur_end: endTime,
       event_short: position,
-      event_hostheadurl: avatarUrl,
+      event_hostheadurl,
+      // event_hostheadurl: avatarUrl,
       event_desc: desc,
       category_color: color,
       formdata,
       occur_event_id,
+      event_location,
     } = eventData;
+    const startDate = moment(startTime).format('YYYY年MM月DD日');
+    const endDate = moment(endTime).format('YYYY年MM月DD日');
     startTime = moment(startTime).format('HH:mm');
     endTime = moment(endTime).format('HH:mm');
     console.log({ aaa: this.props.onEventDetailsClick });
@@ -88,20 +92,22 @@ export default class EventDetails extends React.PureComponent<any, any> {
             <div className="ic-event-details-modal__content-item-left">
               <p>
                 <time className="ic-event-details-modal__start-time">
-                  {startTime}
+                  {startDate} {startTime}
                 </time>
                 <span> ~ </span>
                 <time className="ic-event-details-modal__start-time">
-                  {endTime}
+                  {startDate !== endDate && endDate} {endTime}
                 </time>
               </p>
               <p className="ic-event-details-modal__content-position">
                 {position}
               </p>
             </div>
+          </div>
+          <div className="ic-event-details-modal__content-item">
             <div className="ic-event-details-modal__content-item-right">
-              {avatarUrl ? (
-                <Avatar src={avatarUrl} size={32} />
+              {(formdata && formdata.headimgurl) || event_hostheadurl ? (
+                <Avatar src={formdata.headimgurl} size={32} />
               ) : (
                 <Avatar icon="user" size={32} />
               )}
@@ -109,9 +115,11 @@ export default class EventDetails extends React.PureComponent<any, any> {
               {/* <span style={{ color }}>{111}</span> */}
             </div>
           </div>
-
           <div className="ic-event-details-modal__content-desc">
-            <p>{desc}</p>
+            <p>{(formdata && formdata.location) || event_location}</p>
+          </div>
+          <div className="ic-event-details-modal__content-desc">
+            <p>{(formdata && formdata.dec) || desc}</p>
           </div>
           <div className="ic-event-details-modal__content-btns">
             <Button

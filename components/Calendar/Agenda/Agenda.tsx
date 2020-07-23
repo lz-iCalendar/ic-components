@@ -1,7 +1,6 @@
 import React from 'react';
-import { Checkbox, Select } from 'antd';
+import { Checkbox, Select, Icon } from 'antd';
 import AgendaList from './AgendaList';
-
 const { Option } = Select;
 
 const rangeOptions = [
@@ -80,6 +79,7 @@ export default class Agenda extends React.PureComponent<any, any> {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
+      onExportClick,
     } = this.props;
     const {
       dateRange: stateDateRange,
@@ -103,6 +103,16 @@ export default class Agenda extends React.PureComponent<any, any> {
             </Select>
           </div>
           <div className="ic-agenda__header-right-part">
+            <span
+              className="ic-agenda__header-right-part-export"
+              onClick={() => {
+                onExportClick(events);
+              }}
+            >
+              <Icon type="download" />
+              {/*   <img src={exportImg}/> */}
+              导出
+            </span>
             <Checkbox onChange={this.setDetailVisibility}>详情</Checkbox>
             <Checkbox onChange={this.setImportanceFilter}>重要</Checkbox>
             <Checkbox onChange={this.setWeatherVisibility}>天气</Checkbox>

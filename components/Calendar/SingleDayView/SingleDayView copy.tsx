@@ -28,20 +28,8 @@ export default class SingleDayView extends React.PureComponent<any, any> {
      */
     eventsFilter: PropTypes.func,
   };
-  state = {
-    len: 0,
-  };
 
   componentDidMount() {
-    const { events, eventsFilter } = this.props;
-    if (events) {
-      const eventsNew = events.filter(eventsFilter);
-      const len = events.length - eventsNew.length;
-      
-      this.setState({
-        len,
-      });
-    }
     this.reLayout();
   }
 
@@ -64,9 +52,6 @@ export default class SingleDayView extends React.PureComponent<any, any> {
     Array.prototype.forEach.call(eventElements, element => {
       const eventStart = element.getAttribute('data-event_time');
       const eventEnd = element.getAttribute('data-event_endtime');
-      const coincide = element.getAttribute('data-event_coincide');
-      const counts = element.getAttribute('data-event_counts');
-      const left = element.getAttribute('data-event_left');
       const startMinutes = getHHmmDurationByMinute(eventStart);
       const endMinutes = getHHmmDurationByMinute(eventEnd);
       const eventTotalMinutes = endMinutes - startMinutes;
@@ -75,10 +60,6 @@ export default class SingleDayView extends React.PureComponent<any, any> {
       const elementHeight =
         (eventTotalMinutes * containerHeight) / totalMinutes;
 
-      const elementWidth = Number(100 / counts);
-      console.log({ counts });
-      element.style.left = `${left * 100}%`;
-      element.style.width = `${elementWidth}%`;
       element.style.top = `${elementTop}px`;
       element.style.height = `${elementHeight}px`;
     });
@@ -100,90 +81,6 @@ export default class SingleDayView extends React.PureComponent<any, any> {
 
   handleEventClick = event => {
     console.log(event);
-  };
-  judgeCoincide = (item, index) => {
-    let i = 0;
-    const { events } = this.props;
-    const { len } = this.state;
-    item.isVisible = true;
-    if (index > 0) {
-      index = index + len;
-      console.log('come3', index);
-      if (
-        item.original.event_time >= events[index - 1].original.event_endtime &&
-        item.original.event_endtime >= events[index - 1].original.event_time
-      ) {
-        item.isVisible = false;
-        console.log('come2', item, events[index - 1]);
-        return item;
-      } else if (index === 1) {
-        console.log("come4")
-        item.counts = 2;
-        item.left = 0.5;
-        events[index - 1].counts = 2;
-        events[index - 1].left = 0;
-        return item;
-      } else {
-        //情况1 ： 只有两种
-
-        //如果元素上一个被标记了
-        if (events[index - 1][`isCoincide${i}`]) {
-          console.log('come', item, events[index - 1]);
-          item[`isCoincide${i}`] = true;
-          item.counts = events[index - 1].counts + 1;
-          if (!events[index - 1].isVisible) {
-            console.log("come5")
-            //如果上一个元素，是 分离点的话。
-            events[index - 1].counts = 2;
-            item.counts = 2;
-            item.left = 0.5;
-            events[index - 1].left = 0;
-          } else {
-            events[index - 1].counts = events[index - 1].counts + 1;
-            const _counts = events[index - 1].counts;
-            const num = Number(1 / item.counts);
-            if (item.counts > 2 && index >= 2) {
-              for (i = 0; i < item.counts; i++) {
-                console.log('error', item, i, index, item.counts, _counts);
-                index - i >= 0 ? (events[index - i].counts = _counts) : '';
-                index - i >= 0
-                  ? (events[index - i].left = 1 - num * (i + 1))
-                  : '';
-              }
-            } else if (item.counts === 2 && index >= 2) {
-              for (i = 0; i < item.counts; i++) {
-                console.log('error', item, i, index, item.counts, _counts);
-                index - i >= 0 ? (events[index - i].counts = _counts) : '';
-                index - i >= 0
-                  ? (events[index - i].left = 1 - num * (i + 1))
-                  : '';
-              }
-            } else {
-
-              events[index].counts = _counts;
-              events[index].left = 0.5;
-              events[index - 1].counts = _counts;
-              events[index - 1].left = 0;
-            }
-          }
-        } else {
-          item[`isCoincide${i}`] = true;
-          events[index - 1][`isCoincide${i}`] = true;
-          events[index - 1].counts = 1;
-          item.counts = 1;
-        }
-        return item;
-      }
-    } else {
-      return item;
-    }
-  };
-
-  sortByDate = (a, b) => {
-    return (
-      Date.parse(moment(a.startTime).format('YYYY-MM-DD HH:mm')) -
-      Date.parse(moment(b.startTime).format('YYYY-MM-DD HH:mm'))
-    );
   };
   handleEvents = events => {
     let eventsNew = events && JSON.parse(JSON.stringify(events));
@@ -256,13 +153,9 @@ export default class SingleDayView extends React.PureComponent<any, any> {
       <div ref={this.rootRef} className="ic-single-day-view" style={style}>
         {normalizeEvents(events || [])
           .filter(eventsFilter)
-          // .sort(this.sortByDate)
-          .map(this.judgeCoincide)
           .map(event => {
             const {
               occurId,
-              counts,
-              left,
               original: {
                 event_time,
                 event_endtime,
@@ -292,8 +185,6 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                   data-event_time={event_time}
                   data-event_endtime={event_endtime}
                   key={occurId}
-                  data-event_counts={counts}
-                  data-event_left={left}
                   className="ic-single-day-view__event"
                   onClick={() => {
                     this.handleEventClick(event);
@@ -303,21 +194,18 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                     className="ic-single-day-view__content"
                     style={{ background: category_color }}
                   >
-                    <div className="ic-single-day-view__content-host">
-                      {' '}
-                      {event_hostheadurl ? (
-                        <img
-                          className="ic-single-day-view__host-avatar"
-                          src={event_hostheadurl}
-                        />
-                      ) : (
-                        <Icon
-                          type="user"
-                          className="ic-single-day-view__host-icon"
-                        />
-                      )}
-                      <div className="ic-single-day-view__event-time">{`${event_time} - ${event_endtime}`}</div>
-                    </div>
+                    {event_hostheadurl ? (
+                      <img
+                        className="ic-single-day-view__host-avatar"
+                        src={event_hostheadurl}
+                      />
+                    ) : (
+                      <Icon
+                        type="user"
+                        className="ic-single-day-view__host-icon"
+                      ></Icon>
+                    )}
+                    <div className="ic-single-day-view__event-time">{`${event_time} - ${event_endtime}`}</div>
                     <div className="ic-single-day-view__event-title">
                       {event_title}
                     </div>

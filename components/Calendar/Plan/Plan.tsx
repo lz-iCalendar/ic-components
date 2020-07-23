@@ -71,13 +71,16 @@ export default class Plan extends React.PureComponent<any, any> {
     const result = 0;
     return result;
   };
-
+  sortString = (a, b) => {
+    return a.type.localeCompare(b.type, 'zh-CN');
+  };
   getClassifyRowRenderer = memoizeOne(events => containerWidth => {
     const singleClassifyWidth = containerWidth;
 
+    console.log({ events });
     return (
       <div className="ic-plan__classify" style={{ width: containerWidth }}>
-        {events.map(eventItem => (
+        {events.sort(this.sortString).map(eventItem => (
           <div
             key={eventItem.type}
             className="ic-plan__classify-item"
@@ -163,12 +166,19 @@ export default class Plan extends React.PureComponent<any, any> {
       .map(event => event.original)
       .forEach(event => {
         const index = retEvents.findIndex(
-          item => item.type === event.category_name
+          item =>
+            item.type === (event.formdata && event.formdata.category_name) ||
+            event.category_name
         );
         if (index !== -1) {
           retEvents[index].events.push(event);
         } else {
-          retEvents.push({ type: event.category_name, events: [event] });
+          retEvents.push({
+            type:
+              event.category_name ||
+              (event.formdata && event.formdata.category_name),
+            events: [event],
+          });
         }
       });
     return retEvents;

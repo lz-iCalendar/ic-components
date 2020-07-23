@@ -506,6 +506,7 @@ export default class Calendar extends React.PureComponent<any, any> {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
+      onExportClick
     } = this.props;
     const {
       date,
@@ -668,9 +669,11 @@ export default class Calendar extends React.PureComponent<any, any> {
               onCurrentEventClick={onCurrentEventClick}
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
+              onExportClick={onExportClick}
             />
           </ViewContainer>
         )}
+        {console.log({events})}
         {activeTab === 'plan' && (
           <ViewContainer height={contentViewHeight} onPan={this.handlePan}>
             <Plan

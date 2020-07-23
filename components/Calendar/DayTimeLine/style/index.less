@@ -22,6 +22,7 @@
     width: calc(100% - 110px);
     height: 100%;
     overflow-x: auto;
+    overflow: hidden;
   }
 
   &__content {
@@ -74,6 +75,11 @@
   &__scrollable-content {
     height: calc(100% - 56px);
   }
+  &__scrollable-contentContainer{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
 
   &__scrollable-time {
     overflow: hidden;
@@ -81,5 +87,9 @@
 
   &__scrollable-content {
     overflow: auto;
+    width: 100%;
+    height: 100%;
+    padding-right: 17px;
+    box-sizing: content-box;
   }
 }
