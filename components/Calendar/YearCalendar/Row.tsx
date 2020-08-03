@@ -1,5 +1,5 @@
 import React from 'react';
-import MonthDayView from '../MonthDayView';
+import YearDayView from '../YearDayView';
 
 export default class Row extends React.PureComponent<any, any> {
   state = {
@@ -40,7 +40,7 @@ export default class Row extends React.PureComponent<any, any> {
         {datesOfMonth.map(monthDay => (
           <div className="ic-year-calendar__row-content">
             {monthDay && (
-              <MonthDayView
+              <YearDayView
                 params={eventsMap}
                 date={monthDay}
                 dayElementWidth={singleDayWidth}

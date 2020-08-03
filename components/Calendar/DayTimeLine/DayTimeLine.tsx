@@ -39,7 +39,7 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
   static defaultProps = {
     startHHmm: '00:00',
     endHHmm: '23:59',
-    step: '15:m',
+    step: '60:m',
     formatString: 'hh:mm a',
     // timeSuffix: ['am', 'pm'],
   };
@@ -72,7 +72,10 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
       (width, element) => width + element.offsetWidth,
       0
     );
-    const titleRowRightWidth = Math.max(titleRowRightElementWidth, titleRowRightElementChildrenWidth);
+    const titleRowRightWidth = Math.max(
+      titleRowRightElementWidth,
+      titleRowRightElementChildrenWidth
+    );
     this.setState({
       mainViewHeight: mainViewElement.offsetHeight,
       topEventRowHeight: topEventRowRightElement.offsetHeight,
@@ -81,10 +84,10 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
     });
   }
 
-  handleContentScroll = (e) => {
+  handleContentScroll = e => {
     const { current: timeColumnElement } = this.timeColumnRef;
     timeColumnElement.scrollTop = e.target.scrollTop;
-  }
+  };
 
   render() {
     const {
@@ -114,23 +117,40 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
         time
           .replace(/am|上午|早上|凌晨/i, am)
           .replace(/pm|下午|晚上/i, pm)
-          .replace('中午', (_1, _2, s) => (Number(s.split(':')[0]) === 12 ? pm : am))
+          .replace('中午', (_1, _2, s) =>
+            Number(s.split(':')[0]) === 12 ? pm : am
+          )
       );
     }
-    const topEventRowHeightStyle = topEventRowHeight ? { height: topEventRowHeight } : {};
-    const contentWidthStyle = titleRowRightWidth ? { width: titleRowRightWidth } : {};
-    const verticalScrollableStyle = titleRowRightElement ? { height: `calc(100% - ${titleRowRightElement.offsetHeight}px)` } : {};
+    const topEventRowHeightStyle = topEventRowHeight
+      ? { height: topEventRowHeight }
+      : {};
+    const contentWidthStyle = titleRowRightWidth
+      ? { width: titleRowRightWidth }
+      : {};
+    const verticalScrollableStyle = titleRowRightElement
+      ? { height: `calc(100% - ${titleRowRightElement.offsetHeight}px)` }
+      : {};
 
     return (
-      <div className={classnames('ic-day-time-line', className)} style={{ ...style, height, }}>
+      <div
+        className={classnames('ic-day-time-line', className)}
+        style={{ ...style, height }}
+      >
         <div className="ic-day-time-line__time-column">
-          <div className="ic-day-time-line__title-row-left" style={{ height: titleRowHeight }} />
+          <div
+            className="ic-day-time-line__title-row-left"
+            style={{ height: titleRowHeight }}
+          />
           <div
             ref={this.timeColumnRef}
             className="ic-day-time-line__scrollable-time"
             style={verticalScrollableStyle}
           >
-            <div className="ic-day-time-line__event-row-left" style={topEventRowHeightStyle} />
+            <div
+              className="ic-day-time-line__event-row-left"
+              style={topEventRowHeightStyle}
+            />
             <div>
               {dayTimeLine.map(time => (
                 <div key={time} className="ic-day-time-line__label-row">
@@ -142,27 +162,44 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
         </div>
         <div className="ic-day-time-line__content-column">
           <div className="ic-day-time-line__content" style={contentWidthStyle}>
-            <div ref={this.titleRowRightRef} className="ic-day-time-line__title-row-right" style={{ height: titleRowHeight }}>
+            <div
+              ref={this.titleRowRightRef}
+              className="ic-day-time-line__title-row-right"
+              style={{ height: titleRowHeight }}
+            >
               {renderTitleRow(titleRowRightWidth)}
             </div>
-            <div
-              className="ic-day-time-line__scrollable-content"
-              style={verticalScrollableStyle}
-              onScroll={this.handleContentScroll}
-            >
-              <div ref={this.topEventRowRightRef} className="ic-day-time-line__event-row-right">
-                {renderEventRow(titleRowRightWidth)}
-              </div>
-              <div ref={this.mainViewRef} className="ic-day-time-line__main-view">
-                <div className="ic-day-time-line__bg">
-                  {dayTimeLine.map(time => (
-                    <div key={time} className="ic-day-time-line__bg-row" />
-                  ))}
+            <div className="ic-day-time-line__scrollable-contentContainer">
+              <div
+                className="ic-day-time-line__scrollable-content"
+                style={verticalScrollableStyle}
+                onScroll={this.handleContentScroll}
+              >
+                <div
+                  ref={this.topEventRowRightRef}
+                  className="ic-day-time-line__event-row-right"
+                >
+                  {renderEventRow(titleRowRightWidth)}
                 </div>
-                {/* 渲染事件 */}
-                <ChildrenWithProps startHHmm={startHHmm} endHHmm={endHHmm} step={step} containerHeight={mainViewHeight}>
-                  {renderMainView(titleRowRightWidth)}
-                </ChildrenWithProps>
+                <div
+                  ref={this.mainViewRef}
+                  className="ic-day-time-line__main-view"
+                >
+                  <div className="ic-day-time-line__bg">
+                    {dayTimeLine.map(time => (
+                      <div key={time} className="ic-day-time-line__bg-row" />
+                    ))}
+                  </div>
+                  {/* 渲染事件 */}
+                  <ChildrenWithProps
+                    startHHmm={startHHmm}
+                    endHHmm={endHHmm}
+                    step={step}
+                    containerHeight={mainViewHeight}
+                  >
+                    {renderMainView(titleRowRightWidth)}
+                  </ChildrenWithProps>
+                </div>
               </div>
             </div>
           </div>

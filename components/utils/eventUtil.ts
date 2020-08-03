@@ -1,5 +1,6 @@
 import memoizeOne from 'memoize-one';
 import { monthDayHasher, getHHmmDurationByMinute } from './dateUtil';
+import moment from 'moment';
 
 export const compareEvents = (e1, e2) => e1.endTime - e2.startTime;
 
@@ -122,9 +123,16 @@ export const getEventDuration = (event, type) => {
 
   const { startTime, endTime } = event;
 
+  console.log({ startTime, endTime });
   switch (type) {
     case 'day':
-      return endTime.getDate() - startTime.getDate() + 1;
+      if (
+        moment(endTime).format('HH:mm') === moment(startTime).format('HH:mm')
+      ) {
+        return endTime.getDate() - startTime.getDate();
+      } else {
+        return endTime.getDate() - startTime.getDate() + 1;
+      }
     default:
       return endTime - startTime;
   }
@@ -180,8 +188,42 @@ export const getEventsGroupsInDateRange = memoizeOne(
  * @return {boolean} 是全天事件，返回 true；否则返回 false
  */
 export const isTotalDayEvent = event => {
-  const { event_time, event_endtime } = event.original;
-  return event_time === '00:00' && event_endtime === '23:59';
+  if (event.original) {
+    const format = 'YYYYMMDD';
+    const {
+      event_time,
+      event_endtime,
+      formdata,
+      occur_start,
+      occur_end,
+    } = event.original;
+    if (
+      (formdata && formdata.isAllday === 'Y') ||
+      (Number(moment(occur_end).format(format)) -
+        Number(moment(occur_start).format(format)) >
+        1 &&
+        event_time === '00:00' &&
+        event_endtime === '00:00')
+    ) {
+      return true;
+    }
+  } else {
+    false;
+  }
+};
+
+/**
+ * 是否是多日事件
+ * @param {object} event 事件
+ * @return {boolean} 是多日事件，返回 true；否则返回 false
+ */
+export const isSeveralDayEvent = event => {
+  const format = 'YYYYMMDD';
+  const { event_end, event_begin } = event.original;
+  return (
+    Number(moment(event_end).format(format)) >
+    Number(moment(event_begin).format(format))
+  );
 };
 
 export const getEventsTimeRange = memoizeOne(

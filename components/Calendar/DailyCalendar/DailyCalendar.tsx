@@ -172,7 +172,7 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
           key={`${timeLineRefreshKey}`}
           startHHmm={startHHmm}
           endHHmm={endHHmm}
-          step={'30:m'}
+          step={'60:m'}
           renderTitleRow={this.getTitleRowRenderer(dates, activeDate)}
           renderEventRow={this.getEventRowRenderer(dates, events)}
           renderMainView={this.getMainViewRenderer(dates, events)}

@@ -59,10 +59,15 @@
 
   &__date-range-label {
     margin-right: 20px;
+    cursor: pointer;
   }
 
   &__header-right-part {
     margin-bottom: 20px;
+    &-export{
+      margin-right: 16px;
+      cursor: pointer;
+    }
 
     .ant-checkbox-wrapper {
       font-size: 16px;
@@ -77,17 +82,27 @@
 
   &__body {
     margin-top: 4px;
+    .ant-popover-inner-content {
+      padding: 0;
+    }
   }
 
   // AgendaList 组件
   &-list {
     width: auto;
+    .ant-popover{
+      padding: 10px;
+      .ant-popover-content{
 
+        .ant-popover-inner-content {
+          padding: 0;
+        }
+      }
+    }
     .flex {
       display: flex;
       align-items: center;
     }
-
     &__group-header {
       display: flex;
       align-items: center;
@@ -152,7 +167,8 @@
     &__event-card {
       display: flex;
       flex-wrap: wrap;
-      align-items: flex-start;
+      // align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       margin: 0 32px;
       padding: 12px 0;
@@ -173,21 +189,34 @@
       width: 180px;
     }
 
+    @media screen and (max-width: 768px) {
+      &__event-dot{
+        width: 6px;
+        height: 6px;
+        border-radius: 3px;
+        display: none;
+      }
+    }
+    &__event-dot{
+      width: 6px;
+      height: 6px;
+      border-radius: 3px;
+    }
     &__event-time {
       display: flex;
       align-items: center;
       // width: 30%;
       width: 200px;
 
-      &::before {
-        content: '';
-        display: block;
-        width: 6px;
-        height: 6px;
-        border-radius: 3px;
-        background: rgb(122, 159, 186);
-        margin-right: 16px;
-      }
+      // &::before {
+      //   content: '';
+      //   display: block;
+      //   width: 6px;
+      //   height: 6px;
+      //   border-radius: 3px;
+      //   background: rgb(122, 159, 186);
+      //   margin-right: 16px;
+      // }
     }
 
     &__event-title {

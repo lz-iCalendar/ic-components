@@ -93,6 +93,7 @@ export default class YearCalendar extends React.PureComponent<any, any> {
             </div>
           ))}
         </div>
+        {console.log({dates})}
         {dates.map((datesOfMonth, month) => (
           <Row
             key={month}

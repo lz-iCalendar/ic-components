@@ -26,7 +26,7 @@ const dayElementPadding = {
 const constructPadding = ({ top, bottom, left, right }) =>
   `${top}px ${right}px ${bottom}px ${left}px`;
 
-export default class MonthDayView extends React.PureComponent<any, any> {
+export default class YearDayView extends React.PureComponent<any, any> {
   static propTypes = {
     /**
      * 事件详情弹窗点击的回调
@@ -69,7 +69,6 @@ export default class MonthDayView extends React.PureComponent<any, any> {
       maxDurationByDay > eventDurationByDay
         ? eventDurationByDay
         : maxDurationByDay;
-        console.log({eventDurationByDay,daysToLastDayOfSection,maxDurationByDay,realDurationByDay})
     return dayElementWidth * realDurationByDay - left - right;
   }
 
@@ -82,6 +81,25 @@ export default class MonthDayView extends React.PureComponent<any, any> {
   handleEventClick = event => {
     console.log(event);
   };
+  isInclude(arr, obj) {
+    let include = false;
+    arr &&
+      Object.keys(arr).forEach((item, index) => {
+        console.log({ item, index });
+        if (
+          (arr[index][0] && arr[index][0].occurId === obj.occurId) ||
+          (arr[index][1] && arr[index][1].occurId === obj.occurId)
+        ) {
+          include = true;
+        }
+      });
+    if (include) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
     const {
       grayDayOfOtherMonths,
@@ -100,9 +118,40 @@ export default class MonthDayView extends React.PureComponent<any, any> {
       onFutureEventClick,
       onAllEventClick,
     } = this.props;
-
+    const dateSort = (a,b) => {
+      return Date.parse(a.startTime) - Date.parse(b.startTime);
+    }
     const eventKey = monthDayHasher(date);
     const eventsOfToday = eventsMap.get(eventKey) || [];
+    eventsOfToday.sort(dateSort)
+    //第一步，先找到相同的开始结束时间 数据
+    // eventsOfToday.forEach((item, index) => {
+    //   let find = false;
+    //   eventsOfTodayNew[index] = [];
+    //   eventsOfToday.forEach((items) => {
+    //     if (
+    //       item.original.occur_begin === items.original.occur_begin &&
+    //       item.original.occur_end === items.original.occur_end &&
+    //       item.occurId !== items.occurId
+    //     ) {
+    //       let include = false;
+    //       include = this.isInclude(eventsOfTodayNew, items);
+    //       if (!include) {
+    //         eventsOfTodayNew[i].push(items);
+    //         find = true;
+    //       }
+    //     }
+    //   });
+
+    //   if (find) {
+    //     eventsOfTodayNew[i].push(item);
+    //     // eventsOfToday.splice(index, 1, eventsOfTodayNew[i]);
+    //     indexs.push(index)
+    //     i++;
+    //   }
+    // });
+    // console.log({ eventsOfTodayNew,eventsOfToday ,indexs,i});
+
     const monthDay = date.getDate();
     const isActive = isSameMonthDay(date, calendarActiveDate);
     const isDateOfOtherMonth =
@@ -110,6 +159,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
     const weekDay = date.getDay();
     const isWeekend = weekDay === 0 || weekDay === 6;
     const eventsLimit = propEventsLimit || eventsOfToday.length;
+
 
     return (
       <div
@@ -178,18 +228,31 @@ export default class MonthDayView extends React.PureComponent<any, any> {
                     <div
                       className="ic-month-day-view__event-bar"
                       style={{
-                        background: category_color,
+                        background: isSeveralDayEvent(event)
+                          ? category_color
+                          : 'none',
                       }}
                       onClick={() => {
                         this.handleEventClick(event);
                       }}
                     >
-                      <div className="ic-month-day-view__event-title">
+                      <div
+                        className="ic-month-day-view__event-title"
+                        style={{
+                          display: isSeveralDayEvent(event) ? '' : 'none',
+                        }}
+                      >
                         {event_title}
                       </div>
                       {/* dotVisible && */}
-                      {isTotalDayEvent(event) && (
+                      {/* {isTotalDayEvent(event) && (
                         <div className="ic-month-day-view__dot" />
+                      )} */}
+                      {!isSeveralDayEvent(event) && !isTotalDayEvent(event) && (
+                        <div
+                          className="ic-month-day-view__dot"
+                          style={{ background: category_color }}
+                        />
                       )}
                     </div>
                   </div>

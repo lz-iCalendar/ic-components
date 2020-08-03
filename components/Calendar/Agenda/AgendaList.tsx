@@ -12,10 +12,14 @@ import {
 } from '../../utils/eventUtil';
 import { Popover } from 'antd';
 import EventDetails from '../EventDetails';
+import { func } from 'prop-types';
 
 function getGroupTitle(date) {
   return `${getWeekDayName(date)} ${date.getFullYear()}年${date.getMonth() +
     1}月${date.getDate()}日`;
+}
+function sortDownDate(a, b) {
+  return Date.parse(a.date) - Date.parse(b.date);
 }
 
 export default function AgendaList(props) {
@@ -31,6 +35,7 @@ export default function AgendaList(props) {
   const eventsGroups = groupEventsByDay(
     filterEventsByImportance(events, importantOnly)
   );
+  console.log({eventsGroups})
   let eventsGroupsInDateRange = [];
   const [rangeStep, rangeUnit] = dateRange.split(':');
   const startDate = new Date(propStartDate);
@@ -46,7 +51,9 @@ export default function AgendaList(props) {
       endDate.valueOf()
     );
   }
-
+  console.log({ eventsGroupsInDateRange });
+  eventsGroupsInDateRange.sort(sortDownDate);
+  console.log({ eventsGroupsInDateRange });
   const {
     onEventDetailsClick,
     onCurrentEventClick,
@@ -88,65 +95,74 @@ export default function AgendaList(props) {
                     event_desc,
                     event_attach,
                     event_image,
+                    category_color,
+                    formdata,
                   },
                 } = event;
+                console.log({ groupEvents, event });
                 const hasAttachment = event_attach && event_attach[1];
                 return (
-                  <Popover
-                    // trigger='click'
-                    // getPopupContainer={() =>
-                    //   document.querySelector('.ic-month-day-view')
-                    // }
-                    content={
-                      <EventDetails
-                        eventData={event.original}
-                        onEventDetailsClick={onEventDetailsClick}
-                        onCurrentEventClick={onCurrentEventClick}
-                        onFutureEventClick={onFutureEventClick}
-                        onAllEventClick={onAllEventClick}
-                      />
-                    }
-                    // className="ic-single-day-view__popover"
-                  >
-                    <div key={occurId} className="ic-agenda-list__event-card">
-                      <div className="ic-agenda-list__event-time">
-                        {`${formatHHmmTime(event_time)} ~ ${formatHHmmTime(
-                          event_endtime
-                        )}`}
-                      </div>
-                      <div className="ic-agenda-list__event-title">
-                        {event_title}
-                      </div>
-                      <div className="ic-agenda-list__event-content">
-                        <div className="ic-agenda-list__event-short">
-                          {event_location}
+                  <div className="ic-agenda__popover">
+                    <Popover
+                      // trigger='click'
+                      getPopupContainer={() =>
+                        document.querySelector('.ic-agenda-list')
+                      }
+                      className="ic-agenda__popover"
+                      content={
+                        <EventDetails
+                          eventData={event.original}
+                          onEventDetailsClick={onEventDetailsClick}
+                          onCurrentEventClick={onCurrentEventClick}
+                          onFutureEventClick={onFutureEventClick}
+                          onAllEventClick={onAllEventClick}
+                        />
+                      }
+                    >
+                      <div key={occurId} className="ic-agenda-list__event-card">
+                        <div
+                          className="ic-agenda-list__event-dot"
+                          style={{ background: category_color }}
+                        ></div>
+                        <div className="ic-agenda-list__event-time">
+                          {`${formatHHmmTime(event_time)} ~ ${formatHHmmTime(
+                            event_endtime
+                          )}`}
                         </div>
-                        {detailVisible && (
-                          <div className="ic-agenda-list__event-detail">
-                            {event_desc}
+                        <div className="ic-agenda-list__event-title">
+                          {event_title}
+                        </div>
+                        <div className="ic-agenda-list__event-content">
+                          <div className="ic-agenda-list__event-short">
+                            {(formdata && formdata.location) || event_location}
                           </div>
-                        )}
+                          {detailVisible && (
+                            <div className="ic-agenda-list__event-detail">
+                              {(formdata && formdata.dec) || event_desc}
+                            </div>
+                          )}
+                        </div>
+                        <div className="ic-agenda-list__event-ai-wrap">
+                          {hasAttachment && (
+                            <div className="ic-agenda-list__event-attachment">
+                              <a
+                                className="ic-agenda__img"
+                                href={event_attach[1]}
+                                target="_blank"
+                              >
+                                <div className="ic-agenda-list__event-attachment-icon" />
+                              </a>
+                            </div>
+                          )}
+                          {detailVisible && event_image && (
+                            <div className="ic-agenda-list__event-image">
+                              <img src={event_image} />
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      <div className="ic-agenda-list__event-ai-wrap">
-                        {hasAttachment && (
-                          <div className="ic-agenda-list__event-attachment">
-                            <a
-                              className="ic-agenda__img"
-                              href={event_attach[1]}
-                              target="_blank"
-                            >
-                              <div className="ic-agenda-list__event-attachment-icon" />
-                            </a>
-                          </div>
-                        )}
-                        {detailVisible && event_image && (
-                          <div className="ic-agenda-list__event-image">
-                            <img src={event_image} />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </Popover>
+                    </Popover>
+                  </div>
                 );
               })}
             </div>
