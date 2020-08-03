@@ -204,6 +204,13 @@ export default class Calendar extends React.PureComponent<any, any> {
 
     // --- 计划视图
     // --- //
+
+    // --- 其他
+    /**
+     * 是否显示 loading
+     * 默认：false
+     */
+    loading: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -516,7 +523,8 @@ export default class Calendar extends React.PureComponent<any, any> {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
-      onExportClick
+      onExportClick,
+      loading,
     } = this.props;
     const {
       date,
@@ -542,6 +550,20 @@ export default class Calendar extends React.PureComponent<any, any> {
 
     return (
       <div style={{ height }} className="ic-calendar">
+        {true && (
+          <div className="ic-calendar__loading">
+            <div />
+            <div />
+            <div />
+            <div />
+            <div />
+            <div />
+            <div />
+            <div />
+            <div />
+          </div>
+        )}
+
         <div ref={this.headerRef} className="ic-calendar__header">
           <div className="ic-calendar__date-pickers">
             <DateSwitcher

@@ -1,5 +1,3 @@
-/// <reference path='../../../typings/custom-typings.d.ts'/>
-
 import React from 'react';
 import classnames from 'classnames';
 import moment from 'moment';
@@ -35,7 +33,6 @@ export default function AgendaList(props) {
   const eventsGroups = groupEventsByDay(
     filterEventsByImportance(events, importantOnly)
   );
-  console.log({eventsGroups})
   let eventsGroupsInDateRange = [];
   const [rangeStep, rangeUnit] = dateRange.split(':');
   const startDate = new Date(propStartDate);
@@ -51,9 +48,7 @@ export default function AgendaList(props) {
       endDate.valueOf()
     );
   }
-  console.log({ eventsGroupsInDateRange });
   eventsGroupsInDateRange.sort(sortDownDate);
-  console.log({ eventsGroupsInDateRange });
   const {
     onEventDetailsClick,
     onCurrentEventClick,
@@ -99,10 +94,9 @@ export default function AgendaList(props) {
                     formdata,
                   },
                 } = event;
-                console.log({ groupEvents, event });
                 const hasAttachment = event_attach && event_attach[1];
                 return (
-                  <div className="ic-agenda__popover">
+                  <div className="ic-agenda__popover" key={occurId} >
                     <Popover
                       // trigger='click'
                       getPopupContainer={() =>
@@ -119,11 +113,11 @@ export default function AgendaList(props) {
                         />
                       }
                     >
-                      <div key={occurId} className="ic-agenda-list__event-card">
+                      <div className="ic-agenda-list__event-card">
                         <div
                           className="ic-agenda-list__event-dot"
                           style={{ background: category_color }}
-                        ></div>
+                        />
                         <div className="ic-agenda-list__event-time">
                           {`${formatHHmmTime(event_time)} ~ ${formatHHmmTime(
                             event_endtime

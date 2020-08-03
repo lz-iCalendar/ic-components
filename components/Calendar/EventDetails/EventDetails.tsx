@@ -70,12 +70,11 @@ export default class EventDetails extends React.PureComponent<any, any> {
     const endDate = moment(endTime).format('YYYY年MM月DD日');
     startTime = moment(startTime).format('HH:mm');
     endTime = moment(endTime).format('HH:mm');
-    console.log({ aaa: this.props.onEventDetailsClick });
+
     return (
       <div
         className="ic-event-details-modal"
         onClick={() => {
-          console.log('father');
           this.handleClick();
         }}
       >
@@ -107,7 +106,7 @@ export default class EventDetails extends React.PureComponent<any, any> {
           <div className="ic-event-details-modal__content-item">
             <div className="ic-event-details-modal__content-item-right">
               {(formdata && formdata.headimgurl) || event_hostheadurl ? (
-                <Avatar src={formdata.headimgurl} size={32} />
+                <Avatar src={(formdata && formdata.headimgurl) || event_hostheadurl} size={32} />
               ) : (
                 <Avatar icon="user" size={32} />
               )}

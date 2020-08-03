@@ -79,13 +79,12 @@ export default class YearDayView extends React.PureComponent<any, any> {
   }
 
   handleEventClick = event => {
-    console.log(event);
+
   };
   isInclude(arr, obj) {
     let include = false;
     arr &&
       Object.keys(arr).forEach((item, index) => {
-        console.log({ item, index });
         if (
           (arr[index][0] && arr[index][0].occurId === obj.occurId) ||
           (arr[index][1] && arr[index][1].occurId === obj.occurId)
@@ -196,10 +195,10 @@ export default class YearDayView extends React.PureComponent<any, any> {
                 ? { width: eventElementWidth }
                 : {};
 
-              console.log({ event, eventsOfToday });
               // const {occur_start,occur_end} = event.original;
               return (
                 <Popover
+                  key={occur_id}
                   trigger="click"
                   // trigger={['click']}
                   getPopupContainer={() =>

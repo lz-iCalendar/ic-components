@@ -82,18 +82,18 @@ export default class YearCalendar extends React.PureComponent<any, any> {
           >
             {date.getFullYear()}
           </div>
-          {headerWeeks.slice(0, maxDaysOfMonth).map((weekDayId: number) => (
+          {headerWeeks.slice(0, maxDaysOfMonth).map((weekDayId: number, index) => (
             <div
               className={classnames(
                 'ic-year-calendar__row-content',
                 'ic-year-calendar__header-content'
               )}
+              key={`${weekDayId}-${index}`}
             >
               {weekDayIdLabelMap[`${weekDayId}`]}
             </div>
           ))}
         </div>
-        {console.log({dates})}
         {dates.map((datesOfMonth, month) => (
           <Row
             key={month}

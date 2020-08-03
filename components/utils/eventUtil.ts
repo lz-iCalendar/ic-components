@@ -123,7 +123,6 @@ export const getEventDuration = (event, type) => {
 
   const { startTime, endTime } = event;
 
-  console.log({ startTime, endTime });
   switch (type) {
     case 'day':
       if (

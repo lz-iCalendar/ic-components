@@ -76,7 +76,6 @@ export default class SingleDayView extends React.PureComponent<any, any> {
         (eventTotalMinutes * containerHeight) / totalMinutes;
 
       const elementWidth = Number(100 / counts);
-      console.log({ counts });
       element.style.left = `${left * 100}%`;
       element.style.width = `${elementWidth}%`;
       element.style.top = `${elementTop}px`;
@@ -99,7 +98,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
   rootRef: any = React.createRef();
 
   handleEventClick = event => {
-    console.log(event);
+
   };
   judgeCoincide = (item, index) => {
     let i = 0;
@@ -108,16 +107,13 @@ export default class SingleDayView extends React.PureComponent<any, any> {
     item.isVisible = true;
     if (index > 0) {
       index = index + len;
-      console.log('come3', index);
       if (
         item.original.event_time >= events[index - 1].original.event_endtime &&
         item.original.event_endtime >= events[index - 1].original.event_time
       ) {
         item.isVisible = false;
-        console.log('come2', item, events[index - 1]);
         return item;
       } else if (index === 1) {
-        console.log("come4")
         item.counts = 2;
         item.left = 0.5;
         events[index - 1].counts = 2;
@@ -128,11 +124,9 @@ export default class SingleDayView extends React.PureComponent<any, any> {
 
         //如果元素上一个被标记了
         if (events[index - 1][`isCoincide${i}`]) {
-          console.log('come', item, events[index - 1]);
           item[`isCoincide${i}`] = true;
           item.counts = events[index - 1].counts + 1;
           if (!events[index - 1].isVisible) {
-            console.log("come5")
             //如果上一个元素，是 分离点的话。
             events[index - 1].counts = 2;
             item.counts = 2;
@@ -144,7 +138,6 @@ export default class SingleDayView extends React.PureComponent<any, any> {
             const num = Number(1 / item.counts);
             if (item.counts > 2 && index >= 2) {
               for (i = 0; i < item.counts; i++) {
-                console.log('error', item, i, index, item.counts, _counts);
                 index - i >= 0 ? (events[index - i].counts = _counts) : '';
                 index - i >= 0
                   ? (events[index - i].left = 1 - num * (i + 1))
@@ -152,7 +145,6 @@ export default class SingleDayView extends React.PureComponent<any, any> {
               }
             } else if (item.counts === 2 && index >= 2) {
               for (i = 0; i < item.counts; i++) {
-                console.log('error', item, i, index, item.counts, _counts);
                 index - i >= 0 ? (events[index - i].counts = _counts) : '';
                 index - i >= 0
                   ? (events[index - i].left = 1 - num * (i + 1))

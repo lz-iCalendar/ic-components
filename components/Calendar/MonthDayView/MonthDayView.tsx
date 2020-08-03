@@ -69,7 +69,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
       maxDurationByDay > eventDurationByDay
         ? eventDurationByDay
         : maxDurationByDay;
-        console.log({eventDurationByDay,daysToLastDayOfSection,maxDurationByDay,realDurationByDay})
+
     return dayElementWidth * realDurationByDay - left - right;
   }
 
@@ -80,7 +80,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
   }
 
   handleEventClick = event => {
-    console.log(event);
+
   };
   render() {
     const {
@@ -146,7 +146,6 @@ export default class MonthDayView extends React.PureComponent<any, any> {
                 ? { width: eventElementWidth }
                 : {};
 
-              console.log({ event, eventsOfToday });
               // const {occur_start,occur_end} = event.original;
               return (
                 <Popover

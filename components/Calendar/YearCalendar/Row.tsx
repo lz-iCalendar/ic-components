@@ -37,8 +37,11 @@ export default class Row extends React.PureComponent<any, any> {
         style={rowStyle}
       >
         <div className="ic-year-calendar__row-title">{`${month + 1}月`}</div>
-        {datesOfMonth.map(monthDay => (
-          <div className="ic-year-calendar__row-content">
+        {datesOfMonth.map((monthDay, index) => (
+          <div
+            className="ic-year-calendar__row-content"
+            key={`${monthDay}-${index}`}
+          >
             {monthDay && (
               <YearDayView
                 params={eventsMap}
