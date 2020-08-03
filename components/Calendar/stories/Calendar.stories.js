@@ -4,6 +4,7 @@ import Calendar from '../Calendar';
 import { mockEvents } from './mockData';
 import 'antd/dist/antd.css';
 import '../style/index.less';
+import { Button } from 'antd';
 
 const stories = storiesOf('Calendar 日历', module);
 
@@ -11,6 +12,7 @@ class Wrap extends React.Component {
   state = {
     events: mockEvents,
     eventKeyword: undefined,
+    spinning: true,
   };
 
   handleEventDetailsClick = eventData => {
@@ -18,9 +20,10 @@ class Wrap extends React.Component {
   };
 
   render() {
-    const { events } = this.state;
+    const { events, spinning } = this.state;
     return (
       <div>
+        <Button onClick={() => this.setState({ spinning: !spinning })}>切换 spinning</Button>
         <input
           onChange={e => this.setState({ eventKeyword: e.target.value })}
         />
@@ -29,6 +32,7 @@ class Wrap extends React.Component {
           events={events}
           defaultActiveTab="singleDay"
           onEventDetailsClick={this.handleEventDetailsClick}
+          spinning={spinning}
         />
       </div>
     );

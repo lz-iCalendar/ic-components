@@ -21,6 +21,7 @@ import YearCalendar from './YearCalendar';
 import Plan from './Plan';
 import enquire from 'enquire.js';
 import { getWeeksOfMonth } from '../utils/dateUtil';
+import CalendarSpinner from './CalendarSpinner';
 
 const { Option } = Select;
 
@@ -210,7 +211,7 @@ export default class Calendar extends React.PureComponent<any, any> {
      * 是否显示 loading
      * 默认：false
      */
-    loading: PropTypes.bool,
+    spinning: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -221,6 +222,7 @@ export default class Calendar extends React.PureComponent<any, any> {
     defaultMultiWeeks: 4,
     maxMultiWeeks: 10,
     defaultAgendaDateRange: '1:M',
+    spinning: false,
     // onEventDetailsClick: () => {},
   };
 
@@ -524,7 +526,7 @@ export default class Calendar extends React.PureComponent<any, any> {
       onFutureEventClick,
       onAllEventClick,
       onExportClick,
-      loading,
+      spinning,
     } = this.props;
     const {
       date,
@@ -550,19 +552,7 @@ export default class Calendar extends React.PureComponent<any, any> {
 
     return (
       <div style={{ height }} className="ic-calendar">
-        {true && (
-          <div className="ic-calendar__loading">
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-          </div>
-        )}
+        <CalendarSpinner visible={spinning} />
 
         <div ref={this.headerRef} className="ic-calendar__header">
           <div className="ic-calendar__date-pickers">
