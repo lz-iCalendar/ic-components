@@ -107,8 +107,6 @@ export default class MonthDayView extends React.PureComponent<any, any> {
     const isWeekend = weekDay === 0 || weekDay === 6;
     const eventsLimit = propEventsLimit || eventsOfToday.length;
 
-    console.log({ eee: onEventDetailsClick });
-
     return (
       <div
         className="ic-month-day-view"

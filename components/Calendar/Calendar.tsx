@@ -20,6 +20,7 @@ import DailyCalendar from './DailyCalendar';
 import YearCalendar from './YearCalendar';
 import Plan from './Plan';
 import enquire from 'enquire.js';
+import { getWeeksOfMonth } from '../utils/dateUtil';
 
 const { Option } = Select;
 
@@ -358,7 +359,17 @@ export default class Calendar extends React.PureComponent<any, any> {
         const yearEndDate = year.endOf('year').toDate();
         return [yearStartDate, yearEndDate];
       }
-      case 'month':
+      case 'month': {
+        const week = getWeeksOfMonth(date.getFullYear(), date.getMonth());
+        const len = week.length;
+        if (len) {
+          const length = week[len - 1].length;
+          const start = week[0][0];
+          const end = week[len - 1][length - 1];
+          return [start, end];
+        }
+        break;
+      }
       default: {
         const monthDate = moment([date.getFullYear(), date.getMonth()]);
         const monthStartDate = monthDate.startOf('month').toDate();
