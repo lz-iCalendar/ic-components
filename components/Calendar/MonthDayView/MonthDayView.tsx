@@ -150,6 +150,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
               // const {occur_start,occur_end} = event.original;
               return (
                 <Popover
+                  key={occur_id}
                   trigger="click"
                   // trigger={['click']}
                   getPopupContainer={() =>
@@ -166,7 +167,6 @@ export default class MonthDayView extends React.PureComponent<any, any> {
                   }
                 >
                   <div
-                    key={occur_id}
                     className={classnames('ic-month-day-view__event', {
                       ['ic-month-day-view__event-hidden']: !this.isVisible(
                         event

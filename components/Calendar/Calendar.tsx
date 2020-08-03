@@ -490,7 +490,6 @@ export default class Calendar extends React.PureComponent<any, any> {
         {tabs
           .map(tab => {
             const visible = this.state.viewsVisible[tab.key];
-            console.log({ visible });
             return (
               visible && (
                 <div
@@ -684,7 +683,6 @@ export default class Calendar extends React.PureComponent<any, any> {
             />
           </ViewContainer>
         )}
-        {console.log({events})}
         {activeTab === 'plan' && (
           <ViewContainer height={contentViewHeight} onPan={this.handlePan}>
             <Plan
