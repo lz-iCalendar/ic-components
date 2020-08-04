@@ -13,7 +13,7 @@ class Wrap extends React.Component {
   state = {
     events: mockEvents,
     eventKeyword: undefined,
-    spinning: true,
+    spinning: false,
   };
 
   handleEventDetailsClick = eventData => {

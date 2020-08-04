@@ -212,6 +212,12 @@ export default class Calendar extends React.PureComponent<any, any> {
      * 默认：false
      */
     spinning: PropTypes.bool,
+
+    /**
+     * 年视图的月份 loading
+     * 默认：[false, false, false, false, false, false, false, false, false, false, false, false]
+     */
+    yearSpinning: PropTypes.array,
   };
 
   static defaultProps = {
@@ -223,6 +229,7 @@ export default class Calendar extends React.PureComponent<any, any> {
     maxMultiWeeks: 10,
     defaultAgendaDateRange: '1:M',
     spinning: false,
+    yearSpinning: [false, false, false, false, false, false, false, false, false, false, false, false],
     // onEventDetailsClick: () => {},
   };
 
@@ -531,6 +538,7 @@ export default class Calendar extends React.PureComponent<any, any> {
       onAllEventClick,
       onExportClick,
       spinning,
+      yearSpinning,
     } = this.props;
     const {
       date,
@@ -681,6 +689,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               onCurrentEventClick={onCurrentEventClick}
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
+              spinning={yearSpinning}
             />
           </ViewContainer>
         )}

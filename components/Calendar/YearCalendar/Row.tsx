@@ -1,5 +1,6 @@
 import React from 'react';
 import YearDayView from '../YearDayView';
+import { Icon } from 'antd';
 
 export default class Row extends React.PureComponent<any, any> {
   state = {
@@ -26,6 +27,7 @@ export default class Row extends React.PureComponent<any, any> {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
+      spinning,
     } = this.props;
     const { rowHeight } = this.state;
     const rowStyle = rowHeight ? { height: rowHeight } : {};
@@ -36,7 +38,7 @@ export default class Row extends React.PureComponent<any, any> {
         className="ic-year-calendar__row"
         style={rowStyle}
       >
-        <div className="ic-year-calendar__row-title">{`${month + 1}月`}</div>
+        <div className="ic-year-calendar__row-title">{spinning ? <Icon type="loading" /> : `${month + 1}月`}</div>
         {datesOfMonth.map((monthDay, index) => (
           <div
             className="ic-year-calendar__row-content"

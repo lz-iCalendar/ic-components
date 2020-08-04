@@ -62,6 +62,7 @@ export default class YearCalendar extends React.PureComponent<any, any> {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
+      spinning,
     } = this.props;
     const year = date.getFullYear();
     const [dates, maxDaysOfMonth] = getDatesOfYearCalendar(year);
@@ -96,6 +97,7 @@ export default class YearCalendar extends React.PureComponent<any, any> {
         </div>
         {dates.map((datesOfMonth, month) => (
           <Row
+            spinning={spinning[month]}
             key={month}
             datesOfMonth={datesOfMonth}
             month={month}
