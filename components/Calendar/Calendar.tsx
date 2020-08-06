@@ -469,9 +469,10 @@ export default class Calendar extends React.PureComponent<any, any> {
 
   handleMultiWeeksChange = n => {
     this.setState({ multiWeeks: n }, () => {
-      const dateRange = this.getDateRange(this.state.activeTab);
+      const { activeTab } = this.state;
+      const dateRange = this.getDateRange(activeTab);
       const { onDateRangeChange } = this.props;
-      onDateRangeChange && onDateRangeChange(dateRange);
+      onDateRangeChange && onDateRangeChange(dateRange, activeTab);
     });
   };
 
@@ -480,7 +481,7 @@ export default class Calendar extends React.PureComponent<any, any> {
     if (typeof onDateRangeChange === 'function') {
       const { activeTab } = this.state;
       const dateRange = this.getDateRange(activeTab);
-      onDateRangeChange(dateRange);
+      onDateRangeChange(dateRange, activeTab);
     }
   };
 
