@@ -76,8 +76,6 @@ export default class Plan extends React.PureComponent<any, any> {
   };
   getClassifyRowRenderer = memoizeOne(events => containerWidth => {
     const singleClassifyWidth = containerWidth;
-
-    console.log({ events });
     return (
       <div className="ic-plan__classify" style={{ width: containerWidth }}>
         {events.sort(this.sortString).map(eventItem => (
