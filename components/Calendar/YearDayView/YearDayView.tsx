@@ -123,33 +123,6 @@ export default class YearDayView extends React.PureComponent<any, any> {
     const eventKey = monthDayHasher(date);
     const eventsOfToday = eventsMap.get(eventKey) || [];
     eventsOfToday.sort(dateSort)
-    //第一步，先找到相同的开始结束时间 数据
-    // eventsOfToday.forEach((item, index) => {
-    //   let find = false;
-    //   eventsOfTodayNew[index] = [];
-    //   eventsOfToday.forEach((items) => {
-    //     if (
-    //       item.original.occur_begin === items.original.occur_begin &&
-    //       item.original.occur_end === items.original.occur_end &&
-    //       item.occurId !== items.occurId
-    //     ) {
-    //       let include = false;
-    //       include = this.isInclude(eventsOfTodayNew, items);
-    //       if (!include) {
-    //         eventsOfTodayNew[i].push(items);
-    //         find = true;
-    //       }
-    //     }
-    //   });
-
-    //   if (find) {
-    //     eventsOfTodayNew[i].push(item);
-    //     // eventsOfToday.splice(index, 1, eventsOfTodayNew[i]);
-    //     indexs.push(index)
-    //     i++;
-    //   }
-    // });
-    // console.log({ eventsOfTodayNew,eventsOfToday ,indexs,i});
 
     const monthDay = date.getDate();
     const isActive = isSameMonthDay(date, calendarActiveDate);
@@ -158,7 +131,6 @@ export default class YearDayView extends React.PureComponent<any, any> {
     const weekDay = date.getDay();
     const isWeekend = weekDay === 0 || weekDay === 6;
     const eventsLimit = propEventsLimit || eventsOfToday.length;
-
 
     return (
       <div
@@ -188,8 +160,12 @@ export default class YearDayView extends React.PureComponent<any, any> {
                   occur_id,
                   category_color,
                   event_hostheadurl,
+                  forbidRender,
                 },
               } = event;
+              if (forbidRender) {
+                return;
+              }
               const eventElementWidth = this.getEventElementWidth(event);
               const eventElementStyle = eventElementWidth
                 ? { width: eventElementWidth }

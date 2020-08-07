@@ -77,6 +77,7 @@ export default class Plan extends React.PureComponent<any, any> {
   getClassifyRowRenderer = memoizeOne(events => containerWidth => {
     const singleClassifyWidth = containerWidth;
 
+    console.log({ events });
     return (
       <div className="ic-plan__classify" style={{ width: containerWidth }}>
         {events.sort(this.sortString).map(eventItem => (
@@ -142,19 +143,21 @@ export default class Plan extends React.PureComponent<any, any> {
     } = this.props;
     return (
       <ChildrenWithProps className="ic-plan__single-classify-wrap">
-        {eventsWithEventsMap.map(event => (
-          <SingleDayView
-            key={event.type}
-            events={event.eventsMap.get(monthDayHasher(date))}
-            eventsFilter={notAllDayEventsFilter}
-            date={date}
-            style={{ width }}
-            onEventDetailsClick={onEventDetailsClick}
-            onCurrentEventClick={onCurrentEventClick}
-            onFutureEventClick={onFutureEventClick}
-            onAllEventClick={onAllEventClick}
-          />
-        ))}
+        {eventsWithEventsMap.map(event => {
+          return (
+            <SingleDayView
+              key={event.type}
+              events={event.eventsMap.get(monthDayHasher(date))}
+              eventsFilter={notAllDayEventsFilter}
+              date={date}
+              style={{ width }}
+              onEventDetailsClick={onEventDetailsClick}
+              onCurrentEventClick={onCurrentEventClick}
+              onFutureEventClick={onFutureEventClick}
+              onAllEventClick={onAllEventClick}
+            />
+          );
+        })}
       </ChildrenWithProps>
     );
   });
@@ -166,8 +169,8 @@ export default class Plan extends React.PureComponent<any, any> {
       .forEach(event => {
         const index = retEvents.findIndex(
           item =>
-            item.type === (event.formdata && event.formdata.category_name) ||
-            event.category_name
+            item.type === event.category_name ||
+            (event.formdata && event.formdata.category_name)
         );
         if (index !== -1) {
           retEvents[index].events.push(event);

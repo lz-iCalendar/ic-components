@@ -79,9 +79,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
     return !alreadyBegun || isFirstDayOfSection(startTime);
   }
 
-  handleEventClick = event => {
-
-  };
+  handleEventClick = event => {};
   render() {
     const {
       grayDayOfOtherMonths,
@@ -139,8 +137,12 @@ export default class MonthDayView extends React.PureComponent<any, any> {
                   occur_id,
                   category_color,
                   event_hostheadurl,
+                  forbidRender,
                 },
               } = event;
+              if (forbidRender) {
+                return;
+              }
               const eventElementWidth = this.getEventElementWidth(event);
               const eventElementStyle = eventElementWidth
                 ? { width: eventElementWidth }

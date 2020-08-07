@@ -34,7 +34,24 @@ export const mockEvents = [
   //   event_important: 1,
   //   category_name: '分类1',
   // },
-
+  {
+    occur_id: -1, // 事件发生编号（唯一）
+    category_color: 'rgb(255, 160, 120)',
+    event_title: '是是是是title',
+    event_short: '是是是是short',
+    event_desc: '是是是是desc',
+    occur_begin: moment().startOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
+    occur_end: moment().endOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
+    event_hostheadurl: 'http://placekitten.com/32/32',
+    event_image: 'http://placekitten.com/200/150',
+    event_time: '08:30',
+    event_endtime: '09:00',
+    event_weather: 2,
+    event_attach: ['附件', 'http://www.baidu.com'],
+    event_important: 0,
+    category_name: '分类类类',
+    forbidRender: true,
+  },
   {
     occur_id: 1, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',

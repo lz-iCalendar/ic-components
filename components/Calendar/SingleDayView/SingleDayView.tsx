@@ -37,7 +37,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
     if (events) {
       const eventsNew = events.filter(eventsFilter);
       const len = events.length - eventsNew.length;
-      
+
       this.setState({
         len,
       });
@@ -97,9 +97,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
 
   rootRef: any = React.createRef();
 
-  handleEventClick = event => {
-
-  };
+  handleEventClick = event => {};
   judgeCoincide = (item, index) => {
     let i = 0;
     const { events } = this.props;
@@ -151,7 +149,6 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                   : '';
               }
             } else {
-
               events[index].counts = _counts;
               events[index].left = 0.5;
               events[index - 1].counts = _counts;
@@ -261,8 +258,12 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                 event_title,
                 event_hostheadurl,
                 category_color,
+                forbidRender,
               },
             } = event;
+            if (forbidRender) {
+              return;
+            }
             return (
               <Popover
                 key={occurId}

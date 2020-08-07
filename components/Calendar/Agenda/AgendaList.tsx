@@ -92,8 +92,12 @@ export default function AgendaList(props) {
                     event_image,
                     category_color,
                     formdata,
+                    forbidRender,
                   },
                 } = event;
+                if (forbidRender) {
+                  return;
+                }
                 const hasAttachment = event_attach && event_attach[1];
                 return (
                   <div className="ic-agenda__popover" key={occurId} >
