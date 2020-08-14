@@ -25,7 +25,8 @@
     "dev": "start-storybook",
     "deploy": "storybook-to-ghpages",
     "compile": "antd-tools run compile",
-    "test:generate-output": "jest --json --outputFile=jest-test-results.json"
+    "test:generate-output": "jest --json --outputFile=jest-test-results.json",
+    "release": "npm run compile && hi-pkg-scripts release"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -63,5 +64,13 @@
     "style-loader": "^0.23.1",
     "ts-jest": "^24.0.2",
     "typescript": "^3.4.2"
+  },
+  "hi-pkg-scripts": {
+    "release": {
+      "generateChangelog": true
+    }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

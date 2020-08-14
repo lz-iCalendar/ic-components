@@ -35,3 +35,9 @@ npm run compile
 - [ ] TimePicker 时间选择器
 - [ ] Upload 上传文件
 - [ ] Avatar 头像
+
+## 发布
+
+```shell
+npm run release
+```
