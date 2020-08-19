@@ -129,7 +129,7 @@ export default class EventDetails extends React.PureComponent<any, any> {
             >
               编辑本次事件
             </Button>
-            {formdata && formdata[636483916988].length > 0 && (
+            {formdata && Array.isArray(formdata[636483916988]) && formdata[636483916988].length > 0 && (
               <React.Fragment>
                 <Button
                   onClick={e => {
