@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import Icon from 'antd';
+import { Icon } from 'antd';
 import Option from './Option';
 import Trigger from 'rc-trigger';
 // import 'rc-trigger/assets/index.css';
@@ -86,7 +86,10 @@ export default class Select extends React.Component<any, any> {
     const { children, value } = this.props;
     return React.Children.map(children, (child: any) => {
       const hasSelected = value === child.props.value;
-      return React.cloneElement(child, { onClick: () => this.handleSelectOption(child.props.value), hasSelected });
+      return React.cloneElement(child, {
+        onClick: () => this.handleSelectOption(child.props.value),
+        hasSelected,
+      });
     });
   };
 
@@ -106,7 +109,10 @@ export default class Select extends React.Component<any, any> {
         action={['click']}
         builtinPlacements={BUILT_IN_PLACEMENTS}
         popup={
-          <div className="ic-select__options-wrap" style={{ width: style.width }}>
+          <div
+            className="ic-select__options-wrap"
+            style={{ width: style.width }}
+          >
             {this.renderSelectOptions()}
           </div>
         }
@@ -116,10 +122,14 @@ export default class Select extends React.Component<any, any> {
         prefixCls="ic-select-dropmenu"
         {...triggerProps}
       >
-        <div className="ic-select" style={style} onClick={this.handleSelectClick}>
+        <div
+          className="ic-select"
+          style={style}
+          onClick={this.handleSelectClick}
+        >
           <div className="ic-select__rendered">
             <div className="ic-select__selected-value">{value}</div>
-            <Icon type="down" size={12} className="ic-select__arraw" />
+            <Icon type="down" className="ic-select__arraw" />
           </div>
         </div>
       </Trigger>

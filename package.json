@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "./lib/index.js",
   "dependencies": {
+    "@ant-design/colors": "^4.0.5",
     "@ant-design/icons-react": "^1.1.5",
     "@types/hammerjs": "^2.0.36",
     "antd": "^3.16.1",
