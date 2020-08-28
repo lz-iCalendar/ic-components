@@ -6,8 +6,6 @@ export { default as Checkbox } from './Checkbox';
 
 export { default as EventBar } from './EventBar';
 
-export { default as Icon } from './Icon';
-
 export { default as Input } from './Input';
 
 export { default as Modal } from './Modal';
