@@ -27,7 +27,7 @@
     "deploy": "storybook-to-ghpages",
     "compile": "antd-tools run compile",
     "test:generate-output": "jest --json --outputFile=jest-test-results.json",
-    "release": "npm run compile && hi-pkg-scripts release"
+    "release": "rm -rf es lib && npm run compile && hi-pkg-scripts release"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
