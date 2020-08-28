@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import omit from 'omit.js';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import Icon from '../Icon';
+import { Icon } from 'antd';
 import Animate from 'rc-animate';
 import { CSSTransition } from 'react-transition-group';
 

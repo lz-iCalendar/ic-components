@@ -2,7 +2,7 @@ import React from 'react';
 import Input from '../Input';
 import omit from 'omit.js';
 import classNames from 'classnames';
-import Icon from '../Icon';
+import { Icon } from 'antd';
 import PropTypes from 'prop-types';
 
 export default class Search extends React.Component<any, any> {
@@ -35,8 +35,18 @@ export default class Search extends React.Component<any, any> {
   };
 
   render() {
-    const searchSuffix = <Icon type="search" className="ic-input-search__icon" onClick={this.handleSearchIconClick} />;
-    const restProps = omit(this.props, ['onPressEnter', 'className', 'onSearch']);
+    const searchSuffix = (
+      <Icon
+        type="search"
+        className="ic-input-search__icon"
+        onClick={this.handleSearchIconClick}
+      />
+    );
+    const restProps = omit(this.props, [
+      'onPressEnter',
+      'className',
+      'onSearch',
+    ]);
     const classes = classNames('ic-input-search', this.props.className);
     return (
       <Input

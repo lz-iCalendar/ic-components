@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../../Icon';
 import moment from 'moment';
 // import Avatar from '../../Avatar';
 import { Avatar, Button } from 'antd';
@@ -84,7 +83,6 @@ export default class EventDetails extends React.PureComponent<any, any> {
             className="ic-event-details-modal__header-bar"
           />
           <h1 className="ic-event-details-modal__title">{title}</h1>
-          {/* <Icon type="close" className="ic-event-details-modal__close" size={14} /> */}
         </div>
         <div className="ic-event-details-modal__content">
           <div className="ic-event-details-modal__content-item">

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import Icon from '../Icon';
+import Icon from 'antd';
 import Option from './Option';
 import Trigger from 'rc-trigger';
 // import 'rc-trigger/assets/index.css';

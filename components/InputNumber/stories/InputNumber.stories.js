@@ -6,8 +6,6 @@ import '../style/index.less';
 import './style.less';
 import IcDecorator from '../../../IcDecorator';
 
-import Icon from '../../Icon';
-
 class InputNumberDemo extends React.Component {
   state = {
     value: 1,
@@ -19,7 +17,7 @@ class InputNumberDemo extends React.Component {
 
   render() {
     const { value } = this.state;
-    return <InputNumber value={value}></InputNumber>
+    return <InputNumber value={value} />;
   }
 }
 
