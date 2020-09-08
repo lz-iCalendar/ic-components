@@ -23,6 +23,7 @@
     "swiper": "^4.5.0"
   },
   "scripts": {
+    "start": "start-storybook",
     "dev": "start-storybook",
     "deploy": "storybook-to-ghpages",
     "compile": "antd-tools run compile",

@@ -193,16 +193,16 @@ export const isTotalDayEvent = event => {
       event_time,
       event_endtime,
       formdata,
-      occur_start,
+      occur_begin,
       occur_end,
     } = event.original;
+
+    console.log({occur_begin, occur_end})
     if (
       (formdata && formdata.isAllday === 'Y') ||
       (Number(moment(occur_end).format(format)) -
-        Number(moment(occur_start).format(format)) >
-        1 &&
-        event_time === '00:00' &&
-        event_endtime === '00:00')
+        Number(moment(occur_begin).format(format)) >
+        1)
     ) {
       return true;
     }
