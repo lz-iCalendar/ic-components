@@ -1,3 +1,7 @@
+## Release v1.1.2
+
+- fix:修复计划视图有的日历不显示出来的 bug（传入的事件需要有 calendarId 这个属性，否则计划视图会有问题）
+
 ## Release v1.1.0
 
 - fix:修复编译报错的 bug
