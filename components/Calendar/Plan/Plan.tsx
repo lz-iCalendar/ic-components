@@ -166,14 +166,13 @@ export default class Plan extends React.PureComponent<any, any> {
       .map(event => event.original)
       .forEach(event => {
         const index = retEvents.findIndex(
-          item =>
-            item.type === event.category_name ||
-            (event.formdata && event.formdata.category_name)
+          item => item.calendarId === event.calendarId
         );
         if (index !== -1) {
           retEvents[index].events.push(event);
         } else {
           retEvents.push({
+            calendarId: event.calendarId,
             type:
               event.category_name ||
               (event.formdata && event.formdata.category_name),
@@ -200,6 +199,7 @@ export default class Plan extends React.PureComponent<any, any> {
     } = this.props;
     const { timeLineRefreshKey } = this.state;
     const events = this.getEvents(propEvents);
+
     const [startHHmm, endHHmm] = getEventsTimeRange(propEvents, timeLineRange);
 
     return (
