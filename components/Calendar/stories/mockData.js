@@ -35,6 +35,7 @@ export const mockEvents = [
   //   category_name: '分类1',
   // },
   {
+    calendarId: 1,
     occur_id: -1, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '是是是是title',
@@ -53,6 +54,7 @@ export const mockEvents = [
     forbidRender: true,
   },
   {
+    calendarId: 2,
     occur_id: -2, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '是是是是title',
@@ -71,6 +73,7 @@ export const mockEvents = [
     forbidRender: true,
   },
   {
+    calendarId: 3,
     occur_id: -3, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '是是是是title',
@@ -89,6 +92,7 @@ export const mockEvents = [
     forbidRender: true,
   },
   {
+    calendarId: 4,
     occur_id: -4, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '是是是是title',
@@ -107,6 +111,7 @@ export const mockEvents = [
     forbidRender: true,
   },
   {
+    calendarId: 5,
     occur_id: -5, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '是是是是title',
@@ -125,6 +130,7 @@ export const mockEvents = [
     forbidRender: true,
   },
   {
+    calendarId: 6,
     occur_id: -6, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '是是是是title',
@@ -143,6 +149,7 @@ export const mockEvents = [
     forbidRender: true,
   },
   {
+    calendarId: 7,
     occur_id: -7, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '是是是是title',
@@ -161,6 +168,7 @@ export const mockEvents = [
     forbidRender: true,
   },
   {
+    calendarId: 8,
     occur_id: -8, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '是是是是title',
@@ -179,6 +187,7 @@ export const mockEvents = [
     forbidRender: true,
   },
   {
+    calendarId: 9,
     occur_id: 1, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '事件8',
@@ -195,8 +204,8 @@ export const mockEvents = [
     event_important: 0,
     category_name: '分类1',
   },
-
   {
+    calendarId: 10,
     occur_id: 2, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '事件2',
@@ -383,6 +392,7 @@ export const mockEvents = [
 
 
   {
+    calendarId: 11,
     occur_id: 14, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '事件8',
@@ -401,6 +411,7 @@ export const mockEvents = [
   },
 
   {
+    calendarId: 12,
     occur_id: 16, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '事件8',
@@ -420,6 +431,7 @@ export const mockEvents = [
 
 
   {
+    calendarId: 13,
     occur_id: 17, // 事件发生编号（唯一）
     category_color: 'rgb(255, 160, 120)',
     event_title: '事件8',
@@ -518,6 +530,7 @@ export const mockEvents = [
   //   category_name: '分类3',
   // },
   {
+    calendarId: 14,
     occur_id: 10, // 事件发生编号（唯一）
     category_color: 'rgb(67, 209, 227)',
     event_title: '事件6',
@@ -533,6 +546,7 @@ export const mockEvents = [
     category_name: '分类3',
   },
   {
+    calendarId: 15,
     occur_id: 18, // 事件发生编号（唯一）
     category_color: 'rgb(67, 209, 227)',
     event_title: '事件6',
