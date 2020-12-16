@@ -102,7 +102,29 @@ stories
         overflowY: 'auto',
       }}
     >
-      <Calendar events={mockEvents} defaultActiveTab="multiWeek" />
+      <Calendar events={[
+        {
+          calendarId: 9,
+          occur_id: 1, // 事件发生编号（唯一）
+          category_color: 'rgb(255, 160, 120)',
+          event_title: '事件8',
+          event_short: '上海市黄埔区茂名南路59号上海花园酒店',
+          event_desc: '事件2：一楼大堂右侧',
+          occur_begin: '2020-12-16T12:00:00',
+          occur_end: '2020-12-16T13:00:00',
+          event_hostheadurl: 'http://placekitten.com/32/32',
+          event_image: 'http://placekitten.com/200/150',
+          event_time: '08:30',
+          event_endtime: '09:00',
+          event_weather: 2,
+          event_attach: ['附件', 'http://www.baidu.com'],
+          event_important: 0,
+          category_name: '分类1',
+          hasPopover: false,
+          hasTitle: false,
+        },
+        
+      ]} defaultActiveTab="multiWeek" />
     </div>
   ))
   .add('月', () => (

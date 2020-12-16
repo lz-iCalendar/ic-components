@@ -138,6 +138,8 @@ export default class MonthDayView extends React.PureComponent<any, any> {
                   category_color,
                   event_hostheadurl,
                   forbidRender,
+                  hasPopover,
+                  hasTitle,
                 },
               } = event;
               if (forbidRender) {
@@ -147,55 +149,58 @@ export default class MonthDayView extends React.PureComponent<any, any> {
               const eventElementStyle = eventElementWidth
                 ? { width: eventElementWidth }
                 : {};
-
-              // const {occur_start,occur_end} = event.original;
-              return (
-                <Popover
+              const content = (
+                <div
                   key={occur_id}
-                  trigger="click"
-                  // trigger={['click']}
-                  getPopupContainer={() =>
-                    document.querySelector('.ic-month-day-view')
-                  }
-                  content={
-                    <EventDetails
-                      eventData={event.original}
-                      onEventDetailsClick={onEventDetailsClick}
-                      onCurrentEventClick={onCurrentEventClick}
-                      onFutureEventClick={onFutureEventClick}
-                      onAllEventClick={onAllEventClick}
-                    />
-                  }
+                  className={classnames('ic-month-day-view__event', {
+                    ['ic-month-day-view__event-hidden']: !this.isVisible(event),
+                  })}
+                  style={eventElementStyle}
                 >
                   <div
-                    className={classnames('ic-month-day-view__event', {
-                      ['ic-month-day-view__event-hidden']: !this.isVisible(
-                        event
-                      ),
-                    })}
-                    style={eventElementStyle}
+                    className="ic-month-day-view__event-bar"
+                    style={{
+                      background: category_color,
+                    }}
+                    onClick={() => {
+                      this.handleEventClick(event);
+                    }}
                   >
-                    {/* {!hostAvatarVisible ? <img src={event_hostheadurl} />:<Avatar icon="user" size={22} />}  */}
-                    <div
-                      className="ic-month-day-view__event-bar"
-                      style={{
-                        background: category_color,
-                      }}
-                      onClick={() => {
-                        this.handleEventClick(event);
-                      }}
-                    >
+                    {hasTitle && (
                       <div className="ic-month-day-view__event-title">
                         {event_title}
                       </div>
-                      {/* dotVisible && */}
-                      {isTotalDayEvent(event) && (
-                        <div className="ic-month-day-view__dot" />
-                      )}
-                    </div>
+                    )}
+                    {isTotalDayEvent(event) && (
+                      <div className="ic-month-day-view__dot" />
+                    )}
                   </div>
-                </Popover>
+                </div>
               );
+
+              if (hasPopover) {
+                return (
+                  <Popover
+                    key={occur_id}
+                    trigger="click"
+                    getPopupContainer={() =>
+                      document.querySelector('.ic-month-day-view')
+                    }
+                    content={
+                      <EventDetails
+                        eventData={event.original}
+                        onEventDetailsClick={onEventDetailsClick}
+                        onCurrentEventClick={onCurrentEventClick}
+                        onFutureEventClick={onFutureEventClick}
+                        onAllEventClick={onAllEventClick}
+                      />
+                    }
+                  >
+                    {content}
+                  </Popover>
+                );
+              }
+              return content;
             })}
           {eventsOfToday.length > eventsLimit && (
             <div className="ic-month-day-view__ellipse">...</div>
