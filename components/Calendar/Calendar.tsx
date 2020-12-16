@@ -137,6 +137,13 @@ export default class Calendar extends React.PureComponent<any, any> {
      * 默认：noop
      */
     onAllEventClick: PropTypes.func,
+
+    /**
+     * “查看本次事件” 按钮点击时的回调
+     * 默认：-
+     */
+    onEventView: PropTypes.func,
+
     // --- //
 
     // --- 单日、多日、单周、计划视图

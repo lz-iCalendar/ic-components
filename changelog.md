@@ -1,3 +1,7 @@
+## Release v1.3.0
+- feat:添加 hasEditBtn 和 hasViewBtn 事件属性
+- feat:Calendar 组件添加 onEventView props
+
 ## Release v1.2.1
 - fix:修复 hasPopover 和 hasTitle 在多周/月/年视图中无效的 bug
 
