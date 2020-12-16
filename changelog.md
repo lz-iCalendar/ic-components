@@ -1,3 +1,5 @@
+## Release v1.2.0
+- feat:事件添加 hasPopover 和 hasTitle 属性用于控制事件 popover 和 title 的显示与隐藏
 ## Release v1.1.2
 
 - fix:修复计划视图有的日历不显示出来的 bug（传入的事件需要有 calendarId 这个属性，否则计划视图会有问题）
