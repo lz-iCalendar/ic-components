@@ -259,66 +259,79 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                 event_hostheadurl,
                 category_color,
                 forbidRender,
+                hasPopover = true,
+                hasTitle = true,
               },
             } = event;
             if (forbidRender) {
               return;
             }
-            return (
-              <Popover
+
+            const content = (
+              <div
+                data-event_time={event_time}
+                data-event_endtime={event_endtime}
                 key={occurId}
-                // trigger='click'
-                getPopupContainer={() =>
-                  document.querySelector('.ic-month-day-view')
-                }
-                content={
-                  <EventDetails
-                    eventData={event.original}
-                    onEventDetailsClick={onEventDetailsClick}
-                    onCurrentEventClick={onCurrentEventClick}
-                    onFutureEventClick={onFutureEventClick}
-                    onAllEventClick={onAllEventClick}
-                  />
-                }
-                className="ic-single-day-view__popover"
+                data-event_counts={counts}
+                data-event_left={left}
+                className="ic-single-day-view__event"
+                onClick={() => {
+                  this.handleEventClick(event);
+                }}
               >
                 <div
-                  data-event_time={event_time}
-                  data-event_endtime={event_endtime}
-                  key={occurId}
-                  data-event_counts={counts}
-                  data-event_left={left}
-                  className="ic-single-day-view__event"
-                  onClick={() => {
-                    this.handleEventClick(event);
-                  }}
+                  className="ic-single-day-view__content"
+                  style={{ background: category_color }}
                 >
-                  <div
-                    className="ic-single-day-view__content"
-                    style={{ background: category_color }}
-                  >
-                    <div className="ic-single-day-view__content-host">
-                      {' '}
-                      {event_hostheadurl ? (
-                        <img
-                          className="ic-single-day-view__host-avatar"
-                          src={event_hostheadurl}
-                        />
-                      ) : (
-                        <Icon
-                          type="user"
-                          className="ic-single-day-view__host-icon"
-                        />
-                      )}
-                      <div className="ic-single-day-view__event-time">{`${event_time} - ${event_endtime}`}</div>
-                    </div>
+                  <div className="ic-single-day-view__content-host">
+                    {' '}
+                    {event_hostheadurl ? (
+                      <img
+                        className="ic-single-day-view__host-avatar"
+                        src={event_hostheadurl}
+                      />
+                    ) : (
+                      <Icon
+                        type="user"
+                        className="ic-single-day-view__host-icon"
+                      />
+                    )}
+                    <div className="ic-single-day-view__event-time">{`${event_time} - ${event_endtime}`}</div>
+                  </div>
+                  {hasTitle && (
                     <div className="ic-single-day-view__event-title">
                       {event_title}
                     </div>
-                  </div>
+                  )}
                 </div>
-              </Popover>
+              </div>
             );
+
+            if (hasPopover) {
+              return (
+                <Popover
+                  key={occurId}
+                  // trigger='click'
+                  getPopupContainer={() =>
+                    document.querySelector('.ic-month-day-view')
+                  }
+                  content={
+                    <EventDetails
+                      eventData={event.original}
+                      onEventDetailsClick={onEventDetailsClick}
+                      onCurrentEventClick={onCurrentEventClick}
+                      onFutureEventClick={onFutureEventClick}
+                      onAllEventClick={onAllEventClick}
+                    />
+                  }
+                  className="ic-single-day-view__popover"
+                >
+                  {content}
+                </Popover>
+              );
+            }
+
+            return content;
           })}
       </div>
     );

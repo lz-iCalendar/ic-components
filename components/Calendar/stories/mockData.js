@@ -203,6 +203,8 @@ export const mockEvents = [
     event_attach: ['附件', 'http://www.baidu.com'],
     event_important: 0,
     category_name: '分类1',
+    hasPopover: false,
+    hasTitle: false,
   },
   {
     calendarId: 10,
