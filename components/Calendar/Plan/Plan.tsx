@@ -99,6 +99,7 @@ export default class Plan extends React.PureComponent<any, any> {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
+      onEventView,
     } = this.props;
     return (
       <div className="ic-daily-calendar__top-right">
@@ -123,6 +124,7 @@ export default class Plan extends React.PureComponent<any, any> {
               onCurrentEventClick={onCurrentEventClick}
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
+              onEventView={onEventView}
             />
           </div>
         ))}
@@ -138,6 +140,7 @@ export default class Plan extends React.PureComponent<any, any> {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
+      onEventView,
     } = this.props;
     return (
       <ChildrenWithProps className="ic-plan__single-classify-wrap">
@@ -153,6 +156,7 @@ export default class Plan extends React.PureComponent<any, any> {
               onCurrentEventClick={onCurrentEventClick}
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
+              onEventView={onEventView}
             />
           );
         })}

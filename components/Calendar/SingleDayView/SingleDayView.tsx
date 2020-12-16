@@ -240,6 +240,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
+      onEventView
     } = this.props;
     return (
       <div ref={this.rootRef} className="ic-single-day-view" style={style}>
@@ -261,6 +262,8 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                 forbidRender,
                 hasPopover = true,
                 hasTitle = true,
+                hasEditBtn = true,
+                hasViewBtn = false
               },
             } = event;
             if (forbidRender) {
@@ -322,6 +325,9 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                       onCurrentEventClick={onCurrentEventClick}
                       onFutureEventClick={onFutureEventClick}
                       onAllEventClick={onAllEventClick}
+                      hasEditBtn={hasEditBtn}
+                      hasViewBtn={hasViewBtn}
+                      onEventView={onEventView}
                     />
                   }
                   className="ic-single-day-view__popover"

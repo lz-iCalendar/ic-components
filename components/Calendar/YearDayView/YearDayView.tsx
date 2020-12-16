@@ -114,6 +114,7 @@ export default class YearDayView extends React.PureComponent<any, any> {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
+      onEventView,
     } = this.props;
     const dateSort = (a, b) => {
       return Date.parse(a.startTime) - Date.parse(b.startTime);
@@ -159,8 +160,10 @@ export default class YearDayView extends React.PureComponent<any, any> {
                   category_color,
                   event_hostheadurl,
                   forbidRender,
-                  hasPopover,
-                  hasTitle,
+                  hasPopover = true,
+                  hasTitle = true,
+                  hasEditBtn = true,
+                  hasViewBtn = false,
                 },
               } = event;
               if (forbidRender) {
@@ -190,14 +193,16 @@ export default class YearDayView extends React.PureComponent<any, any> {
                       this.handleEventClick(event);
                     }}
                   >
-                    <div
-                      className="ic-month-day-view__event-title"
-                      style={{
-                        display: isSeveralDayEvent(event) ? '' : 'none',
-                      }}
-                    >
-                      {event_title}
-                    </div>
+                    {hasTitle && (
+                      <div
+                        className="ic-month-day-view__event-title"
+                        style={{
+                          display: isSeveralDayEvent(event) ? '' : 'none',
+                        }}
+                      >
+                        {event_title}
+                      </div>
+                    )}
                     {!isSeveralDayEvent(event) && !isTotalDayEvent(event) && (
                       <div
                         className="ic-month-day-view__dot"
@@ -224,6 +229,9 @@ export default class YearDayView extends React.PureComponent<any, any> {
                         onCurrentEventClick={onCurrentEventClick}
                         onFutureEventClick={onFutureEventClick}
                         onAllEventClick={onAllEventClick}
+                        hasEditBtn={hasEditBtn}
+                        hasViewBtn={hasViewBtn}
+                        onEventView={onEventView}
                       />
                     }
                   >

@@ -45,13 +45,76 @@ export default class EventDetails extends React.PureComponent<any, any> {
     this.props.onEventDetailsClick(this.props.eventData);
   };
 
-  render() {
+  renderBtns = () => {
     const { eventData } = this.props;
     const {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
+      hasEditBtn,
+      hasViewBtn,
+      onEventView,
     } = this.props;
+    let { occur_begin: startTime, occur_end: endTime, formdata } = eventData;
+    startTime = moment(startTime).format('HH:mm');
+    endTime = moment(endTime).format('HH:mm');
+
+    if (hasEditBtn) {
+      return (
+        <>
+          <Button
+            onClick={e => {
+              e.stopPropagation();
+              onCurrentEventClick(eventData);
+            }}
+          >
+            编辑本次事件
+          </Button>
+          {formdata &&
+            Array.isArray(formdata[636483916988]) &&
+            formdata[636483916988].length > 0 && (
+              <React.Fragment>
+                <Button
+                  onClick={e => {
+                    e.stopPropagation();
+                    onFutureEventClick(eventData);
+                  }}
+                >
+                  编辑将来事件
+                </Button>
+                <Button
+                  onClick={e => {
+                    e.stopPropagation();
+                    onAllEventClick(eventData);
+                  }}
+                >
+                  编辑全部系列
+                </Button>
+              </React.Fragment>
+            )}
+        </>
+      );
+    }
+
+    // 查看按钮
+    if (hasViewBtn) {
+      return (
+        <Button
+          onClick={e => {
+            e.stopPropagation();
+            onEventView && onEventView(eventData);
+          }}
+        >
+          查看本次事件
+        </Button>
+      );
+    }
+
+    return null;
+  };
+
+  render() {
+    const { eventData } = this.props;
     let {
       event_title: title,
       occur_begin: startTime,
@@ -104,7 +167,10 @@ export default class EventDetails extends React.PureComponent<any, any> {
           <div className="ic-event-details-modal__content-item">
             <div className="ic-event-details-modal__content-item-right">
               {(formdata && formdata.headimgurl) || event_hostheadurl ? (
-                <Avatar src={(formdata && formdata.headimgurl) || event_hostheadurl} size={32} />
+                <Avatar
+                  src={(formdata && formdata.headimgurl) || event_hostheadurl}
+                  size={32}
+                />
               ) : (
                 <Avatar icon="user" size={32} />
               )}
@@ -119,34 +185,7 @@ export default class EventDetails extends React.PureComponent<any, any> {
             <p>{(formdata && formdata.dec) || desc}</p>
           </div>
           <div className="ic-event-details-modal__content-btns">
-            <Button
-              onClick={e => {
-                e.stopPropagation();
-                onCurrentEventClick(eventData);
-              }}
-            >
-              编辑本次事件
-            </Button>
-            {formdata && Array.isArray(formdata[636483916988]) && formdata[636483916988].length > 0 && (
-              <React.Fragment>
-                <Button
-                  onClick={e => {
-                    e.stopPropagation();
-                    onFutureEventClick(eventData);
-                  }}
-                >
-                  编辑将来事件
-                </Button>
-                <Button
-                  onClick={e => {
-                    e.stopPropagation();
-                    onAllEventClick(eventData);
-                  }}
-                >
-                  编辑全部系列
-                </Button>
-              </React.Fragment>
-            )}
+            {this.renderBtns()}
           </div>
         </div>
       </div>

@@ -229,7 +229,20 @@ export default class Calendar extends React.PureComponent<any, any> {
     maxMultiWeeks: 10,
     defaultAgendaDateRange: '1:M',
     spinning: false,
-    yearSpinning: [false, false, false, false, false, false, false, false, false, false, false, false],
+    yearSpinning: [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
     // onEventDetailsClick: () => {},
   };
 
@@ -540,6 +553,7 @@ export default class Calendar extends React.PureComponent<any, any> {
       onExportClick,
       spinning,
       yearSpinning,
+      onEventView,
     } = this.props;
     const {
       date,
@@ -622,6 +636,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               onCurrentEventClick={onCurrentEventClick}
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
+              onEventView={onEventView}
             />
           </ViewContainer>
         )}
@@ -637,6 +652,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               onCurrentEventClick={onCurrentEventClick}
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
+              onEventView={onEventView}
             />
           </ViewContainer>
         )}
@@ -652,6 +668,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               onCurrentEventClick={onCurrentEventClick}
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
+              onEventView={onEventView}
             />
           </ViewContainer>
         )}
@@ -691,6 +708,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
               spinning={yearSpinning}
+              onEventView={onEventView}
             />
           </ViewContainer>
         )}
@@ -720,6 +738,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               onCurrentEventClick={onCurrentEventClick}
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
+              onEventView={onEventView}
             />
           </ViewContainer>
         )}

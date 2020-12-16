@@ -2,8 +2,16 @@ import React from 'react';
 import classnames from 'classnames';
 import memoizeOne from 'memoize-one';
 import moment from 'moment';
-import { getDatesBetween, getWeekDayName, monthDayHasher } from '../../utils/dateUtil';
-import { allocateDailyEvents, isTotalDayEvent, getEventsTimeRange } from '../../utils/eventUtil';
+import {
+  getDatesBetween,
+  getWeekDayName,
+  monthDayHasher,
+} from '../../utils/dateUtil';
+import {
+  allocateDailyEvents,
+  isTotalDayEvent,
+  getEventsTimeRange,
+} from '../../utils/eventUtil';
 import ChildrenWithProps from '../../ChildrenWithProps';
 import DayTimeLine from '../DayTimeLine';
 import SingleDayView from '../SingleDayView';
@@ -49,8 +57,14 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { events, startDate, endDate } = this.props;
-    if (events !== nextProps.events || startDate !== nextProps.startDate || endDate !== nextProps.endDate) {
-      this.setState(({ timeLineRefreshKey }) => ({ timeLineRefreshKey: !timeLineRefreshKey }));
+    if (
+      events !== nextProps.events ||
+      startDate !== nextProps.startDate ||
+      endDate !== nextProps.endDate
+    ) {
+      this.setState(({ timeLineRefreshKey }) => ({
+        timeLineRefreshKey: !timeLineRefreshKey,
+      }));
     }
   }
 
@@ -90,12 +104,16 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
           <div
             key={date.valueOf()}
             className={classnames('ic-daily-calendar__day-title', {
-              ['ic-daily-calendar__day-title-active']: days > 1 && date.getDate() === activeDate.getDate(),
+              ['ic-daily-calendar__day-title-active']:
+                days > 1 && date.getDate() === activeDate.getDate(),
             })}
             style={{ width: singleDayWidth }}
           >
-            <div className="ic-daily-calendar__day-title-week">{getWeekDayName(date)}</div>
-            <div className="ic-daily-calendar__day-title-date">{`${date.getMonth() + 1}月${date.getDate()}日`}</div>
+            <div className="ic-daily-calendar__day-title-week">
+              {getWeekDayName(date)}
+            </div>
+            <div className="ic-daily-calendar__day-title-date">{`${date.getMonth() +
+              1}月${date.getDate()}日`}</div>
           </div>
         ))}
       </div>
@@ -105,7 +123,13 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
   getEventRowRenderer = memoizeOne((dates, events) => containerWidth => {
     const eventsMap = allocateDailyEvents(events);
     const singleDayWidth = this.getSingleDayWidth(containerWidth, dates.length);
-    const {onEventDetailsClick,onCurrentEventClick,onFutureEventClick,onAllEventClick} = this.props;
+    const {
+      onEventDetailsClick,
+      onCurrentEventClick,
+      onFutureEventClick,
+      onAllEventClick,
+      onEventView,
+    } = this.props;
     return (
       <div className="ic-daily-calendar__top-right">
         {dates.map(date => (
@@ -129,6 +153,7 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
               onCurrentEventClick={onCurrentEventClick}
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
+              onEventView={onEventView}
             />
           </div>
         ))}
@@ -140,7 +165,13 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
     const eventsMap = allocateDailyEvents(events);
     const singleDayWidth = this.getSingleDayWidth(containerWidth, dates.length);
 
-    const {onEventDetailsClick,onCurrentEventClick,onFutureEventClick,onAllEventClick} = this.props;
+    const {
+      onEventDetailsClick,
+      onCurrentEventClick,
+      onFutureEventClick,
+      onAllEventClick,
+      onEventView,
+    } = this.props;
     return (
       <ChildrenWithProps className="ic-daily-calendar__day-views">
         {dates.map(date => (
@@ -154,6 +185,7 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
             onCurrentEventClick={onCurrentEventClick}
             onFutureEventClick={onFutureEventClick}
             onAllEventClick={onAllEventClick}
+            onEventView={onEventView}
           />
         ))}
       </ChildrenWithProps>
@@ -161,7 +193,13 @@ export default class DailyCalendar extends React.PureComponent<any, any> {
   });
 
   render() {
-    const { events, startDate, endDate, activeDate, timeLineRange } = this.props;
+    const {
+      events,
+      startDate,
+      endDate,
+      activeDate,
+      timeLineRange,
+    } = this.props;
     const { timeLineRefreshKey } = this.state;
     const dates = getDatesBetween(startDate, endDate);
     const [startHHmm, endHHmm] = getEventsTimeRange(events, timeLineRange);

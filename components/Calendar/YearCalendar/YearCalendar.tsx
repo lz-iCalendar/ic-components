@@ -63,6 +63,7 @@ export default class YearCalendar extends React.PureComponent<any, any> {
       onFutureEventClick,
       onAllEventClick,
       spinning,
+      onEventView,
     } = this.props;
     const year = date.getFullYear();
     const [dates, maxDaysOfMonth] = getDatesOfYearCalendar(year);
@@ -83,17 +84,19 @@ export default class YearCalendar extends React.PureComponent<any, any> {
           >
             {date.getFullYear()}
           </div>
-          {headerWeeks.slice(0, maxDaysOfMonth).map((weekDayId: number, index) => (
-            <div
-              className={classnames(
-                'ic-year-calendar__row-content',
-                'ic-year-calendar__header-content'
-              )}
-              key={`${weekDayId}-${index}`}
-            >
-              {weekDayIdLabelMap[`${weekDayId}`]}
-            </div>
-          ))}
+          {headerWeeks
+            .slice(0, maxDaysOfMonth)
+            .map((weekDayId: number, index) => (
+              <div
+                className={classnames(
+                  'ic-year-calendar__row-content',
+                  'ic-year-calendar__header-content'
+                )}
+                key={`${weekDayId}-${index}`}
+              >
+                {weekDayIdLabelMap[`${weekDayId}`]}
+              </div>
+            ))}
         </div>
         {dates.map((datesOfMonth, month) => (
           <Row
@@ -109,6 +112,7 @@ export default class YearCalendar extends React.PureComponent<any, any> {
             onCurrentEventClick={onCurrentEventClick}
             onFutureEventClick={onFutureEventClick}
             onAllEventClick={onAllEventClick}
+            onEventView={onEventView}
           />
         ))}
       </div>

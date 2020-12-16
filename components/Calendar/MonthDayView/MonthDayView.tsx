@@ -97,6 +97,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
+      onEventView,
     } = this.props;
 
     const eventKey = monthDayHasher(date);
@@ -138,8 +139,10 @@ export default class MonthDayView extends React.PureComponent<any, any> {
                   category_color,
                   event_hostheadurl,
                   forbidRender,
-                  hasPopover,
-                  hasTitle,
+                  hasPopover = true,
+                  hasTitle = true,
+                  hasEditBtn = true,
+                  hasViewBtn = false,
                 },
               } = event;
               if (forbidRender) {
@@ -193,6 +196,9 @@ export default class MonthDayView extends React.PureComponent<any, any> {
                         onCurrentEventClick={onCurrentEventClick}
                         onFutureEventClick={onFutureEventClick}
                         onAllEventClick={onAllEventClick}
+                        hasEditBtn={hasEditBtn}
+                        hasViewBtn={hasViewBtn}
+                        onEventView={onEventView}
                       />
                     }
                   >
