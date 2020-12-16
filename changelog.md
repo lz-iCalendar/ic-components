@@ -1,3 +1,6 @@
+## Release v1.2.1
+- fix:修复 hasPopover 和 hasTitle 在多周/月/年视图中无效的 bug
+
 ## Release v1.2.0
 - feat:事件添加 hasPopover 和 hasTitle 属性用于控制事件 popover 和 title 的显示与隐藏
 ## Release v1.1.2
