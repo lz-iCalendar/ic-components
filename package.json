@@ -6,7 +6,6 @@
     "@ant-design/colors": "^4.0.5",
     "@ant-design/icons-react": "^1.1.5",
     "@types/hammerjs": "^2.0.36",
-    "antd": "^3.16.1",
     "enquire.js": "^2.1.6",
     "hammerjs": "^2.0.8",
     "less": "^3.9.0",
@@ -30,7 +29,11 @@
     "test:generate-output": "jest --json --outputFile=jest-test-results.json",
     "release": "rm -rf es lib && npm run compile && hi-pkg-scripts release"
   },
+  "peerDependencies": {
+    "antd": ">= 3.16.1 < 4"
+  },
   "devDependencies": {
+    "antd": "^3.16.1",
     "@babel/core": "^7.4.3",
     "@storybook/addon-actions": "^5.0.11",
     "@storybook/addon-backgrounds": "^5.0.11",
