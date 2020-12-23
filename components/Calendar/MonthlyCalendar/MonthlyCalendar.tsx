@@ -6,7 +6,7 @@ import MonthDayView from '../MonthDayView';
 
 export default class MonthlyCalendar extends React.PureComponent<any, any> {
   render() {
-    const { events } = this.props;
+    const { events, onEventView } = this.props;
     return (
       <>
         <MonthlyCalendarHeader />

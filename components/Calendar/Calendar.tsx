@@ -690,6 +690,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               weeks={multiWeekDatesGroup}
               date={date}
               events={events}
+              onEventView={onEventView}
             />
           </ViewContainer>
         )}
@@ -702,6 +703,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               onCurrentEventClick={onCurrentEventClick}
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
+              onEventView={onEventView}
             />
           </ViewContainer>
         )}
