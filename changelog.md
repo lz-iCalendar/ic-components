@@ -1,5 +1,11 @@
+## Release v1.4.1
+
+- fix:修复议程视图没有编辑/查看事件的按钮
+
 ## Release v1.4.0
+
 - fix:修复 onEventView 回调在多周和月视图中无效的 bug
+
 ## Release v1.3.1
 
 - feat:将 antd 作为 peerDependencies
