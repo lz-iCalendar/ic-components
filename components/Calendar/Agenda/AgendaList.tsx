@@ -28,6 +28,7 @@ export default function AgendaList(props) {
     detailVisible,
     importantOnly,
     weatherVisible,
+    onEventView,
   } = props;
 
   const eventsGroups = groupEventsByDay(
@@ -93,6 +94,9 @@ export default function AgendaList(props) {
                     category_color,
                     formdata,
                     forbidRender,
+                    hasEditBtn = true,
+                    hasViewBtn = false,
+
                   },
                 } = event;
                 if (forbidRender) {
@@ -114,6 +118,9 @@ export default function AgendaList(props) {
                           onCurrentEventClick={onCurrentEventClick}
                           onFutureEventClick={onFutureEventClick}
                           onAllEventClick={onAllEventClick}
+                          hasEditBtn={hasEditBtn}
+                          hasViewBtn={hasViewBtn}
+                          onEventView={onEventView}
                         />
                       }
                     >

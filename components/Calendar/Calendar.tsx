@@ -733,6 +733,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
               onExportClick={onExportClick}
+              onEventView={onEventView}
             />
           </ViewContainer>
         )}

@@ -80,6 +80,7 @@ export default class Agenda extends React.PureComponent<any, any> {
       onFutureEventClick,
       onAllEventClick,
       onExportClick,
+      onEventView
     } = this.props;
     const {
       dateRange: stateDateRange,
@@ -130,6 +131,7 @@ export default class Agenda extends React.PureComponent<any, any> {
             onCurrentEventClick={onCurrentEventClick}
             onFutureEventClick={onFutureEventClick}
             onAllEventClick={onAllEventClick}
+            onEventView={onEventView}
           />
         </div>
       </div>
