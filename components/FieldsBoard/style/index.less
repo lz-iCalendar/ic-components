@@ -1,0 +1,243 @@
+@import '../../style/index.less';
+.fields-board {
+  &__label {
+    height: 35px;
+    line-height: 35px;
+    background-color: #efeef2;
+    color: #87868a;
+    padding: 0 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__selected-fields {
+    height: 38px;
+    line-height: 38px;
+    background-color: #fff;
+    padding: 0 12px;
+  }
+  &__sort-btn {
+    color: #778497;
+    cursor: pointer;
+  }
+  &__fields {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 8px;
+  }
+  &__field {
+    color: #a2a2a2;
+    font-size: 12px;
+    padding: 4px 8px;
+    border: 1px solid #b9b9b9;
+    margin: 3px;
+    cursor: pointer;
+    &--selected {
+      color: #8fc1da;
+      border: 1px solid #6ab7f6;
+    }
+  }
+  &__add-btn-wrapper {
+    margin: 0 12px;
+  }
+  &__drawer {
+    .ant-drawer-body {
+      padding: 0;
+      height: 100%;
+    }
+  }
+  &__modal {
+    .ant-modal-body {
+      padding: 0;
+      padding-bottom: 12px;
+    }
+  }
+}
+
+.fields-sort {
+  background-color: #efeef2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  &__header {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: #f7f7f7;
+    padding: 0 12px;
+  }
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  &__header-title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &__back-btn {
+    cursor: pointer;
+  }
+  &__tip {
+    font-size: 12px;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 12px;
+  }
+  &__fields {
+    flex: 1;
+  }
+  &__field {
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    line-height: 40px;
+    background-color: #fff;
+    padding: 0 12px;
+    margin-top: 1px;
+  }
+  &__must {
+    color: #d6888b;
+  }
+  &__arrow {
+    cursor: pointer;
+    margin: 0 4px;
+  }
+  &__save-wrapper {
+    height: 40px;
+    padding: 0 12px;
+  }
+}
+
+.field-types-board {
+  margin: 0 12px;
+  &__filed-types {
+    border: 1px solid #eaeaea;
+  }
+  &__header {
+    font-size: 12px;
+    color: #747474;
+    padding-bottom: 8px;
+  }
+  &__type-wrapper {
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    width: 33.33%;
+    padding: 12px 0;
+    cursor: pointer;
+    padding-left: 8px;
+    &:hover {
+      background-color: #eaeaea;
+    }
+  }
+  &__close {
+    height: 30px;
+    line-height: 30px;
+    text-align: right;
+    cursor: pointer;
+  }
+  &__icon {
+    font-size: 16px;
+  }
+  &__icon-wrapper {
+    margin-right: 4px;
+  }
+}
+
+.field-attribute-edit {
+  height: 100%;
+  &__header {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: #f7f7f7;
+    padding: 0 12px;
+  }
+  &__back-btn {
+    cursor: pointer;
+  }
+  &__header-title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &__label {
+    height: 32px;
+    line-height: 32px;
+    background-color: #efeef2;
+    color: #8c8b8f;
+    padding: 0 12px;
+  }
+  &__must {
+    color: #c24749;
+  }
+  &__input-wrapper {
+    cursor: pointer;
+  }
+  &__input {
+    padding: 0 12px;
+    display: block;
+    width: 100%;
+    background-color: #fff;
+    border: none;
+  }
+  &__content {
+    flex: 1;
+  }
+  &__max-size,
+  &__is-must {
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+  }
+  &__max-size-title {
+    width: 100px;
+  }
+  &__max-size-input,
+  &__option-input {
+    flex: 1;
+    border: none;
+    &:focus,
+    &:hover {
+      border: none !important;
+    }
+  }
+  &__save-btn-wrapper {
+    padding: 12px;
+  }
+  &__option,
+  &__add-option {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+  }
+  &__option-remove-btn-wrapper,
+  &__add-option-btn-wrapper {
+    display: flex;
+    width: 26px;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  &__option-remove-btn {
+    color: #e36a62;
+  }
+  &__add-option-btn {
+    color: #61adea;
+  }
+  &__add-option-title {
+    color: #61adea;
+    text-indent: 12px;
+  }
+}
