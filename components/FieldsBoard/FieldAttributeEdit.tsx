@@ -1,8 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Icon, Input, Switch, Button, message } from 'antd';
+import { Input, Switch, Button, message } from 'antd';
 import { TypeValue, Option } from './type';
 import HeaderFooterFixedLayout from '../HeaderFooterFixedLayout';
+import {
+  ArrowLeftOutlined,
+  MinusCircleOutlined,
+  PlusCircleOutlined,
+} from '@ant-design/icons';
 
 export type OnSaveFieldParam = Partial<FieldAttributeEditState>;
 
@@ -172,8 +177,14 @@ export default class FieldAttributeEdit extends React.Component<
           headerClassName="field-attribute-edit__header"
           header={
             <>
-              <Icon
+              {/* <Icon
                 type="arrow-left"
+                className="field-attribute-edit__back-btn"
+                onClick={this.handleBack}
+              /> */}
+              {/* 
+              // @ts-ignore */}
+              <ArrowLeftOutlined
                 className="field-attribute-edit__back-btn"
                 onClick={this.handleBack}
               />
@@ -211,8 +222,9 @@ export default class FieldAttributeEdit extends React.Component<
                   {options.map((option, index) => (
                     <div className="field-attribute-edit__option" key={index}>
                       <div className="field-attribute-edit__option-remove-btn-wrapper">
-                        <Icon
-                          type="minus-circle"
+                        {/* 
+                        // @ts-ignore */}
+                        <MinusCircleOutlined
                           className="field-attribute-edit__option-remove-btn"
                           onClick={() => this.handleRemoveOption(index)}
                         />
@@ -230,10 +242,9 @@ export default class FieldAttributeEdit extends React.Component<
 
                   <div className="field-attribute-edit__add-option">
                     <div className="field-attribute-edit__add-option-btn-wrapper">
-                      <Icon
-                        type="plus-circle"
-                        className="field-attribute-edit__add-option-btn"
-                      />
+                      {/* 
+                        // @ts-ignore */}
+                      <PlusCircleOutlined className="field-attribute-edit__add-option-btn" />
                     </div>
 
                     <div

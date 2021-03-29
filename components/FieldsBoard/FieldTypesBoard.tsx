@@ -1,10 +1,9 @@
 import React from 'react';
-import classNames from 'classnames';
-import { Icon } from 'antd';
 import { TypeValue } from './type';
+import { createFromIconfontCN, CloseOutlined } from '@ant-design/icons';
 
-const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_2446793_0kgwyprr1y0c.js',
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_2446793_0kgwyprr1y0c.js', // 在 iconfont.cn 上生成
 });
 
 export interface FieldType {
@@ -107,7 +106,9 @@ export default class FieldTypesBoard extends React.Component<
     return (
       <div className="field-types-board">
         <div className="field-types-board__close" onClick={this.handleClose}>
-          <Icon type="close" />
+          {/* 
+            // @ts-ignore */}
+          <CloseOutlined />
         </div>
         <div className="field-types-board__header">请选择字段类型</div>
         <div className="field-types-board__filed-types">

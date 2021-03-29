@@ -1,7 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { Icon, Button } from 'antd';
+import { Button } from 'antd';
+import {
+  ArrowLeftOutlined,
+  ArrowUpOutlined,
+  ArrowDownOutlined,
+} from '@ant-design/icons';
 
 export enum TypeValue {
   SingleLineText,
@@ -98,8 +103,9 @@ export default class FieldsSort<T = unknown> extends React.Component<
     return (
       <div className="fields-sort">
         <div className="fields-sort__header">
-          <Icon
-            type="arrow-left"
+          {/* 
+          // @ts-ignore */}
+          <ArrowLeftOutlined
             className="fields-sort__back-btn"
             onClick={this.handleBack}
           />
@@ -119,8 +125,9 @@ export default class FieldsSort<T = unknown> extends React.Component<
                 </div>
 
                 <div className="fields-sort__btn-wrapper">
-                  <Icon
-                    type="arrow-up"
+                  {/* 
+                  // @ts-ignore */}
+                  <ArrowUpOutlined
                     className="fields-sort__arrow"
                     onClick={() =>
                       this.handleUp(field, fields.length - 1, index, [
@@ -128,8 +135,9 @@ export default class FieldsSort<T = unknown> extends React.Component<
                       ])
                     }
                   />
-                  <Icon
-                    type="arrow-down"
+                  {/* 
+                  // @ts-ignore */}
+                  <ArrowDownOutlined
                     className="fields-sort__arrow"
                     onClick={() =>
                       this.handleDown(field, fields.length - 1, index, [

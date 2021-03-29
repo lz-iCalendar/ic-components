@@ -4,6 +4,7 @@
   "main": "./lib/index.js",
   "dependencies": {
     "@ant-design/colors": "^4.0.5",
+    "@ant-design/icons": "^4.6.2",
     "@ant-design/icons-react": "^1.1.5",
     "@types/hammerjs": "^2.0.36",
     "enquire.js": "^2.1.6",
@@ -14,10 +15,8 @@
     "moment": "^2.24.0",
     "omit.js": "^1.0.1",
     "prop-types": "^15.7.2",
-    "rc-input-number": "^4.4.5",
-    "rc-trigger": "^2.6.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "16.9.0",
+    "react-dom": "16.9.0",
     "react-transition-group": "^4.0.0",
     "swiper": "^4.5.0"
   },
@@ -30,10 +29,9 @@
     "release": "rm -rf es lib && npm run compile && hi-pkg-scripts release"
   },
   "peerDependencies": {
-    "antd": ">= 3.16.1 < 4"
+    "antd": ">= 4 < 5"
   },
   "devDependencies": {
-    "antd": "^3.16.1",
     "@babel/core": "^7.4.3",
     "@storybook/addon-actions": "^5.0.11",
     "@storybook/addon-backgrounds": "^5.0.11",
@@ -49,7 +47,8 @@
     "@storybook/storybook-deployer": "^2.8.1",
     "@types/jest": "^24.0.11",
     "@types/storybook__react": "^4.0.1",
-    "antd-tools": "^7.3.0",
+    "antd": "^4.15.0",
+    "antd-tools": "^7.7.1",
     "awesome-typescript-loader": "^5.2.1",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
@@ -63,13 +62,14 @@
     "hi-pkg-scripts": "^0.6.0",
     "jest": "^24.7.1",
     "less-loader": "^4.1.0",
+    "lint": "^0.7.0",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.6.0",
     "react-docgen-typescript-loader": "^3.1.0",
     "style-loader": "^0.23.1",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.4.2"
+    "typescript": "3.9.4"
   },
   "hi-pkg-scripts": {
     "release": {

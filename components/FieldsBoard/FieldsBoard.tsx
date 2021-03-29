@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import PropTypes, { func } from 'prop-types';
-import { Button, Drawer, Modal, Icon } from 'antd';
+import { Button, Drawer, Modal, Input } from 'antd';
 import FieldsSort from './FieldsSort';
 import { TypeValue } from './type';
 import FieldTypesBoard, { FieldType } from './FieldTypesBoard';
@@ -57,7 +56,7 @@ export default class FieldsBoard<T = unknown> extends React.Component<
     sortDrawerVisible: false,
     fieldTypesDrawerVisible: false,
     isMobile: true,
-    fieldEditDrawerVisible: true,
+    fieldEditDrawerVisible: false,
     selectedFieldType: TypeValue.SingleChoice,
     fieldEditTitle: '',
   };
@@ -226,6 +225,10 @@ export default class FieldsBoard<T = unknown> extends React.Component<
 
     return (
       <div className="fields-board">
+        <div className="fields-board__label">
+          <span>表单标题</span>
+        </div>
+        <Input className="fields-board__form-title" />
         <div className="fields-board__label">
           <span>已选字段(*代表必选)</span>
           <span
