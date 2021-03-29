@@ -1,3 +1,4 @@
+import 'antd/dist/antd.css';
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { actions } from '@storybook/addon-actions';
