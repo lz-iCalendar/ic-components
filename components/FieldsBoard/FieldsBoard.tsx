@@ -302,18 +302,7 @@ export default class FieldsBoard<T = unknown> extends React.Component<
   };
 
   renderFieldActions = () => {
-    const {
-      clickedField,
-      clickedFieldIsSelected,
-      fieldActionVisible,
-    } = this.state;
-    const { isMobile } = this.state;
-
-    if (isMobile) {
-      return (
-        <Drawer visible={fieldActionVisible}>{this.renderActions()}</Drawer>
-      );
-    }
+    const { fieldActionVisible } = this.state;
 
     return (
       <Modal
