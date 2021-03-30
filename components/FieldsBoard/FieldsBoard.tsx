@@ -46,6 +46,9 @@ interface FieldsBoardState {
   fieldEditDrawerVisible: boolean;
   selectedFieldType: TypeValue;
   fieldEditTitle: string;
+  fieldActionVisible: boolean;
+  clickedField: Field;
+  clickedFieldIsSelected: boolean;
 }
 
 export default class FieldsBoard<T = unknown> extends React.Component<
@@ -59,6 +62,9 @@ export default class FieldsBoard<T = unknown> extends React.Component<
     fieldEditDrawerVisible: false,
     selectedFieldType: TypeValue.SingleChoice,
     fieldEditTitle: '',
+    fieldActionVisible: false,
+    clickedField: null,
+    clickedFieldIsSelected: false,
   };
 
   componentDidMount = () => {
@@ -87,19 +93,18 @@ export default class FieldsBoard<T = unknown> extends React.Component<
   };
 
   handleFieldClick = (field: Field) => {
-    const { onChange, values } = this.props;
-    if (onChange) {
-      let fieldsParam;
-      const index = values.findIndex(value => value.id === field.id);
-      if (index === -1) {
-        fieldsParam = [...values, field];
-      } else {
-        const newValues = [...values];
-        newValues.splice(index, 1);
-        fieldsParam = newValues;
-      }
-      onChange(fieldsParam);
+    const { values } = this.props;
+
+    const index = values.findIndex(value => value.id === field.id);
+    let isSelected = true;
+    if (index === -1) {
+      isSelected = false;
     }
+    this.setState({
+      fieldActionVisible: true,
+      clickedField: field,
+      clickedFieldIsSelected: isSelected,
+    });
   };
 
   renderFieldName = (field: Field, total: number, cur: number) => {
@@ -160,7 +165,27 @@ export default class FieldsBoard<T = unknown> extends React.Component<
       fieldEditDrawerVisible,
       selectedFieldType,
       fieldEditTitle,
+      clickedField,
     } = this.state;
+
+    let name: string;
+    let desc: string;
+    let defaultValue: string;
+    let isMust: boolean;
+    let max: number;
+    let options: Option[];
+    let type: TypeValue;
+
+    if (clickedField) {
+      name = clickedField.name;
+      desc = clickedField.desc;
+      defaultValue = clickedField.default;
+      isMust = clickedField.isMust;
+      max = clickedField.max;
+      type = clickedField.type;
+      options = clickedField.options;
+    }
+
     return (
       <Drawer
         visible={fieldEditDrawerVisible}
@@ -169,12 +194,19 @@ export default class FieldsBoard<T = unknown> extends React.Component<
         mask
         maskClosable
         width="320"
+        destroyOnClose
       >
         <FieldAttributeEdit
-          fieldType={selectedFieldType}
+          fieldType={type}
           onClose={this.handleAttributeEditClose}
           title={fieldEditTitle}
           onSave={this.handleSave}
+          name={name}
+          desc={desc}
+          defaultValue={defaultValue}
+          isMust={isMust}
+          max={max}
+          options={options}
         />
       </Drawer>
     );
@@ -219,9 +251,85 @@ export default class FieldsBoard<T = unknown> extends React.Component<
     );
   };
 
+  handleFirstActionClick = () => {
+    const { clickedField } = this.state;
+    const { onChange, values } = this.props;
+    const field = clickedField;
+
+    if (onChange) {
+      let fieldsParam;
+      const index = values.findIndex(value => value.id === field.id);
+      if (index === -1) {
+        fieldsParam = [...values, field];
+      } else {
+        const newValues = [...values];
+        newValues.splice(index, 1);
+        fieldsParam = newValues;
+      }
+      onChange(fieldsParam);
+    }
+
+    this.setState({ fieldActionVisible: false });
+  };
+
+  handleEditFieldClick = () => {
+    this.setState({ fieldActionVisible: false, fieldEditDrawerVisible: true });
+  };
+
+  renderActions = () => {
+    const { clickedFieldIsSelected } = this.state;
+    let firstActionText = '确认选择';
+    if (clickedFieldIsSelected) {
+      firstActionText = '取消选择';
+    }
+
+    return (
+      <div className="fields-board__actions-wrapper">
+        <div
+          onClick={this.handleFirstActionClick}
+          className="fields-board__first-action"
+        >
+          {firstActionText}
+        </div>
+        <div
+          onClick={this.handleEditFieldClick}
+          className="fields-board__edit-action"
+        >
+          编辑字段
+        </div>
+      </div>
+    );
+  };
+
+  renderFieldActions = () => {
+    const {
+      clickedField,
+      clickedFieldIsSelected,
+      fieldActionVisible,
+    } = this.state;
+    const { isMobile } = this.state;
+
+    if (isMobile) {
+      return (
+        <Drawer visible={fieldActionVisible}>{this.renderActions()}</Drawer>
+      );
+    }
+
+    return (
+      <Modal
+        visible={fieldActionVisible}
+        footer={null}
+        className="fields-board__actions-modal"
+        onCancel={() => this.setState({ fieldActionVisible: false })}
+      >
+        {this.renderActions()}
+      </Modal>
+    );
+  };
+
   render() {
     const { fields, values } = this.props;
-    const { sortDrawerVisible, fieldTypesDrawerVisible } = this.state;
+    const { sortDrawerVisible } = this.state;
 
     return (
       <div className="fields-board">
@@ -285,6 +393,8 @@ export default class FieldsBoard<T = unknown> extends React.Component<
         {this.renderFieldAttributeEdit()}
 
         {this.renderFieldTypesBoard()}
+
+        {this.renderFieldActions()}
       </div>
     );
   }

@@ -16,6 +16,13 @@ export interface FieldAttributeEditProps {
   fieldType: TypeValue;
   onClose?: () => void;
   onSave?: (Field: OnSaveFieldParam) => void;
+
+  name?: string;
+  desc?: string;
+  defaultValue?: string;
+  isMust?: boolean;
+  max?: number;
+  options?: Option[];
 }
 
 export interface FieldAttributeEditState {
@@ -66,7 +73,7 @@ export default class FieldAttributeEdit extends React.Component<
 > {
   constructor(props) {
     super(props);
-    const { fieldType, name, desc, defaultValue, isMust, max } = props;
+    const { fieldType, name, desc, defaultValue, isMust, max, options } = props;
 
     const hasMax = [
       TypeValue.SingleLineText,
@@ -85,7 +92,7 @@ export default class FieldAttributeEdit extends React.Component<
       defaultValue: typeof defaultValue === 'string' ? defaultValue : '',
       isMust: typeof isMust === 'boolean' ? isMust : false,
       max: typeof max === 'number' ? max : 20,
-      options: [{ label: '', value: '' }],
+      options: Array.isArray(options) ? options : [{ label: '', value: '' }],
       hasMax,
       hasOption,
     };
@@ -122,12 +129,12 @@ export default class FieldAttributeEdit extends React.Component<
 
   handleSave = () => {
     const { onSave } = this.props;
-    const { name, options } = this.state;
+    const { name, options, hasOption } = this.state;
     if (!name) {
       return message.error('请输入字段名称');
     }
 
-    if (options.some(option => !option.value)) {
+    if (hasOption && options.some(option => !option.value)) {
       return message.error('选项值不能为空');
     }
 

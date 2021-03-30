@@ -14,13 +14,13 @@ class FieldsBoardDemo extends React.Component {
     fields: [
       {
         id: 1,
-        type: TypeValue.SingleChoice,
+        type: TypeValue.SingleLineText,
         name: '姓名',
         isMust: true,
       },
       {
         id: 2,
-        type: TypeValue.SingleChoice,
+        type: TypeValue.Number,
         name: '年龄',
         isMust: true,
       },
@@ -29,6 +29,16 @@ class FieldsBoardDemo extends React.Component {
         type: TypeValue.SingleChoice,
         name: '性别',
         isMust: true,
+        options: [
+          {
+            label: '男',
+            value: '男',
+          },
+          {
+            label: '女',
+            value: '女',
+          },
+        ],
       },
     ],
     values: [
