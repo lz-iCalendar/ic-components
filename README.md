@@ -1,21 +1,8 @@
 # iCalendar UI 组件库
 
-## 1. 开发
+现在 ic-components 有两个版本：
 
-```shell
-npm run dev
-```
+- 1.x:依赖的是 antd@3.x，开发分支为 v1。
+- 2.x:依赖的是 antd@4.x，开发分支为 v2。
 
-在 components 文件夹下，新建你所需要开发的 UI 组件的文件夹
-
-## 2. 编译
-
-```shell
-npm run compile
-```
-
-## 3. 发布
-
-```shell
-npm run release
-```
+开发维护对应版本的 ic-components 时，请切换到对应的分支。
