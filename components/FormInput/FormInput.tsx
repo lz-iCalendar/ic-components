@@ -1,7 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
 import { Option, TypeValue } from '../FieldsBoard/type';
-import { Input, InputNumber, DatePicker, Radio, Select } from 'antd';
+import ControlWrapper from './ControlWrapper';
+import HeaderFooterFixedLayout from '../HeaderFooterFixedLayout';
+import { Button, message } from 'antd';
 
 export interface Field {
   id: string;
@@ -18,134 +19,17 @@ export interface Field {
   max?: number;
 }
 
+export interface Values {
+  [key: string]: string;
+}
+
 export interface FormInputProps {
   fields: Field[];
+  onSave: (values: Values) => void;
 }
-
-export interface LabelProps {
-  label: string;
-  htmlFor: string;
-}
-
-const Label: React.FunctionComponent<LabelProps> = ({ label, htmlFor }) => {
-  return <label htmlFor={htmlFor}>{label}</label>;
-};
-
-export interface ControlProps {
-  id: string;
-  type: TypeValue;
-  value: string;
-  onChange: (value: string) => void;
-  options?: Option[];
-}
-
-const Control: React.FunctionComponent<ControlProps> = ({
-  id,
-  type,
-  value,
-  onChange,
-  options,
-}) => {
-  const handleInputChange = e => {
-    onChange(e.target.value);
-  };
-
-  const handleNumberChange = (value: string) => {
-    onChange(value);
-  };
-
-  const handleRadioChange = e => {
-    onChange(e.target.value);
-  };
-
-  const handleSelectChange = (value: string) => {
-    onChange(value);
-  };
-
-  switch (type) {
-    case TypeValue.SingleLineText: {
-      return <Input value={value} onChange={handleInputChange} />;
-    }
-    case TypeValue.ParagraphText: {
-      return <Input.TextArea onChange={handleInputChange} />;
-    }
-    case TypeValue.Number: {
-      return <InputNumber value={value} onChange={handleNumberChange} />;
-    }
-    case TypeValue.Date: {
-      return <DatePicker />;
-    }
-    case TypeValue.Time: {
-      return <DatePicker />;
-    }
-    case TypeValue.SingleChoice: {
-      if (Array.isArray(options)) {
-        return (
-          <Radio.Group onChange={handleRadioChange} value={value}>
-            {options.map(option => (
-              <Radio value={option.value}>{option.label}</Radio>
-            ))}
-          </Radio.Group>
-        );
-      }
-      return null;
-    }
-    case TypeValue.MultipleChoice: {
-      if (Array.isArray(options)) {
-        return (
-          <Select mode="multiple" onChange={handleSelectChange} value={value}>
-            {options.map(option => (
-              <Select.Option value={option.value}>{option.label}</Select.Option>
-            ))}
-          </Select>
-        );
-      }
-      return null;
-    }
-
-    case TypeValue.Image: {
-      return null;
-    }
-
-    case TypeValue.Email: {
-      return null;
-    }
-
-    case TypeValue.Region: {
-      return null;
-    }
-
-    case TypeValue.Location: {
-      return null;
-    }
-  }
-};
-
-export interface ControlWrapperProps {
-  field: Field;
-  onChange: (value: string) => void;
-  value: string;
-}
-
-const prefix = 'form-input';
-const ControlWrapper: React.FunctionComponent<ControlWrapperProps> = ({
-  field,
-  onChange,
-  value,
-}) => {
-  const { id, name, type } = field;
-  return (
-    <div>
-      <Label label={name} htmlFor={`${prefix}-${id}`} />
-      <div className="form-input__control-wrapper">
-        <Control id={id} type={type.value} value={value} onChange={onChange} />
-      </div>
-    </div>
-  );
-};
-
 export interface FormInputState {
   values: string[];
+  errors: string[];
 }
 
 export default class FormInput extends React.Component<
@@ -154,32 +38,109 @@ export default class FormInput extends React.Component<
 > {
   constructor(props: FormInputProps) {
     super(props);
-    const values = props.fields.map(field => field.value);
+    const { fields } = props;
+    let values: string[] = [];
+    let errors: string[] = [];
+    fields.forEach(field => {
+      values.push(field.value);
+      errors.push('');
+    });
     this.state = {
       values,
+      errors,
     };
   }
+
+  getFieldValueError = (
+    rules: {
+      isMust: boolean;
+      max: number;
+    },
+    value
+  ) => {
+    const { isMust, max } = rules;
+    if (isMust && !value && typeof value !== 'number') {
+      return '此项是必填项';
+    }
+    if (
+      typeof max === 'number' &&
+      typeof value === 'string' &&
+      value.length > max
+    ) {
+      return `长度不能超过 ${max}`;
+    }
+    return '';
+  };
 
   handleChange = (index: number, value: string) => {
     const { values } = this.state;
     const newValues = [...values];
     newValues.splice(index, 1, value);
     this.setState({ values: newValues });
+    this.validFieldValue(index, value);
+  };
+
+  validFieldValue = (index: number, value: string) => {
+    const { errors } = this.state;
+
+    const { fields } = this.props;
+    const field = fields[index];
+    const { isMust, max } = field;
+
+    const error = this.getFieldValueError({ isMust, max }, value);
+
+    const newErrors = [...errors];
+    newErrors.splice(index, 1, error);
+    this.setState({ errors: newErrors });
+  };
+
+  handleSave = () => {
+    const { values } = this.state;
+    values.forEach((value, index) => {
+      setTimeout(() => {
+        this.validFieldValue(index, value);
+      });
+    });
+    setTimeout(() => {
+      const { onSave, fields } = this.props;
+      if (onSave) {
+        if (this.state.errors.every(error => !error)) {
+          const valuesParam: Values = {};
+          fields.forEach((field, index) => {
+            valuesParam[field.id] = values[index];
+          });
+          onSave(valuesParam);
+        } else {
+          message.error('表单信息填写有误');
+        }
+      }
+    });
   };
 
   render() {
     const { fields } = this.props;
-    const { values } = this.state;
+    const { values, errors } = this.state;
     return (
       <div className="form-input">
-        {fields.map((field, index) => (
-          <ControlWrapper
-            field={field}
-            key={field.id}
-            onChange={value => this.handleChange(index, value)}
-            value={values[index]}
-          />
-        ))}
+        <HeaderFooterFixedLayout
+          header={null}
+          content={fields.map((field, index) => (
+            <ControlWrapper
+              field={field}
+              key={`${field.id}`}
+              onChange={value => this.handleChange(index, value)}
+              value={values[index]}
+              error={errors[index]}
+            />
+          ))}
+          footer={
+            <div className="form-input__save-btn-wrapper">
+              <Button type="primary" block onClick={this.handleSave}>
+                保存
+              </Button>
+            </div>
+          }
+        ></HeaderFooterFixedLayout>
       </div>
     );
   }

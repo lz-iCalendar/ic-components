@@ -6,7 +6,7 @@ export interface HeaderFooterFixedLayoutProps {
   header?: JSX.Element;
   headerHeight?: string | number;
   contentClassName?: string;
-  content?: JSX.Element;
+  content?: JSX.Element | JSX.Element[];
   footerClassName?: string;
   footer?: JSX.Element;
   footerHeight?: string | number;

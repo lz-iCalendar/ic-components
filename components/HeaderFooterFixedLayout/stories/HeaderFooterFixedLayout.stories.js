@@ -15,7 +15,7 @@ class HeaderFooterFixedLayoutDemo extends React.Component {
         content={
           <ul>
             {new Array(100).fill(0).map((item, index) => (
-              <li>{index}</li>
+              <li key={index}>{index}</li>
             ))}
           </ul>
         }

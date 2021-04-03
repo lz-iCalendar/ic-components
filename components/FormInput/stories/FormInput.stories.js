@@ -10,7 +10,9 @@ class FormInputDemo extends React.Component {
     fields: [
       {
         id: 1,
-        type: 0,
+        type: {
+          value: 0,
+        },
         name: '单行文本',
         isMust: true,
         desc: '单行文本的描述',
@@ -19,7 +21,7 @@ class FormInputDemo extends React.Component {
       },
       {
         id: 2,
-        type: 1,
+        type: { value: 1 },
         name: '多行文本',
         isMust: true,
         desc: '个人介绍的描述',
@@ -28,7 +30,7 @@ class FormInputDemo extends React.Component {
       },
       {
         id: 3,
-        type: 2,
+        type: { value: 2 },
         name: '数字',
         isMust: true,
         desc: '',
@@ -37,7 +39,7 @@ class FormInputDemo extends React.Component {
       },
       {
         id: 4,
-        type: 3,
+        type: { value: 3 },
         name: '日期',
         isMust: true,
         desc: '',
@@ -46,58 +48,75 @@ class FormInputDemo extends React.Component {
       },
       {
         id: 5,
-        type: 4,
+        type: { value: 4 },
         name: '时间',
-        isMust: true,
+        isMust: false,
         desc: '',
         default: '',
         max: 20,
       },
       {
         id: 6,
-        type: 5,
+        type: {
+          value: 5,
+          options: [
+            { label: '选项1', value: '选项1' },
+            { label: '选项2', value: '选项2' },
+          ],
+        },
         name: '单项选择',
-        isMust: true,
+        isMust: false,
         desc: '',
         default: '',
         max: 20,
       },
       {
         id: 7,
-        type: 6,
+        type: {
+          value: 6,
+          options: [
+            { label: '选项1', value: '选项1' },
+            { label: '选项2', value: '选项2' },
+          ],
+        },
         name: '多项选择',
-        isMust: true,
+        isMust: false,
         desc: '',
         default: '',
         max: 20,
       },
       {
         id: 8,
-        type: 7,
+        type: { value: 7 },
         name: '图片',
-        isMust: true,
+        isMust: false,
         desc: '',
         default: '',
         max: 20,
       },
       {
         id: 9,
-        type: 8,
+        type: { value: 8 },
         name: '邮箱',
-        isMust: true,
+        isMust: false,
         desc: '',
         default: '',
         max: 20,
       },
     ],
   };
+
+  handleSave = values => {
+    console.log({ values });
+  };
   render() {
-    return <FormInput fields={fields} />;
+    const { fields } = this.state;
+    return <FormInput fields={fields} onSave={this.handleSave} />;
   }
 }
 
-storiesOf('HeaderFooterFixedLayout 布局', module).add(
-  'HeaderFooterFixedLayout 布局组件',
+storiesOf('FormInput 表单输入', module).add(
+  'FormInput 表单输入',
   () => <FormInputDemo />,
   {
     notes: {
