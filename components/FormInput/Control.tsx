@@ -1,8 +1,14 @@
 import React from 'react';
-import { Input, InputNumber, DatePicker, Radio, Select } from 'antd';
+import { Input, InputNumber, DatePicker, Radio, Select, Upload } from 'antd';
 import { Option, TypeValue } from '../FieldsBoard/type';
 import classNames from 'classnames';
 import moment from 'moment';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  UploadRequestOption,
+  BeforeUploadFileType,
+  RcFile,
+} from 'rc-upload/lib/interface';
 
 export interface ControlProps {
   id: string;
@@ -10,6 +16,9 @@ export interface ControlProps {
   value: string;
   onChange: (value: string) => void;
   options?: Option[];
+  onSelectImage?: (
+    file: Exclude<BeforeUploadFileType, File | boolean> | RcFile
+  ) => void;
 }
 
 const prefix = 'form-input-control';
@@ -20,6 +29,7 @@ const Control: React.FunctionComponent<ControlProps> = ({
   value,
   onChange,
   options,
+  onSelectImage,
 }) => {
   const handleInputChange = e => {
     onChange(e.target.value);
@@ -39,6 +49,10 @@ const Control: React.FunctionComponent<ControlProps> = ({
 
   const handleDatePickerChange = (value: any, dateString: string) => {
     onChange(dateString);
+  };
+
+  const handleCustomRequest = (options: UploadRequestOption<any>) => {
+    onSelectImage && onSelectImage(options.file);
   };
 
   switch (type) {
@@ -81,6 +95,7 @@ const Control: React.FunctionComponent<ControlProps> = ({
           className={prefix}
           value={value ? moment(value) : undefined}
           onChange={handleDatePickerChange}
+          showTime={{ format: 'HH:mm' }}
         />
       );
     }
@@ -90,10 +105,12 @@ const Control: React.FunctionComponent<ControlProps> = ({
           <Radio.Group
             onChange={handleRadioChange}
             value={value}
-            className={prefix}
+            className={`${prefix} ${prefix}__radio-group`}
           >
             {options.map(option => (
-              <Radio value={option.value}>{option.label}</Radio>
+              <Radio value={option.value} className={`${prefix}__radio`}>
+                {option.label}
+              </Radio>
             ))}
           </Radio.Group>
         );
@@ -119,11 +136,35 @@ const Control: React.FunctionComponent<ControlProps> = ({
     }
 
     case TypeValue.Image: {
-      return null;
+      return (
+        <Upload
+          name="avatar"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          customRequest={handleCustomRequest}
+        >
+          {value ? (
+            <img src={value} alt="avatar" style={{ width: '100%' }} />
+          ) : (
+            <div>
+              <PlusOutlined />
+              <div style={{ marginTop: 8 }}>Upload</div>
+            </div>
+          )}
+        </Upload>
+      );
     }
 
     case TypeValue.Email: {
-      return null;
+      return (
+        <Input
+          value={value}
+          onChange={handleInputChange}
+          className={prefix}
+          type="email"
+        />
+      );
     }
 
     case TypeValue.Region: {

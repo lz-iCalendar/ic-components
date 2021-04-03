@@ -3,6 +3,12 @@ import { Option, TypeValue } from '../FieldsBoard/type';
 import ControlWrapper from './ControlWrapper';
 import HeaderFooterFixedLayout from '../HeaderFooterFixedLayout';
 import { Button, message } from 'antd';
+import {
+  UploadRequestOption,
+  BeforeUploadFileType,
+  RcFile,
+} from 'rc-upload/lib/interface';
+import * as EmailValidator from 'email-validator';
 
 export interface Field {
   id: string;
@@ -23,8 +29,27 @@ export interface Values {
   [key: string]: string;
 }
 
+const NOT_NEED_VALID_MAX_CONTROLS = [
+  TypeValue.SingleChoice,
+  TypeValue.MultipleChoice,
+  TypeValue.Email,
+  TypeValue.Image,
+  TypeValue.Date,
+  TypeValue.Time,
+  TypeValue.Number,
+];
+
+const NEED_VALID_MAX_CONTROLS = [
+  TypeValue.SingleLineText,
+  TypeValue.ParagraphText,
+];
+
 export interface FormInputProps {
   fields: Field[];
+  onSelectImage?: (
+    file: Exclude<BeforeUploadFileType, File | boolean> | RcFile,
+    uploadSuccess: (url: string) => void
+  ) => void;
   onSave: (values: Values) => void;
 }
 export interface FormInputState {
@@ -54,14 +79,16 @@ export default class FormInput extends React.Component<
   getFieldValueError = (
     rules: {
       isMust: boolean;
-      max: number;
+      max?: number;
+      isEmail?: boolean;
     },
-    value
+    value: string
   ) => {
-    const { isMust, max } = rules;
+    const { isMust, max, isEmail } = rules;
     if (isMust && !value && typeof value !== 'number') {
       return '此项是必填项';
     }
+
     if (
       typeof max === 'number' &&
       typeof value === 'string' &&
@@ -69,6 +96,14 @@ export default class FormInput extends React.Component<
     ) {
       return `长度不能超过 ${max}`;
     }
+
+    if (isEmail) {
+      const result = EmailValidator.validate(value);
+      if (!result) {
+        return '邮箱格式错误';
+      }
+    }
+
     return '';
   };
 
@@ -77,6 +112,7 @@ export default class FormInput extends React.Component<
     const newValues = [...values];
     newValues.splice(index, 1, value);
     this.setState({ values: newValues });
+
     this.validFieldValue(index, value);
   };
 
@@ -87,7 +123,18 @@ export default class FormInput extends React.Component<
     const field = fields[index];
     const { isMust, max } = field;
 
-    const error = this.getFieldValueError({ isMust, max }, value);
+    const rules: { isMust: boolean; max?: number; isEmail?: boolean } = {
+      isMust,
+    };
+
+    if (NEED_VALID_MAX_CONTROLS.includes(field.type.value)) {
+      rules.max = max;
+    }
+    if (field.type.value === TypeValue.Email) {
+      rules.isEmail = true;
+    }
+
+    const error = this.getFieldValueError(rules, value);
 
     const newErrors = [...errors];
     newErrors.splice(index, 1, error);
@@ -117,6 +164,12 @@ export default class FormInput extends React.Component<
     });
   };
 
+  handleSelectImage = (file: Blob, index: number) => {
+    const { onSelectImage } = this.props;
+    onSelectImage &&
+      onSelectImage(file, (url: string) => this.handleChange(index, url));
+  };
+
   render() {
     const { fields } = this.props;
     const { values, errors } = this.state;
@@ -131,6 +184,9 @@ export default class FormInput extends React.Component<
               onChange={value => this.handleChange(index, value)}
               value={values[index]}
               error={errors[index]}
+              onSelectImage={(file: Blob) =>
+                this.handleSelectImage(file, index)
+              }
             />
           ))}
           footer={

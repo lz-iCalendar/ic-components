@@ -62,13 +62,17 @@ class FormInputDemo extends React.Component {
           options: [
             { label: '选项1', value: '选项1' },
             { label: '选项2', value: '选项2' },
+            { label: '选项3', value: '选项3' },
+            { label: '选项4', value: '选项4' },
+            { label: '选项5', value: '选项5' },
+            { label: '选项6', value: '选项6' },
           ],
         },
         name: '单项选择',
         isMust: false,
         desc: '',
         default: '',
-        max: 20,
+        max: 2,
       },
       {
         id: 7,
