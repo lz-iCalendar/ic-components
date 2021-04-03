@@ -1,3 +1,12 @@
+## Release v2.0.0
+
+### v2 版本想对于 v1 版本，主要是将 antd@3.x 升级到了 antd@4.x
+
+- feat:添加 FieldsBoard 组件
+- feat:添加 FormInput 组件
+- feat:添加 HeaderFooterFixedLayout 组件
+- remove:除以上三个组件，其他组件在 v2 版本暂时被移除
+
 ## Release v1.4.1
 
 - fix:修复议程视图没有编辑/查看事件的按钮
