@@ -14,43 +14,45 @@ class FieldsBoardDemo extends React.Component {
     fields: [
       {
         id: 1,
-        type: TypeValue.SingleLineText,
+        type: { value: TypeValue.SingleLineText },
         name: '姓名',
         isMust: true,
       },
       {
         id: 2,
-        type: TypeValue.Number,
+        type: { value: TypeValue.Number },
         name: '年龄',
         isMust: true,
       },
       {
         id: 3,
-        type: TypeValue.SingleChoice,
+        type: {
+          value: TypeValue.SingleChoice,
+          options: [
+            {
+              label: '男',
+              value: '男',
+            },
+            {
+              label: '女',
+              value: '女',
+            },
+          ],
+        },
         name: '性别',
         isMust: true,
-        options: [
-          {
-            label: '男',
-            value: '男',
-          },
-          {
-            label: '女',
-            value: '女',
-          },
-        ],
       },
     ],
     values: [
       {
         id: 1,
-        type: TypeValue.SingleChoice,
+        type: { value: TypeValue.SingleChoice },
         name: '姓名',
         isMust: true,
       },
       {
         id: 2,
-        type: TypeValue.SingleChoice,
+        type: { value: TypeValue.SingleChoice },
         name: '年龄',
         isMust: true,
       },
@@ -75,15 +77,12 @@ class FieldsBoardDemo extends React.Component {
   }
 }
 
-storiesOf('FieldsBoard 字段面板', module)
-  .add('PC', () => <FieldsBoardDemo />, {
+storiesOf('FieldsBoard 字段面板', module).add(
+  'FieldsBoard 字段面板',
+  () => <FieldsBoardDemo />,
+  {
     notes: {
       markdown: docs,
     },
-  })
-  .add('Mobile', () => <FieldsBoardDemo />, {
-    notes: {
-      markdown: docs,
-    },
-    viewport: { defaultViewport: 'iphone5' },
-  });
+  }
+);

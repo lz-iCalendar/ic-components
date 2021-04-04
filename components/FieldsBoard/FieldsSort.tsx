@@ -7,6 +7,7 @@ import {
   ArrowUpOutlined,
   ArrowDownOutlined,
 } from '@ant-design/icons';
+import { Field } from './FieldsBoard';
 
 export enum TypeValue {
   SingleLineText,
@@ -28,26 +29,14 @@ export interface Option {
   value: string;
 }
 
-export interface Field<T = unknown> {
-  id: string;
-  type: TypeValue;
-  name: string;
-  isMust?: boolean;
-  desc?: string;
-  default?: T;
-  max?: number;
-  options?: Option[];
-  regionList?: unknown;
-}
-
 export interface FieldsSortProps<T> {
-  fields: Field<T>[];
+  fields: Field[];
   onBack: () => void;
-  onChange?: (fields: Field<T>[]) => void;
+  onChange?: (fields: Field[]) => void;
 }
 
 interface FieldsSortState<T> {
-  fields: Field<T>[];
+  fields: Field[];
 }
 
 export default class FieldsSort<T = unknown> extends React.Component<
@@ -77,7 +66,7 @@ export default class FieldsSort<T = unknown> extends React.Component<
     arr[j] = temp;
   };
 
-  handleUp = (field: Field, total: number, cur: number, fields: Field<T>[]) => {
+  handleUp = (field: Field, total: number, cur: number, fields: Field[]) => {
     if (cur === 0) {
       return;
     }
@@ -88,7 +77,7 @@ export default class FieldsSort<T = unknown> extends React.Component<
     field: Field,
     total: number,
     cur: number,
-    fields: Field<T>[]
+    fields: Field[]
   ) => {
     if (cur === total) {
       return;

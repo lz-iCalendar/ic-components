@@ -6,22 +6,21 @@ import { TypeValue } from './type';
 import FieldTypesBoard, { FieldType } from './FieldTypesBoard';
 import enquire from 'enquire.js';
 import FieldAttributeEdit, { OnSaveFieldParam } from './FieldAttributeEdit';
+import PropTypes from 'prop-types';
 
 export interface Option {
   label: string;
   value: string;
 }
 
-export interface Field<T = unknown> {
+export interface Field {
   id: string;
-  type: TypeValue;
+  type: { value: TypeValue; options?: Option[]; regionList?: unknown };
   name: string;
   isMust?: boolean;
   desc?: string;
-  default?: T;
+  defaultValue?: string;
   max?: number;
-  options?: Option[];
-  regionList?: unknown;
 }
 
 export interface OnAddFieldParam extends OnSaveFieldParam {
@@ -30,13 +29,13 @@ export interface OnAddFieldParam extends OnSaveFieldParam {
 
 export interface FieldsBoardProps<T> {
   // 所有字段
-  fields: Field<T>[];
+  fields: Field[];
   // 选中的字段
-  values: Field<T>[];
+  values: Field[];
   // 选中的字段发生改变时的回调
-  onChange?: (selectedFields: Field<T>[]) => void;
+  onChange?: (selectedFields: Field[]) => void;
   // 添加字段的回调
-  onAddField: (Field: OnAddFieldParam) => void;
+  onAddField: (field: OnAddFieldParam) => void;
 }
 
 interface FieldsBoardState {
@@ -55,6 +54,11 @@ export default class FieldsBoard<T = unknown> extends React.Component<
   FieldsBoardProps<T>,
   FieldsBoardState
 > {
+  static defaultProps = {
+    fields: [],
+    values: [],
+  };
+
   state = {
     sortDrawerVisible: false,
     fieldTypesDrawerVisible: false,
@@ -126,7 +130,7 @@ export default class FieldsBoard<T = unknown> extends React.Component<
     this.setState({ sortDrawerVisible: false });
   };
 
-  handleFieldsSortChange = (fields: Field<T>[]) => {
+  handleFieldsSortChange = (fields: Field[]) => {
     this.setState({ sortDrawerVisible: false });
     const { onChange } = this.props;
     onChange && onChange(fields);
@@ -273,7 +277,11 @@ export default class FieldsBoard<T = unknown> extends React.Component<
   };
 
   handleEditFieldClick = () => {
-    this.setState({ fieldActionVisible: false, fieldEditDrawerVisible: true });
+    this.setState({
+      fieldActionVisible: false,
+      fieldEditDrawerVisible: true,
+      fieldEditTitle: '编辑字段',
+    });
   };
 
   renderActions = () => {

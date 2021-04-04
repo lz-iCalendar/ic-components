@@ -1,14 +1,23 @@
 # FieldsBoard
 
+字段面板组件。（对表单字段的管理）
+
 ## Example
 
 ```javascript
-<Button type="primary">Button</Button>
+<FieldsBoard
+  fields={fields}
+  values={values}
+  onChange={this.handleChange}
+  onAddField={this.handleAddFiled}
+/>
 ```
 
 ## props
 
-| 属性  |   类型    |  默认值   |              描述               |
-| :---: | :-------: | :-------: | :-----------------------------: |
-| type  | `string`  | `primary` | 按钮类型，可选 `primary` `text` |
-| block | `boolean` |  `false`  |      宽度是否为父元素宽度       |
+|    属性    |                类型                 | 默认值 |           描述           |
+| :--------: | :---------------------------------: | :----: | :----------------------: |
+|   fields   |              `Field[]`              |  `[]`  |        所有的字段        |
+|   values   |              `Field[]`              |  `[]`  |        选中的字段        |
+|  onChange  | `(selectedFields: Field[]) => void` |  `-`   | 选中字段发生改变时的回调 |
+| onAddField | `(field: OnAddFieldParam) => void`  |  `-`   |      添加字段的回调      |
