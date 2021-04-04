@@ -3,11 +3,7 @@ import { Option, TypeValue } from '../FieldsBoard/type';
 import ControlWrapper from './ControlWrapper';
 import HeaderFooterFixedLayout from '../HeaderFooterFixedLayout';
 import { Button, message } from 'antd';
-import {
-  UploadRequestOption,
-  BeforeUploadFileType,
-  RcFile,
-} from 'rc-upload/lib/interface';
+import { BeforeUploadFileType, RcFile } from 'rc-upload/lib/interface';
 import * as EmailValidator from 'email-validator';
 
 export interface Field {
@@ -28,16 +24,6 @@ export interface Field {
 export interface Values {
   [key: string]: string;
 }
-
-const NOT_NEED_VALID_MAX_CONTROLS = [
-  TypeValue.SingleChoice,
-  TypeValue.MultipleChoice,
-  TypeValue.Email,
-  TypeValue.Image,
-  TypeValue.Date,
-  TypeValue.Time,
-  TypeValue.Number,
-];
 
 const NEED_VALID_MAX_CONTROLS = [
   TypeValue.SingleLineText,
@@ -61,6 +47,10 @@ export default class FormInput extends React.Component<
   FormInputProps,
   FormInputState
 > {
+  static defaultProps = {
+    fields: [],
+  };
+
   constructor(props: FormInputProps) {
     super(props);
     const { fields } = props;

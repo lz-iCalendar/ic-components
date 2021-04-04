@@ -1,6 +1,6 @@
 # iCalendar UI 组件库
 
-## 1. 开发
+## 1. 开发（查看组件文档）
 
 ```shell
 npm run dev
