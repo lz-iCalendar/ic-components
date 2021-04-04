@@ -1,3 +1,7 @@
+## Release v2.1.0
+
+- docs:更新组件文档
+
 ## Release v2.0.0
 
 ### v2 版本想对于 v1 版本，主要是将 antd@3.x 升级到了 antd@4.x
