@@ -30,6 +30,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
   };
   state = {
     len: 0,
+    height: 'auto'
   };
 
   componentDidMount() {
@@ -47,7 +48,18 @@ export default class SingleDayView extends React.PureComponent<any, any> {
 
   componentDidUpdate() {
     this.reLayout();
+    this.getDayViewHeight();
   }
+
+  getDayViewHeight = () => {
+    const bgDOM = document.querySelector(
+      '.ic-day-time-line__bg'
+    ) as HTMLDivElement;
+    if (bgDOM) {
+      const height = bgDOM.offsetHeight;
+      this.setState({ height });
+    }
+  };
 
   reLayoutEvents(startHHmm, endHHmm, containerHeight) {
     const { current } = this.rootRef;
@@ -240,10 +252,11 @@ export default class SingleDayView extends React.PureComponent<any, any> {
       onCurrentEventClick,
       onFutureEventClick,
       onAllEventClick,
-      onEventView
+      onEventView,
     } = this.props;
+    const { height } = this.state;
     return (
-      <div ref={this.rootRef} className="ic-single-day-view" style={style}>
+      <div ref={this.rootRef} className="ic-single-day-view" style={{...style, height}}>
         {normalizeEvents(events || [])
           .filter(eventsFilter)
           // .sort(this.sortByDate)
@@ -263,7 +276,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                 hasPopover = true,
                 hasTitle = true,
                 hasEditBtn = true,
-                hasViewBtn = false
+                hasViewBtn = false,
               },
             } = event;
             if (forbidRender) {

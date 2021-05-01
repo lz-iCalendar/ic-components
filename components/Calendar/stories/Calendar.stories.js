@@ -58,7 +58,7 @@ stories
         <Calendar events={mockEvents} defaultActiveTab="singleDay" />
       </div>
     ),
-    { viewport: { defaultViewport: 'iphone5' } }
+    { viewport: { defaultViewport: 'iphone6' } }
   )
   .add('多日（PC 端）', () => (
     <div
@@ -79,7 +79,7 @@ stories
         <Calendar events={mockEvents} defaultActiveTab="multiDay" />
       </div>
     ),
-    { viewport: { defaultViewport: 'iphone5' } }
+    { viewport: { defaultViewport: 'iphone6' } }
   )
   .add('单周', () => (
     <div

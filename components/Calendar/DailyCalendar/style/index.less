@@ -8,10 +8,14 @@
 
   &__day-title {
     height: 100%;
-    min-width: 120px;
+    min-width: 64px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    &--plan {
+      flex-direction: row;
+    }
 
     &:not(:last-child) {
       border-right: solid 1px rgb(237, 228, 214);
@@ -22,9 +26,11 @@
     }
 
     &-week {
-      font-size: 16px;
+      font-size: 14px;
       color: #d2bea5;
-      margin-right: 10px;
+      &--plan {
+        margin-right: 10px;
+      }
     }
 
     &-date {

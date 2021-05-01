@@ -1,6 +1,6 @@
 import React from 'react';
 import memoizeOne from 'memoize-one';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { getWeekDayName, monthDayHasher } from '../../utils/dateUtil';
 import {
   allocateDailyEvents,
@@ -209,12 +209,18 @@ export default class Plan extends React.PureComponent<any, any> {
     return (
       <div className="ic-daily-calendar">
         <div
-          className={classnames(
+          className={classNames(
             'ic-daily-calendar__day-title',
-            'ic-plan__title-row'
+            'ic-plan__title-row',
+            'ic-daily-calendar__day-title--plan'
           )}
         >
-          <div className="ic-daily-calendar__day-title-week">
+          <div
+            className={classNames(
+              'ic-daily-calendar__day-title-week',
+              'ic-daily-calendar__day-title-week--plan'
+            )}
+          >
             {getWeekDayName(selectedDate)}
           </div>
           <div className="ic-daily-calendar__day-title-date">{`${selectedDate.getMonth() +

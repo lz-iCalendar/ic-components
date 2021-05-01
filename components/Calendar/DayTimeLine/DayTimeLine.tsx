@@ -40,8 +40,8 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
     startHHmm: '00:00',
     endHHmm: '23:59',
     step: '60:m',
-    formatString: 'hh:mm a',
-    // timeSuffix: ['am', 'pm'],
+    formatString: 'ha',
+    timeSuffix: ['am', 'pm'],
   };
 
   state = {
@@ -49,6 +49,7 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
     topEventRowHeight: undefined,
     titleRowRightWidth: undefined,
     titleRowRightElement: undefined,
+    scrollHeight: '100%',
   };
 
   mainViewRef: any = React.createRef();
@@ -58,7 +59,35 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
 
   componentDidMount() {
     this.updateStyle();
+    this.getScrollHeight();
   }
+
+  componentDidUpdate = () => {
+    this.updateStyle();
+    this.getScrollHeight();
+  };
+
+  getScrollHeight = () => {
+    const windowHeight = window.innerHeight;
+    const header = document.querySelector(
+      '.ic-calendar__header'
+    ) as HTMLDivElement;
+    const title = document.querySelector(
+      '.ic-day-time-line__title-row-right'
+    ) as HTMLDivElement;
+    const allDayEventContainer = document.querySelector(
+      '.ic-day-time-line__event-row-right'
+    ) as HTMLDivElement;
+
+    if (windowHeight && header && title && allDayEventContainer) {
+      const scrollHeight =
+        windowHeight -
+        header.offsetHeight -
+        title.offsetHeight -
+        allDayEventContainer.offsetHeight;
+      this.setState({ scrollHeight });
+    }
+  };
 
   updateStyle() {
     const {
@@ -89,12 +118,18 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
     timeColumnElement.scrollTop = e.target.scrollTop;
   };
 
+  bgRef: any;
+  getBgRef = ref => {
+    this.bgRef = ref;
+  };
+
   render() {
     const {
       mainViewHeight,
       topEventRowHeight,
       titleRowRightWidth,
       titleRowRightElement,
+      scrollHeight,
     } = this.state;
     const {
       startHHmm,
@@ -151,7 +186,7 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
               className="ic-day-time-line__event-row-left"
               style={topEventRowHeightStyle}
             />
-            <div>
+            <div style={{ height: scrollHeight }}>
               {dayTimeLine.map(time => (
                 <div key={time} className="ic-day-time-line__label-row">
                   <div className="ic-day-time-line__label">{time}</div>
@@ -184,8 +219,9 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
                 <div
                   ref={this.mainViewRef}
                   className="ic-day-time-line__main-view"
+                  style={{ height: scrollHeight, overflow: 'auto' }}
                 >
-                  <div className="ic-day-time-line__bg">
+                  <div className="ic-day-time-line__bg" ref={this.getBgRef}>
                     {dayTimeLine.map(time => (
                       <div key={time} className="ic-day-time-line__bg-row" />
                     ))}

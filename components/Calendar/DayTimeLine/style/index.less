@@ -1,16 +1,17 @@
 .ic-day-time-line {
   display: flex;
+  width: 100%;
   height: 100%;
 
   &__time-column {
     background: #fff;
-    width: 110px;
+    width: 48px;
     height: 100%;
     border-right: solid 1px rgb(237, 228, 214);
   }
 
   &__title-row-left {
-    height: 56px;
+    height: 40px;
     border-bottom: solid 1px rgb(237, 228, 214);
   }
 
@@ -19,12 +20,13 @@
   }
 
   &__content-column {
-    width: calc(100% - 110px);
+    width: calc(100% - 48px);
     height: 100%;
     overflow-x: auto;
   }
 
   &__content {
+    width: 100%;
     min-width: 100%;
     height: 100%;
   }
@@ -34,7 +36,7 @@
   }
 
   &__title-row-right {
-    height: 56px;
+    height: 40px;
     border-bottom: solid 1px rgb(237, 228, 214);
   }
   &__classify-row-right {
@@ -52,13 +54,13 @@
   }
 
   &__label {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 0 5px;
     font-size: 14px;
     color: #a0917f;
     position: relative;
     top: -10px;
     z-index: 9;
+    text-align: right;
   }
 
   &__bg-row {
