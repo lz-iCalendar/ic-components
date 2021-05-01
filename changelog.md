@@ -1,3 +1,6 @@
+## Release v1.5.1
+- Fix: 修复事件样式错误的 bug
+
 ## Release v1.5.0
 - feat:优化 Calendar 组件显示
 ## Release v1.4.1
