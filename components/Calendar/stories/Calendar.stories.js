@@ -11,7 +11,7 @@ const stories = storiesOf('Calendar 日历', module);
 
 class Wrap extends React.Component {
   state = {
-    events: mockEvents,
+    events: multiDaysEvents,
     eventKeyword: undefined,
     spinning: false,
   };
@@ -43,6 +43,7 @@ class Wrap extends React.Component {
           onEventDetailsClick={this.handleEventDetailsClick}
           spinning={spinning}
           onDateRangeChange={this.handleChange}
+          height={500} 
         />
       </div>
     );
@@ -69,7 +70,7 @@ stories
         overflowY: 'auto',
       }}
     >
-      <Calendar events={mockEvents} defaultActiveTab="multiDay" />
+      <Calendar events={mockEvents} defaultActiveTab="multiDay" height={800} />
     </div>
   ))
   .add(

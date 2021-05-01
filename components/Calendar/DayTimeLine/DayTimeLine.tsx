@@ -59,16 +59,15 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
 
   componentDidMount() {
     this.updateStyle();
-    this.getScrollHeight();
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps, prevState) => {
     this.updateStyle();
     this.getScrollHeight();
   };
 
   getScrollHeight = () => {
-    const windowHeight = window.innerHeight;
+    const calendar = document.querySelector('.ic-calendar') as HTMLDivElement;
     const header = document.querySelector(
       '.ic-calendar__header'
     ) as HTMLDivElement;
@@ -79,12 +78,15 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
       '.ic-day-time-line__event-row-right'
     ) as HTMLDivElement;
 
-    if (windowHeight && header && title && allDayEventContainer) {
+    if (calendar && header && title && allDayEventContainer) {
       const scrollHeight =
-        windowHeight -
+        calendar.offsetHeight -
         header.offsetHeight -
         title.offsetHeight -
         allDayEventContainer.offsetHeight;
+
+      // console.log({scrollHeight})
+
       this.setState({ scrollHeight });
     }
   };
@@ -146,6 +148,8 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
       height,
     } = this.props;
     let dayTimeLine = getDayTimeLine(startHHmm, endHHmm, step, formatString);
+
+    // console.log({dayTimeLine, startHHmm, endHHmm})
     if (timeSuffix) {
       const [am = 'AM', pm = 'PM'] = timeSuffix;
       dayTimeLine = dayTimeLine.map(time =>

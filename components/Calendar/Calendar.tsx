@@ -334,6 +334,7 @@ export default class Calendar extends React.PureComponent<any, any> {
     });
 
     let contentViewHeight = this.props.height;
+
     const {
       headerRef: { current: headerElement },
     } = this;

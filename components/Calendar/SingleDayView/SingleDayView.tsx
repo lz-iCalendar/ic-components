@@ -44,6 +44,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
       });
     }
     this.reLayout();
+    this.getDayViewHeight();
   }
 
   componentDidUpdate() {
@@ -67,10 +68,13 @@ export default class SingleDayView extends React.PureComponent<any, any> {
       return;
     }
 
+    const dom = document.querySelector('.ic-single-day-view') as HTMLDivElement;
+    const totalHeight = dom.offsetHeight;
+
     const timeLineStartMinutes = getHHmmDurationByMinute(startHHmm);
     const timeLineEndMinutes = getHHmmDurationByMinute(endHHmm);
     const totalMinutes = timeLineEndMinutes - timeLineStartMinutes;
-    const heightToMinutes = containerHeight / totalMinutes;
+    const heightToMinutes = totalHeight / totalMinutes;
     const eventElements = current.children;
 
     Array.prototype.forEach.call(eventElements, element => {
@@ -82,10 +86,18 @@ export default class SingleDayView extends React.PureComponent<any, any> {
       const startMinutes = getHHmmDurationByMinute(eventStart);
       const endMinutes = getHHmmDurationByMinute(eventEnd);
       const eventTotalMinutes = endMinutes - startMinutes;
-      const elementTop =
-        (startMinutes - timeLineStartMinutes) * heightToMinutes;
+
+      // 计算 top
+      const distanceMin = startMinutes - timeLineStartMinutes;
+      const cellCounts = Math.floor((distanceMin) / 48);
+      const cellSurplus = distanceMin % 60;
+      const elementTop = cellCounts * 48 + (cellSurplus / 60) * 48;
+
+      // const elementTop =
+      //   (startMinutes - timeLineStartMinutes) * heightToMinutes;
+
       const elementHeight =
-        (eventTotalMinutes * containerHeight) / totalMinutes;
+        (eventTotalMinutes * totalHeight) / totalMinutes;
 
       const elementWidth = Number(100 / counts);
       element.style.left = `${left * 100}%`;
