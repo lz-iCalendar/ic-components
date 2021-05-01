@@ -27,7 +27,7 @@
     "deploy": "storybook-to-ghpages",
     "compile": "antd-tools run compile",
     "test:generate-output": "jest --json --outputFile=jest-test-results.json",
-    "release": "rm -rf es lib && npm run compile && hi-pkg-scripts release"
+    "release": "rm -rf es lib && npm run compile && hi-pkg-scripts release v1"
   },
   "peerDependencies": {
     "antd": ">= 3.16.1 < 4"
