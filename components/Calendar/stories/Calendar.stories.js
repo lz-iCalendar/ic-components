@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Calendar from '../Calendar';
-import { mockEvents } from './mockData';
+import { mockEvents, multiDaysEvents } from './mockData';
 import 'antd/dist/antd.css';
 import '../style/index.less';
 import { Button } from 'antd';
@@ -76,7 +76,7 @@ stories
     '多日（移动端）',
     () => (
       <div>
-        <Calendar events={mockEvents} defaultActiveTab="multiDay" />
+        <Calendar events={multiDaysEvents} defaultActiveTab="multiDay" />
       </div>
     ),
     { viewport: { defaultViewport: 'iphone6' } }

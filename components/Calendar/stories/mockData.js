@@ -1,11 +1,9 @@
 import moment from 'moment';
 
-const toDayStart = moment()
-  .startOf('day');
- // .format('YYYY-MM-DD HH:mm:ss');
-const toDayEnd = moment()
-  .endOf('day');
- // .format('YYYY-MM-DD HH:mm:ss');
+const toDayStart = moment().startOf('day');
+// .format('YYYY-MM-DD HH:mm:ss');
+const toDayEnd = moment().endOf('day');
+// .format('YYYY-MM-DD HH:mm:ss');
 
 const tomorrowStart = moment()
   .add(1, 'day')
@@ -41,8 +39,12 @@ export const mockEvents = [
     event_title: '是是是是title',
     event_short: '是是是是short',
     event_desc: '是是是是desc',
-    occur_begin: moment().startOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
-    occur_end: moment().endOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
+    occur_begin: moment()
+      .startOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
+    occur_end: moment()
+      .endOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
     event_hostheadurl: 'http://placekitten.com/32/32',
     event_image: 'http://placekitten.com/200/150',
     event_time: '08:30',
@@ -60,8 +62,12 @@ export const mockEvents = [
     event_title: '是是是是title',
     event_short: '是是是是short',
     event_desc: '是是是是desc',
-    occur_begin: moment().startOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
-    occur_end: moment().endOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
+    occur_begin: moment()
+      .startOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
+    occur_end: moment()
+      .endOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
     event_hostheadurl: 'http://placekitten.com/32/32',
     event_image: 'http://placekitten.com/200/150',
     event_time: '08:30',
@@ -79,8 +85,12 @@ export const mockEvents = [
     event_title: '是是是是title',
     event_short: '是是是是short',
     event_desc: '是是是是desc',
-    occur_begin: moment().startOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
-    occur_end: moment().endOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
+    occur_begin: moment()
+      .startOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
+    occur_end: moment()
+      .endOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
     event_hostheadurl: 'http://placekitten.com/32/32',
     event_image: 'http://placekitten.com/200/150',
     event_time: '08:30',
@@ -98,8 +108,12 @@ export const mockEvents = [
     event_title: '是是是是title',
     event_short: '是是是是short',
     event_desc: '是是是是desc',
-    occur_begin: moment().startOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
-    occur_end: moment().endOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
+    occur_begin: moment()
+      .startOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
+    occur_end: moment()
+      .endOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
     event_hostheadurl: 'http://placekitten.com/32/32',
     event_image: 'http://placekitten.com/200/150',
     event_time: '08:30',
@@ -117,8 +131,12 @@ export const mockEvents = [
     event_title: '是是是是title',
     event_short: '是是是是short',
     event_desc: '是是是是desc',
-    occur_begin: moment().startOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
-    occur_end: moment().endOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
+    occur_begin: moment()
+      .startOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
+    occur_end: moment()
+      .endOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
     event_hostheadurl: 'http://placekitten.com/32/32',
     event_image: 'http://placekitten.com/200/150',
     event_time: '08:30',
@@ -136,8 +154,12 @@ export const mockEvents = [
     event_title: '是是是是title',
     event_short: '是是是是short',
     event_desc: '是是是是desc',
-    occur_begin: moment().startOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
-    occur_end: moment().endOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
+    occur_begin: moment()
+      .startOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
+    occur_end: moment()
+      .endOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
     event_hostheadurl: 'http://placekitten.com/32/32',
     event_image: 'http://placekitten.com/200/150',
     event_time: '08:30',
@@ -155,8 +177,12 @@ export const mockEvents = [
     event_title: '是是是是title',
     event_short: '是是是是short',
     event_desc: '是是是是desc',
-    occur_begin: moment().startOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
-    occur_end: moment().endOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
+    occur_begin: moment()
+      .startOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
+    occur_end: moment()
+      .endOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
     event_hostheadurl: 'http://placekitten.com/32/32',
     event_image: 'http://placekitten.com/200/150',
     event_time: '08:30',
@@ -174,8 +200,12 @@ export const mockEvents = [
     event_title: '是是是是title',
     event_short: '是是是是short',
     event_desc: '是是是是desc',
-    occur_begin: moment().startOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
-    occur_end: moment().endOf('days').format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
+    occur_begin: moment()
+      .startOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生时间
+    occur_end: moment()
+      .endOf('days')
+      .format('YYYY-MM-DDTHH:mm:ss'), // 事件发生结束时间
     event_hostheadurl: 'http://placekitten.com/32/32',
     event_image: 'http://placekitten.com/200/150',
     event_time: '08:30',
@@ -260,7 +290,6 @@ export const mockEvents = [
   //   category_name: '分类1',
   // },
 
-
   // {
   //   occur_id: 10, // 事件发生编号（唯一）
   //   category_color: 'rgb(67, 209, 227)',
@@ -332,7 +361,6 @@ export const mockEvents = [
   //   category_name: '分类2',
   // },
 
-
   // {
   //   occur_id: 11, // 事件发生编号（唯一）
   //   category_color: 'rgb(255, 160, 120)',
@@ -350,7 +378,6 @@ export const mockEvents = [
   //   event_important: 0,
   //   category_name: '分类2',
   // },
-
 
   // {
   //   occur_id: 12, // 事件发生编号（唯一）
@@ -370,8 +397,6 @@ export const mockEvents = [
   //   category_name: '分类2',
   // },
 
-
-
   // {
   //   occur_id: 13, // 事件发生编号（唯一）
   //   category_color: 'rgb(255, 160, 120)',
@@ -389,9 +414,6 @@ export const mockEvents = [
   //   event_important: 0,
   //   category_name: '分类2',
   // },
-
-
-
 
   {
     calendarId: 11,
@@ -431,7 +453,6 @@ export const mockEvents = [
     category_name: '分类2',
   },
 
-
   {
     calendarId: 13,
     occur_id: 17, // 事件发生编号（唯一）
@@ -467,7 +488,6 @@ export const mockEvents = [
   //   event_important: 0,
   //   category_name: '分类2',
   // },
-
 
   // {
   //   occur_id: 6, // 事件发生编号（唯一）
@@ -562,5 +582,48 @@ export const mockEvents = [
     event_weather: 3,
     event_important: 1,
     category_name: '分类3',
+  },
+];
+
+export const multiDaysEvents = [
+  {
+    calendarId: 1,
+    occur_id: 1, // 事件发生编号（唯一）
+    category_color: 'rgb(255, 160, 120)',
+    event_title: '事件1',
+    event_short: '上海市黄埔区茂名南路59号上海花园酒店',
+    event_desc: '事件2：一楼大堂右侧',
+    occur_begin: toDayStart, // 事件发生时间
+    occur_end: toDayEnd, // 事件发生结束时间
+    event_hostheadurl: 'http://placekitten.com/32/32',
+    event_image: 'http://placekitten.com/200/150',
+    event_time: '09:00',
+    event_endtime: '10:00',
+    event_weather: 2,
+    event_attach: ['附件', 'http://www.baidu.com'],
+    event_important: 0,
+    category_name: '分类1',
+    hasPopover: false,
+    hasTitle: false,
+  },
+  {
+    calendarId: 1,
+    occur_id: 2, // 事件发生编号（唯一）
+    category_color: 'rgb(255, 160, 120)',
+    event_title: '事件2',
+    event_short: '上海市黄埔区茂名南路59号上海花园酒店',
+    event_desc: '事件2：一楼大堂右侧',
+    occur_begin: toDayStart, // 事件发生时间
+    occur_end: toDayEnd, // 事件发生结束时间
+    event_hostheadurl: 'http://placekitten.com/32/32',
+    event_image: 'http://placekitten.com/200/150',
+    event_time: '20:00',
+    event_endtime: '22:00',
+    event_weather: 2,
+    event_attach: ['附件', 'http://www.baidu.com'],
+    event_important: 0,
+    category_name: '分类1',
+    hasPopover: false,
+    hasTitle: false,
   },
 ];

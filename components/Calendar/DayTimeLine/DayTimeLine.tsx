@@ -45,7 +45,7 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
   };
 
   state = {
-    mainViewHeight: undefined,
+    mainViewScrollHeight: undefined,
     topEventRowHeight: undefined,
     titleRowRightWidth: undefined,
     titleRowRightElement: undefined,
@@ -106,7 +106,7 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
       titleRowRightElementChildrenWidth
     );
     this.setState({
-      mainViewHeight: mainViewElement.offsetHeight,
+      mainViewScrollHeight: mainViewElement.scrollHeight,
       topEventRowHeight: topEventRowRightElement.offsetHeight,
       titleRowRightWidth,
       titleRowRightElement,
@@ -125,7 +125,7 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
 
   render() {
     const {
-      mainViewHeight,
+      mainViewScrollHeight,
       topEventRowHeight,
       titleRowRightWidth,
       titleRowRightElement,
@@ -231,7 +231,7 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
                     startHHmm={startHHmm}
                     endHHmm={endHHmm}
                     step={step}
-                    containerHeight={mainViewHeight}
+                    containerHeight={mainViewScrollHeight}
                   >
                     {renderMainView(titleRowRightWidth)}
                   </ChildrenWithProps>
