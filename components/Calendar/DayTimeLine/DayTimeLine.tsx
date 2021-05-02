@@ -85,8 +85,6 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
         title.offsetHeight -
         allDayEventContainer.offsetHeight;
 
-      // console.log({scrollHeight})
-
       this.setState({ scrollHeight });
     }
   };
@@ -149,7 +147,6 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
     } = this.props;
     let dayTimeLine = getDayTimeLine(startHHmm, endHHmm, step, formatString);
 
-    // console.log({dayTimeLine, startHHmm, endHHmm})
     if (timeSuffix) {
       const [am = 'AM', pm = 'PM'] = timeSuffix;
       dayTimeLine = dayTimeLine.map(time =>

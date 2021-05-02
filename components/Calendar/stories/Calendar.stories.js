@@ -11,7 +11,7 @@ const stories = storiesOf('Calendar 日历', module);
 
 class Wrap extends React.Component {
   state = {
-    events: multiDaysEvents,
+    events: mockEvents,
     eventKeyword: undefined,
     spinning: false,
   };
@@ -43,7 +43,7 @@ class Wrap extends React.Component {
           onEventDetailsClick={this.handleEventDetailsClick}
           spinning={spinning}
           onDateRangeChange={this.handleChange}
-          height={500} 
+          height={600} 
         />
       </div>
     );

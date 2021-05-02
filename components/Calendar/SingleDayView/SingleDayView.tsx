@@ -30,7 +30,7 @@ export default class SingleDayView extends React.PureComponent<any, any> {
   };
   state = {
     len: 0,
-    height: 'auto'
+    height: 'auto',
   };
 
   componentDidMount() {
@@ -85,19 +85,23 @@ export default class SingleDayView extends React.PureComponent<any, any> {
       const left = element.getAttribute('data-event_left');
       const startMinutes = getHHmmDurationByMinute(eventStart);
       const endMinutes = getHHmmDurationByMinute(eventEnd);
-      const eventTotalMinutes = endMinutes - startMinutes;
 
       // 计算 top
       const distanceMin = startMinutes - timeLineStartMinutes;
-      const cellCounts = Math.floor((distanceMin) / 48);
+      const cellCounts = Math.floor(distanceMin / 60);
       const cellSurplus = distanceMin % 60;
       const elementTop = cellCounts * 48 + (cellSurplus / 60) * 48;
 
       // const elementTop =
       //   (startMinutes - timeLineStartMinutes) * heightToMinutes;
 
-      const elementHeight =
-        (eventTotalMinutes * totalHeight) / totalMinutes;
+      // 计算 height
+      const eventTotalMinutes = endMinutes - startMinutes;
+      const heightUnitCounts = Math.floor(eventTotalMinutes / 60);
+      const heightSurplus = eventTotalMinutes % 60;
+      const elementHeight = heightUnitCounts * 48 + (heightSurplus / 60) * 48;
+
+      // const elementHeight = (eventTotalMinutes * totalHeight) / totalMinutes;
 
       const elementWidth = Number(100 / counts);
       element.style.left = `${left * 100}%`;
@@ -268,7 +272,11 @@ export default class SingleDayView extends React.PureComponent<any, any> {
     } = this.props;
     const { height } = this.state;
     return (
-      <div ref={this.rootRef} className="ic-single-day-view" style={{...style, height}}>
+      <div
+        ref={this.rootRef}
+        className="ic-single-day-view"
+        style={{ ...style, height }}
+      >
         {normalizeEvents(events || [])
           .filter(eventsFilter)
           // .sort(this.sortByDate)

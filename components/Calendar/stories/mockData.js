@@ -597,8 +597,8 @@ export const multiDaysEvents = [
     occur_end: toDayEnd, // 事件发生结束时间
     event_hostheadurl: 'http://placekitten.com/32/32',
     event_image: 'http://placekitten.com/200/150',
-    event_time: '09:00',
-    event_endtime: '10:00',
+    event_time: '01:00',
+    event_endtime: '03:00',
     event_weather: 2,
     event_attach: ['附件', 'http://www.baidu.com'],
     event_important: 0,
@@ -617,8 +617,8 @@ export const multiDaysEvents = [
     occur_end: toDayEnd, // 事件发生结束时间
     event_hostheadurl: 'http://placekitten.com/32/32',
     event_image: 'http://placekitten.com/200/150',
-    event_time: '20:00',
-    event_endtime: '22:00',
+    event_time: '13:00',
+    event_endtime: '14:00',
     event_weather: 2,
     event_attach: ['附件', 'http://www.baidu.com'],
     event_important: 0,
