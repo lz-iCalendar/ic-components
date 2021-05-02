@@ -1,3 +1,7 @@
+## Release v1.5.3
+- Fix: 修复样式 bug
+- update
+
 ## Release v1.5.2
 - Fix: 修复事件样式 bug
 ## Release v1.5.1
