@@ -325,18 +325,6 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                     </div>
                   )}
                   <div className="ic-single-day-view__content-host">
-                    {' '}
-                    {event_hostheadurl ? (
-                      <img
-                        className="ic-single-day-view__host-avatar"
-                        src={event_hostheadurl}
-                      />
-                    ) : (
-                      <Icon
-                        type="user"
-                        className="ic-single-day-view__host-icon"
-                      />
-                    )}
                     <div className="ic-single-day-view__event-time">{`${event_time} - ${event_endtime}`}</div>
                   </div>
                 </div>
