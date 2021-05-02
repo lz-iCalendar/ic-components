@@ -1,5 +1,11 @@
+## Release v1.7.0
+
+- Feat: 移除事件中的头像
+
 ## Release v1.6.0
+
 - Feat: Calendar 事件显示在前面
+
 ## Release v1.5.4
 
 - Fix: 修复 Calendar 组件样式 bug
