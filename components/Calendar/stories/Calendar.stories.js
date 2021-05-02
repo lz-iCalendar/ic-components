@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Calendar from '../Calendar';
 import { mockEvents, multiDaysEvents } from './mockData';
+import { events } from './data';
 import 'antd/dist/antd.css';
 import '../style/index.less';
 import { Button } from 'antd';
@@ -11,7 +12,7 @@ const stories = storiesOf('Calendar 日历', module);
 
 class Wrap extends React.Component {
   state = {
-    events: mockEvents,
+    events: events,
     eventKeyword: undefined,
     spinning: false,
   };
@@ -30,12 +31,12 @@ class Wrap extends React.Component {
     const { events, spinning } = this.state;
     return (
       <div>
-        <Button onClick={() => this.setState({ spinning: !spinning })}>
+        {/* <Button onClick={() => this.setState({ spinning: !spinning })}>
           切换 spinning
         </Button>
         <input
           onChange={e => this.setState({ eventKeyword: e.target.value })}
-        />
+        /> */}
         <Calendar
           eventKeyword={this.state.eventKeyword}
           events={events}
@@ -43,7 +44,7 @@ class Wrap extends React.Component {
           onEventDetailsClick={this.handleEventDetailsClick}
           spinning={spinning}
           onDateRangeChange={this.handleChange}
-          height={600} 
+          height={866} 
         />
       </div>
     );
