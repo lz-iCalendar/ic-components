@@ -319,6 +319,11 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                   className="ic-single-day-view__content"
                   style={{ background: category_color }}
                 >
+                  {hasTitle && (
+                    <div className="ic-single-day-view__event-title">
+                      {event_title}
+                    </div>
+                  )}
                   <div className="ic-single-day-view__content-host">
                     {' '}
                     {event_hostheadurl ? (
@@ -334,11 +339,6 @@ export default class SingleDayView extends React.PureComponent<any, any> {
                     )}
                     <div className="ic-single-day-view__event-time">{`${event_time} - ${event_endtime}`}</div>
                   </div>
-                  {hasTitle && (
-                    <div className="ic-single-day-view__event-title">
-                      {event_title}
-                    </div>
-                  )}
                 </div>
               </div>
             );
