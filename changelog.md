@@ -1,14 +1,23 @@
+## Release v1.5.4
+
+- Fix: 修复 Calendar 组件样式 bug
+
 ## Release v1.5.3
+
 - Fix: 修复样式 bug
-- update
 
 ## Release v1.5.2
+
 - Fix: 修复事件样式 bug
+
 ## Release v1.5.1
+
 - Fix: 修复事件样式错误的 bug
 
 ## Release v1.5.0
+
 - feat:优化 Calendar 组件显示
+
 ## Release v1.4.1
 
 - fix:修复议程视图没有编辑/查看事件的按钮
