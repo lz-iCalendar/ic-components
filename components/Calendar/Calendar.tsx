@@ -339,7 +339,7 @@ export default class Calendar extends React.PureComponent<any, any> {
       headerRef: { current: headerElement },
     } = this;
     if (headerElement) {
-      const headerHeight = headerElement.offsetHeight;
+      const headerHeight = 50;
       contentViewHeight = contentViewHeight - headerHeight;
     }
     this.setState({ contentViewHeight });
