@@ -188,8 +188,8 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
               style={topEventRowHeightStyle}
             />
             <div style={{ height: scrollHeight }}>
-              {dayTimeLine.map(time => (
-                <div key={time} className="ic-day-time-line__label-row">
+              {dayTimeLine.map((time, index) => (
+                <div key={`${time}-${index}`} className="ic-day-time-line__label-row">
                   <div className="ic-day-time-line__label">{time}</div>
                 </div>
               ))}
@@ -223,8 +223,8 @@ export default class DayTimeLine extends React.PureComponent<any, any> {
                   style={{ height: scrollHeight, overflow: 'auto' }}
                 >
                   <div className="ic-day-time-line__bg" ref={this.getBgRef}>
-                    {dayTimeLine.map(time => (
-                      <div key={time} className="ic-day-time-line__bg-row" />
+                    {dayTimeLine.map((time, index) => (
+                      <div key={`${time}-${index}`} className="ic-day-time-line__bg-row" />
                     ))}
                   </div>
                   {/* 渲染事件 */}

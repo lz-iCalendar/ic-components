@@ -131,7 +131,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
           {eventsOfToday
             .slice(0, eventsLimit)
             .filter(eventsFilter)
-            .map(event => {
+            .map((event, index) => {
               const {
                 original: {
                   event_title,
@@ -152,9 +152,10 @@ export default class MonthDayView extends React.PureComponent<any, any> {
               const eventElementStyle = eventElementWidth
                 ? { width: eventElementWidth }
                 : {};
+              const key = `${occur_id}-${index}`;
               const content = (
                 <div
-                  key={occur_id}
+                  key={key}
                   className={classnames('ic-month-day-view__event', {
                     ['ic-month-day-view__event-hidden']: !this.isVisible(event),
                   })}
@@ -184,7 +185,7 @@ export default class MonthDayView extends React.PureComponent<any, any> {
               if (hasPopover) {
                 return (
                   <Popover
-                    key={occur_id}
+                    key={key}
                     trigger="click"
                     getPopupContainer={() =>
                       document.querySelector('.ic-month-day-view')

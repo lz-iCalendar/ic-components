@@ -400,8 +400,6 @@ export function getStepDurationByMinute(step) {
  * @returns {[string]} example: ['08:00am', '09:00am', ..., '05:00pm']
  */
 export const getDayTimeLine = memoizeOne(function(start, end, step, formatString) {
-
-  console.log({start, end})
   const [stepValue, stepUnit] = parseStep(step);
   const [startHour, startMinute] = start.split(':');
   const [endHour, endMinute] = end.split(':');
