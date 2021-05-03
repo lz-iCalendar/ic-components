@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { getWeeksOfMonth } from '../../utils/dateUtil';
+import memoizeOne from 'memoize-one';
 
 export default class MonthlyCalendarBody extends React.PureComponent<any, any> {
   static propTypes = {
@@ -32,6 +33,11 @@ export default class MonthlyCalendarBody extends React.PureComponent<any, any> {
     return calendarElement && Math.floor(calendarElement.offsetWidth / 7);
   }
 
+  getHeight = memoizeOne((contentViewHeight) => {
+    // 减去 header 的高度，得到 body 的高度
+    return contentViewHeight - 40;
+  });
+
   render() {
     const { calendarElement } = this.state;
     const {
@@ -46,14 +52,21 @@ export default class MonthlyCalendarBody extends React.PureComponent<any, any> {
       dayViewComponent: DayViewComponent,
       weeks: customWeeks,
       onEventView,
+      contentViewHeight,
     } = this.props;
     const year = propDate.getFullYear();
     const month = propDate.getMonth();
     const weeks = customWeeks || getWeeksOfMonth(year, month);
     const dayElementWidth = this.getDayElementWidth();
 
+    const height = this.getHeight(contentViewHeight);
+
     return (
-      <div className={classnames('ic-monthly-calendar-body', className)} ref={this.rootRef}>
+      <div
+        className={classnames('ic-monthly-calendar-body', className)}
+        ref={this.rootRef}
+        style={{height, overflow: 'auto'}}
+      >
         {weeks.map((week, index) => (
           <div className="ic-monthly-calendar-body__week" key={index}>
             {week.map(date => (

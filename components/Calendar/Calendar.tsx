@@ -712,6 +712,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               date={date}
               events={events}
               onEventView={onEventView}
+              contentViewHeight={contentViewHeight}
             />
           </ViewContainer>
         )}
@@ -725,6 +726,7 @@ export default class Calendar extends React.PureComponent<any, any> {
               onFutureEventClick={onFutureEventClick}
               onAllEventClick={onAllEventClick}
               onEventView={onEventView}
+              contentViewHeight={contentViewHeight}
             />
           </ViewContainer>
         )}
