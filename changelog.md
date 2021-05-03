@@ -1,3 +1,9 @@
+## Release v1.7.1
+
+- Fix: 修复事件中标题和事件时间样式 bug
+- Fix: 修复 Calendar 组件中 key 重复的 bug
+- Fix: 修复多周样式 bug
+
 ## Release v1.7.0
 
 - Feat: 移除事件中的头像
