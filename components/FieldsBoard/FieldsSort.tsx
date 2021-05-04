@@ -29,19 +29,19 @@ export interface Option {
   value: string;
 }
 
-export interface FieldsSortProps<T> {
+export interface FieldsSortProps {
   fields: Field[];
   onBack: () => void;
   onChange?: (fields: Field[]) => void;
 }
 
-interface FieldsSortState<T> {
+interface FieldsSortState {
   fields: Field[];
 }
 
-export default class FieldsSort<T = unknown> extends React.Component<
-  FieldsSortProps<T>,
-  FieldsSortState<T>
+export default class FieldsSort extends React.Component<
+  FieldsSortProps,
+  FieldsSortState
 > {
   constructor(props) {
     super(props);
@@ -73,12 +73,7 @@ export default class FieldsSort<T = unknown> extends React.Component<
     this.swap(fields, cur, cur - 1);
     this.setState({ fields });
   };
-  handleDown = (
-    field: Field,
-    total: number,
-    cur: number,
-    fields: Field[]
-  ) => {
+  handleDown = (field: Field, total: number, cur: number, fields: Field[]) => {
     if (cur === total) {
       return;
     }

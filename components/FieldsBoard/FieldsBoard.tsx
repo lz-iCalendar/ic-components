@@ -6,7 +6,6 @@ import { TypeValue } from './type';
 import FieldTypesBoard, { FieldType } from './FieldTypesBoard';
 import enquire from 'enquire.js';
 import FieldAttributeEdit, { OnSaveFieldParam } from './FieldAttributeEdit';
-import PropTypes from 'prop-types';
 
 export interface Option {
   label: string;
@@ -27,11 +26,15 @@ export interface OnAddFieldParam extends OnSaveFieldParam {
   fileType: TypeValue;
 }
 
-export interface FieldsBoardProps<T> {
+export interface FieldsBoardProps {
+  // 标题
+  title?: string;
   // 所有字段
   fields: Field[];
   // 选中的字段
   values: Field[];
+  // 标题改变时的回调
+  onTitleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   // 选中的字段发生改变时的回调
   onChange?: (selectedFields: Field[]) => void;
   // 添加字段的回调
@@ -50,8 +53,8 @@ interface FieldsBoardState {
   clickedFieldIsSelected: boolean;
 }
 
-export default class FieldsBoard<T = unknown> extends React.Component<
-  FieldsBoardProps<T>,
+export default class FieldsBoard extends React.Component<
+  FieldsBoardProps,
   FieldsBoardState
 > {
   static defaultProps = {
@@ -325,7 +328,7 @@ export default class FieldsBoard<T = unknown> extends React.Component<
   };
 
   render() {
-    const { fields, values } = this.props;
+    const { fields, values, title, onTitleChange } = this.props;
     const { sortDrawerVisible } = this.state;
 
     return (
@@ -333,7 +336,11 @@ export default class FieldsBoard<T = unknown> extends React.Component<
         <div className="fields-board__label">
           <span>表单标题</span>
         </div>
-        <Input className="fields-board__form-title" />
+        <Input
+          className="fields-board__form-title"
+          value={title}
+          onChange={onTitleChange}
+        />
         <div className="fields-board__label">
           <span>已选字段(*代表必选)</span>
           <span
