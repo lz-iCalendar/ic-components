@@ -1,3 +1,7 @@
+## Release v2.2.1
+
+- Fix: 修复引入 enquire.js 时在服务端渲染中报错的 bug
+
 ## Release v2.2.0
 
 - Feat: FieldsBoard 组件添加 title 和 onTitleChange props
