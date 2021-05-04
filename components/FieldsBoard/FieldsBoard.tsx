@@ -4,7 +4,7 @@ import { Button, Drawer, Modal, Input } from 'antd';
 import FieldsSort from './FieldsSort';
 import { TypeValue } from './type';
 import FieldTypesBoard, { FieldType } from './FieldTypesBoard';
-import enquire from 'enquire.js';
+
 import FieldAttributeEdit, { OnSaveFieldParam } from './FieldAttributeEdit';
 
 export interface Option {
@@ -75,6 +75,7 @@ export default class FieldsBoard extends React.Component<
   };
 
   componentDidMount = () => {
+    const enquire = require('enquire.js');
     // Mobile
     enquire
       .register('screen and (max-width:768px)', {
