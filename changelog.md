@@ -1,3 +1,7 @@
+## Release v2.2.0
+
+- Feat: FieldsBoard 组件添加 title 和 onTitleChange props
+
 ## Release v2.1.0
 
 - docs:更新组件文档
