@@ -4,8 +4,6 @@
   "main": "./lib/index.js",
   "dependencies": {
     "@ant-design/colors": "^4.0.5",
-    "@ant-design/icons": "^4.6.2",
-    "@ant-design/icons-react": "^1.1.5",
     "@types/hammerjs": "^2.0.36",
     "email-validator": "^2.0.4",
     "enquire.js": "^2.1.6",
@@ -30,7 +28,8 @@
     "release": "rm -rf es lib && npm run compile && hi-pkg-scripts release v2"
   },
   "peerDependencies": {
-    "antd": ">= 4 < 5"
+    "antd": ">= 4 < 5",
+    "@ant-design/icons": ">= 4 < 5"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -49,6 +48,7 @@
     "@types/jest": "^24.0.11",
     "@types/storybook__react": "^4.0.1",
     "antd": "^4.15.0",
+    "@ant-design/icons": "^4.6.2",
     "antd-tools": "7.3.4",
     "awesome-typescript-loader": "^5.2.1",
     "babel-eslint": "^10.0.1",

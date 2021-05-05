@@ -19,3 +19,9 @@ npm run compile
 ```shell
 npm run release
 ```
+
+## 安装使用
+
+```
+yarn add ic-components antd@4 @ant-design/icons@4
+```
