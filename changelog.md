@@ -1,3 +1,7 @@
+## Release v2.3.0
+
+- Chore: 将 @ant-design/icons 移至 peerDependencies 和 devDependencies 中
+
 ## Release v2.2.1
 
 - Fix: 修复引入 enquire.js 时在服务端渲染中报错的 bug
