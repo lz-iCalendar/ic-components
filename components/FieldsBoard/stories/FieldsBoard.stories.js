@@ -63,6 +63,10 @@ class FieldsBoardDemo extends React.Component {
     this.setState({ values: fields });
   };
 
+  handleAddField = field => {
+    console.log('field:', field);
+  };
+
   render() {
     const { fields, values } = this.state;
     return (
@@ -71,6 +75,7 @@ class FieldsBoardDemo extends React.Component {
           fields={fields}
           values={values}
           onChange={this.handleChange}
+          onAddField={this.handleAddField}
         />
       </div>
     );

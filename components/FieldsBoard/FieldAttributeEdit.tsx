@@ -8,14 +8,17 @@ import {
   MinusCircleOutlined,
   PlusCircleOutlined,
 } from '@ant-design/icons';
+import { Field } from './FieldsBoard';
 
-export type OnSaveFieldParam = Partial<FieldAttributeEditState>;
+export type OnSaveParam = Omit<Field, 'id' | 'type'> & {
+  options?: Option[];
+};
 
 export interface FieldAttributeEditProps {
   title: string;
   fieldType: TypeValue;
   onClose?: () => void;
-  onSave?: (Field: OnSaveFieldParam) => void;
+  onSave?: (Field: OnSaveParam) => void;
 
   name?: string;
   desc?: string;
@@ -129,7 +132,16 @@ export default class FieldAttributeEdit extends React.Component<
 
   handleSave = () => {
     const { onSave } = this.props;
-    const { name, options, hasOption } = this.state;
+    const {
+      name,
+      desc,
+      defaultValue,
+      isMust,
+      max,
+      options,
+      hasMax,
+      hasOption,
+    } = this.state;
     if (!name) {
       return message.error('请输入字段名称');
     }
@@ -138,10 +150,20 @@ export default class FieldAttributeEdit extends React.Component<
       return message.error('选项值不能为空');
     }
 
-    onSave &&
-      onSave({
-        ...this.state,
-      });
+    const onSaveParam: OnSaveParam = {
+      name,
+      desc,
+      defaultValue,
+      isMust,
+    };
+    if (hasMax) {
+      onSaveParam.max = max;
+    }
+    if (hasOption) {
+      onSaveParam.options = options;
+    }
+
+    onSave && onSave(onSaveParam);
   };
 
   handleOptionChange = (index: number, value: string) => {

@@ -2,19 +2,19 @@ import React from 'react';
 import classNames from 'classnames';
 import { Button, Drawer, Modal, Input } from 'antd';
 import FieldsSort from './FieldsSort';
-import { TypeValue } from './type';
+import { TypeValue, Option } from './type';
 import FieldTypesBoard, { FieldType } from './FieldTypesBoard';
 
-import FieldAttributeEdit, { OnSaveFieldParam } from './FieldAttributeEdit';
+import FieldAttributeEdit, { OnSaveParam } from './FieldAttributeEdit';
 
-export interface Option {
-  label: string;
-  value: string;
-}
-
+export type TypeMap = {
+  value: TypeValue;
+  options?: Option[];
+  regionList?: unknown;
+};
 export interface Field {
   id: string;
-  type: { value: TypeValue; options?: Option[]; regionList?: unknown };
+  type: TypeMap;
   name: string;
   isMust?: boolean;
   desc?: string;
@@ -22,9 +22,7 @@ export interface Field {
   max?: number;
 }
 
-export interface OnAddFieldParam extends OnSaveFieldParam {
-  fileType: TypeValue;
-}
+export type OnAddFieldParam = Omit<Field, 'id'>;
 
 export interface FieldsBoardProps {
   // 标题
@@ -161,11 +159,24 @@ export default class FieldsBoard extends React.Component<
     this.setState({ fieldEditDrawerVisible: false });
   };
 
-  handleSave = (field: OnSaveFieldParam) => {
+  handleSave = (field: OnSaveParam) => {
     const { selectedFieldType } = this.state;
     this.setState({ fieldEditDrawerVisible: false });
     const { onAddField } = this.props;
-    onAddField && onAddField({ ...field, fileType: selectedFieldType });
+
+    const { name, isMust, desc, defaultValue, max, options } = field;
+    const onAddFieldParam: OnAddFieldParam = {
+      type: {
+        value: selectedFieldType,
+        options,
+      },
+      name,
+      isMust,
+      desc,
+      defaultValue,
+      max,
+    };
+    onAddField && onAddField(onAddFieldParam);
   };
 
   renderFieldAttributeEdit = () => {
