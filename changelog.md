@@ -1,3 +1,7 @@
+## Release v2.4.0
+
+- Feat: 修改 onAddField 回调
+
 ## Release v2.3.0
 
 - Chore: 将 @ant-design/icons 移至 peerDependencies 和 devDependencies 中
