@@ -244,6 +244,7 @@ export default class FieldsBoard extends React.Component<
           closable={false}
           mask
           maskClosable
+          destroyOnClose
         >
           <FieldTypesBoard
             onClose={this.handleFieldTypesDrawerClose}
