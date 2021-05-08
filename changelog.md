@@ -1,3 +1,7 @@
+## Release v2.5.0
+
+- Feat: 添加 onSelectField 和 onCancelSelectField 回调
+
 ## Release v2.4.1
 
 - Fix: 修复添加字段的抽屉在重新打开后数据不会清空的 bug
