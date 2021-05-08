@@ -1,3 +1,7 @@
+## Release v2.4.1
+
+- Fix: 修复添加字段的抽屉在重新打开后数据不会清空的 bug
+
 ## Release v2.4.0
 
 - Feat: 修改 onAddField 回调

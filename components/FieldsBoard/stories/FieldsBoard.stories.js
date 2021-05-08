@@ -67,6 +67,18 @@ class FieldsBoardDemo extends React.Component {
     console.log('field:', field);
   };
 
+  handleSelectField = field => {
+    this.setState({ values: [...this.state.values, field] });
+  };
+
+  handleCancelSelectField = field => {
+    const { values } = this.state;
+    const newValues = [...values];
+    const index = newValues.findIndex(item => item.id === field.id);
+    newValues.splice(index, 1);
+    this.setState({ values: newValues });
+  };
+
   render() {
     const { fields, values } = this.state;
     return (
@@ -76,6 +88,8 @@ class FieldsBoardDemo extends React.Component {
           values={values}
           onChange={this.handleChange}
           onAddField={this.handleAddField}
+          onSelectField={this.handleSelectField}
+          onCancelSelectField={this.handleCancelSelectField}
         />
       </div>
     );

@@ -37,6 +37,10 @@ export interface FieldsBoardProps {
   onChange?: (selectedFields: Field[]) => void;
   // 添加字段的回调
   onAddField: (field: OnAddFieldParam) => void;
+  // 选择字段的回调
+  onSelectField: (field: Field) => void;
+  // 取消选择字段的回调
+  onCancelSelectField: (field: Field) => void;
 }
 
 interface FieldsBoardState {
@@ -272,21 +276,14 @@ export default class FieldsBoard extends React.Component<
   };
 
   handleFirstActionClick = () => {
-    const { clickedField } = this.state;
-    const { onChange, values } = this.props;
+    const { clickedField, clickedFieldIsSelected } = this.state;
+    const { onChange, values, onSelectField, onCancelSelectField } = this.props;
     const field = clickedField;
 
-    if (onChange) {
-      let fieldsParam;
-      const index = values.findIndex(value => value.id === field.id);
-      if (index === -1) {
-        fieldsParam = [...values, field];
-      } else {
-        const newValues = [...values];
-        newValues.splice(index, 1);
-        fieldsParam = newValues;
-      }
-      onChange(fieldsParam);
+    if (clickedFieldIsSelected) {
+      onCancelSelectField && onCancelSelectField(field);
+    } else {
+      onSelectField && onSelectField(field);
     }
 
     this.setState({ fieldActionVisible: false });
