@@ -43,6 +43,8 @@ export interface FieldsBoardProps {
   onSelectField: (field: Field) => void;
   // 取消选择字段的回调
   onCancelSelectField: (field: Field) => void;
+  // 保存排序的回调
+  onSort: (fields: Field[]) => void;
 }
 
 export enum EditType {
@@ -157,8 +159,8 @@ export default class FieldsBoard extends React.Component<
 
   handleFieldsSortChange = (fields: Field[]) => {
     this.setState({ sortDrawerVisible: false });
-    const { onChange } = this.props;
-    onChange && onChange(fields);
+    const { onSort } = this.props;
+    onSort && onSort(fields);
   };
 
   handleAddField = () => {
