@@ -175,6 +175,7 @@ export default class FieldsBoard extends React.Component<
       selectedFieldType: fieldType.id,
       fieldEditDrawerVisible: true,
       fieldEditTitle: '自定义字段',
+      clickedField: null,
     });
   };
 
