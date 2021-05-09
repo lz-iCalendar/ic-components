@@ -13,19 +13,19 @@ class FieldsBoardDemo extends React.Component {
   state = {
     fields: [
       {
-        id: 1,
+        id: '1',
         type: { value: TypeValue.SingleLineText },
         name: '姓名',
         isMust: true,
       },
       {
-        id: 2,
+        id: '2',
         type: { value: TypeValue.Number },
         name: '年龄',
         isMust: true,
       },
       {
-        id: 3,
+        id: '3',
         type: {
           value: TypeValue.SingleChoice,
           options: [
@@ -79,6 +79,10 @@ class FieldsBoardDemo extends React.Component {
     this.setState({ values: newValues });
   };
 
+  handleModifyField = (field, isSelected) => {
+    console.log({ field, isSelected });
+  };
+
   render() {
     const { fields, values } = this.state;
     return (
@@ -90,6 +94,7 @@ class FieldsBoardDemo extends React.Component {
           onAddField={this.handleAddField}
           onSelectField={this.handleSelectField}
           onCancelSelectField={this.handleCancelSelectField}
+          onModifyField={this.handleModifyField}
         />
       </div>
     );

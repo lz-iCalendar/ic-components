@@ -37,22 +37,40 @@ export interface FieldsBoardProps {
   onChange?: (selectedFields: Field[]) => void;
   // 添加字段的回调
   onAddField: (field: OnAddFieldParam) => void;
+  // 修改字段的回调
+  onModifyField: (field: Field, isSelected: boolean) => void;
   // 选择字段的回调
   onSelectField: (field: Field) => void;
   // 取消选择字段的回调
   onCancelSelectField: (field: Field) => void;
 }
 
+export enum EditType {
+  Add,
+  Modify,
+}
+
 interface FieldsBoardState {
+  // 排序的抽屉是否显示
   sortDrawerVisible: boolean;
+  // 字段类型抽屉是否显示
   fieldTypesDrawerVisible: boolean;
+  // 是否是移动端
   isMobile: boolean;
+  // 字段编辑抽屉是否显示
   fieldEditDrawerVisible: boolean;
+  // 选择的字段类型
   selectedFieldType: TypeValue;
+  // 字段编辑抽屉的 title
   fieldEditTitle: string;
+  //
   fieldActionVisible: boolean;
+  // 点击的字段
   clickedField: Field;
+  // 点击的字段是否已经被选中了
   clickedFieldIsSelected: boolean;
+  // 编辑的类型：'add' 添加 | 'modify' 修改
+  editType: EditType;
 }
 
 export default class FieldsBoard extends React.Component<
@@ -74,6 +92,7 @@ export default class FieldsBoard extends React.Component<
     fieldActionVisible: false,
     clickedField: null,
     clickedFieldIsSelected: false,
+    editType: EditType.Add,
   };
 
   componentDidMount = () => {
@@ -143,7 +162,7 @@ export default class FieldsBoard extends React.Component<
   };
 
   handleAddField = () => {
-    this.setState({ fieldTypesDrawerVisible: true });
+    this.setState({ fieldTypesDrawerVisible: true, editType: EditType.Add });
   };
 
   handleFieldTypesDrawerClose = () => {
@@ -164,23 +183,50 @@ export default class FieldsBoard extends React.Component<
   };
 
   handleSave = (field: OnSaveParam) => {
-    const { selectedFieldType } = this.state;
+    const {
+      selectedFieldType,
+      editType,
+      clickedField,
+      clickedFieldIsSelected,
+    } = this.state;
     this.setState({ fieldEditDrawerVisible: false });
-    const { onAddField } = this.props;
 
-    const { name, isMust, desc, defaultValue, max, options } = field;
-    const onAddFieldParam: OnAddFieldParam = {
-      type: {
-        value: selectedFieldType,
-        options,
-      },
-      name,
-      isMust,
-      desc,
-      defaultValue,
-      max,
-    };
-    onAddField && onAddField(onAddFieldParam);
+    // 添加字段的保存
+    if (editType === EditType.Add) {
+      const { onAddField } = this.props;
+
+      const { name, isMust, desc, defaultValue, max, options } = field;
+      const onAddFieldParam: OnAddFieldParam = {
+        type: {
+          value: selectedFieldType,
+          options,
+        },
+        name,
+        isMust,
+        desc,
+        defaultValue,
+        max,
+      };
+      onAddField && onAddField(onAddFieldParam);
+    } else {
+      // 修改字段的保存
+      const { onModifyField } = this.props;
+      const { name, isMust, desc, defaultValue, max, options } = field;
+      const onModifyFieldParam: Field = {
+        id: clickedField.id,
+        type: {
+          value: selectedFieldType,
+          options,
+        },
+        name,
+        isMust,
+        desc,
+        defaultValue,
+        max,
+      };
+      onModifyField &&
+        onModifyField(onModifyFieldParam, clickedFieldIsSelected);
+    }
   };
 
   renderFieldAttributeEdit = () => {
@@ -294,6 +340,7 @@ export default class FieldsBoard extends React.Component<
       fieldActionVisible: false,
       fieldEditDrawerVisible: true,
       fieldEditTitle: '编辑字段',
+      editType: EditType.Modify,
     });
   };
 
