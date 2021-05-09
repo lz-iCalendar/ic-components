@@ -1,3 +1,7 @@
+## Release v2.6.0
+
+- Feat: 添加 onModifyField 回调
+
 ## Release v2.5.0
 
 - Feat: 添加 onSelectField 和 onCancelSelectField 回调
