@@ -1,3 +1,7 @@
+## Release v2.6.1
+
+- Fix: 修复自定义字段内容在重新打开后不会清空的 bug
+
 ## Release v2.6.0
 
 - Feat: 添加 onModifyField 回调
