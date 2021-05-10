@@ -1,3 +1,7 @@
+## Release v2.8.0
+
+- Feat: 添加 saveText, isVerify, saveDisabled props
+
 ## Release v2.7.0
 
 - Feat: 添加 onSort 回调
