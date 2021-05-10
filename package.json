@@ -1,6 +1,6 @@
 {
   "name": "ic-components",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "main": "./lib/index.js",
   "dependencies": {
     "@ant-design/colors": "^4.0.5",
