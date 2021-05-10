@@ -32,6 +32,12 @@ const NEED_VALID_MAX_CONTROLS = [
 
 export interface FormInputProps {
   fields: Field[];
+  // 保存按钮的文案
+  saveText: string;
+  // 保存按钮是否禁止点击
+  saveDisabled: boolean;
+  // 是否需要验证表单
+  isVerify: boolean;
   onSelectImage?: (
     file: Exclude<BeforeUploadFileType, File | boolean> | RcFile,
     uploadSuccess: (url: string) => void
@@ -49,6 +55,9 @@ export default class FormInput extends React.Component<
 > {
   static defaultProps = {
     fields: [],
+    saveText: '保存',
+    saveDisabled: false,
+    isVerify: true,
   };
 
   constructor(props: FormInputProps) {
@@ -133,13 +142,22 @@ export default class FormInput extends React.Component<
 
   handleSave = () => {
     const { values } = this.state;
+    const { isVerify, onSave, fields } = this.props;
+
+    if (!isVerify) {
+      const valuesParam: Values = {};
+      fields.forEach((field, index) => {
+        valuesParam[field.id] = values[index];
+      });
+      onSave && onSave(valuesParam);
+      return;
+    }
     values.forEach((value, index) => {
       setTimeout(() => {
         this.validFieldValue(index, value);
       });
     });
     setTimeout(() => {
-      const { onSave, fields } = this.props;
       if (onSave) {
         if (this.state.errors.every(error => !error)) {
           const valuesParam: Values = {};
@@ -161,7 +179,7 @@ export default class FormInput extends React.Component<
   };
 
   render() {
-    const { fields } = this.props;
+    const { fields, saveText, saveDisabled } = this.props;
     const { values, errors } = this.state;
     return (
       <div className="form-input">
@@ -181,12 +199,17 @@ export default class FormInput extends React.Component<
           ))}
           footer={
             <div className="form-input__save-btn-wrapper">
-              <Button type="primary" block onClick={this.handleSave}>
-                保存
+              <Button
+                type="primary"
+                block
+                onClick={this.handleSave}
+                disabled={saveDisabled}
+              >
+                {saveText}
               </Button>
             </div>
           }
-        ></HeaderFooterFixedLayout>
+        />
       </div>
     );
   }
