@@ -1,3 +1,7 @@
+## Release v2.8.1
+
+- Fix: 修复 FormInput 组件样式 bug
+
 ## Release v2.8.0
 
 - Feat: 添加 saveText, isVerify, saveDisabled props
