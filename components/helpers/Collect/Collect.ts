@@ -22,6 +22,16 @@ export type FormManagementRecord = {
   collectorRecidColName?: string;
 }
 
+export type ModifiedFormData = {
+  formResid: string;
+  changedFields: {
+    addedFields: any[];
+    modifiedFields: any[];
+    removedFields: any[];
+    fullFields: any[];
+  }
+}
+
 export default class Collect {
   constructor(formManagementResid: string, options: CollectConsOptions) {
     this.formManagementResid = formManagementResid;
@@ -72,6 +82,7 @@ export default class Collect {
   async addFormCollect(record: FormManagementRecord) {
     // 添加空表单，得到 formResid
     const { formsCreate } = new formSystemApi.FormsApi(this.formSystemApiConfig);
+    // TODO
     // 返回的数据结构是什么？
     // const { resid } = await formsCreate({
     //   mode: 0,
@@ -83,7 +94,21 @@ export default class Collect {
     return res;
   }
 
-  // async get
+  async editFormCollect(formManageId: string, record: FormManagementRecord, modifiedFormData: ModifiedFormData) {
+    const { formFieldsCreate, formFieldsUpdate, formFieldsDelete } = new formSystemApi.FormFieldsApi(this.formSystemApiConfig);
+    const { formResid, changedFields: { addedFields, modifiedFields, removedFields, fullFields } } = modifiedFormData;
+
+    await formFieldsCreate(addedFields, Number(formResid));
+
+    await formFieldsUpdate(modifiedFields, Number(formResid));
+
+    await formFieldsDelete({ _delete: removedFields.map(field => field.id) }, Number(formResid));
+
+    // TODO: 这个接口还没有
+    // 通过 fullFiedls，更新字段的顺序
+
+    const res = await this.lzRequest.modifyRecords<FormManagementRecord>(this.formManagementResid, [record]);
+  }
 
 
 }

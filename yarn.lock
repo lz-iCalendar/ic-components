@@ -9791,10 +9791,10 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
-lz-request@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/lz-request/-/lz-request-1.2.0.tgz#86108ec935c91c35914a38562fe8a3ce0b2fbd34"
-  integrity sha512-PE1OLoZdGe+5Ah6ajGWoB3Lsf2aiLx4ETMkrrH6l22Sn5yKd1AALTqKHuKHAXsYppddZ+kOlLSh1FJNtg2bmnw==
+lz-request@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/lz-request/-/lz-request-1.3.0.tgz#2aa7953206a66c1e82be775d93b3ac757e6f90d2"
+  integrity sha512-uALQQemzIeX/hV7dv4gUWgzqHDgi5VKyHlapLyE8TgYFUO7L9Pamu0P5iZyfnDN7b1uQ3eLwQ1R1f5HuCGIKTA==
   dependencies:
     "@storybook/theming" "^5.0.11"
     axios "^0.21.1"
