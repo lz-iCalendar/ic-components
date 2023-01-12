@@ -59,20 +59,31 @@ export default class EventDetails extends React.PureComponent<any, any> {
     startTime = moment(startTime).format('HH:mm');
     endTime = moment(endTime).format('HH:mm');
 
-    if (hasEditBtn) {
-      return (
-        <>
+    return (
+      <>
+        {hasViewBtn && (
           <Button
             onClick={e => {
               e.stopPropagation();
-              onCurrentEventClick(eventData);
+              onEventView && onEventView(eventData);
             }}
           >
-            编辑本次事件
+            查看本次事件
           </Button>
-          {formdata &&
-            Array.isArray(formdata[636483916988]) &&
-            formdata[636483916988].length > 0 && (
+        )}
+        {hasEditBtn && (
+          <>
+            <Button
+              onClick={e => {
+                e.stopPropagation();
+                onCurrentEventClick(eventData);
+              }}
+            >
+              编辑本次事件
+            </Button>
+            {formdata &&
+              Array.isArray(formdata[636483916988]) &&
+              formdata[636483916988].length > 0 && (
               <React.Fragment>
                 <Button
                   onClick={e => {
@@ -80,7 +91,7 @@ export default class EventDetails extends React.PureComponent<any, any> {
                     onFutureEventClick(eventData);
                   }}
                 >
-                  编辑将来事件
+                    编辑将来事件
                 </Button>
                 <Button
                   onClick={e => {
@@ -88,29 +99,14 @@ export default class EventDetails extends React.PureComponent<any, any> {
                     onAllEventClick(eventData);
                   }}
                 >
-                  编辑全部系列
+                    编辑全部系列
                 </Button>
               </React.Fragment>
             )}
-        </>
-      );
-    }
-
-    // 查看按钮
-    if (hasViewBtn) {
-      return (
-        <Button
-          onClick={e => {
-            e.stopPropagation();
-            onEventView && onEventView(eventData);
-          }}
-        >
-          查看本次事件
-        </Button>
-      );
-    }
-
-    return null;
+          </>
+        )}
+      </>
+    );
   };
 
   render() {
