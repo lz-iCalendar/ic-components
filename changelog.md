@@ -1,3 +1,6 @@
+## Release v1.8.0
+- feat: update onEventView (#19)
+
 ## Release v1.7.1
 
 - Fix: 修复事件中标题和事件时间样式 bug
